@@ -1,6 +1,6 @@
 -- Member data is private by default. Browsing is through bounded, safe projections.
 create schema if not exists private;
-revoke all on schema private from public, anon, authenticated;
+-- Restrict only this application’s objects; preserve unrelated existing schema ACLs.
 create table public.account_security (
  user_id uuid primary key references auth.users on delete cascade,
  status text not null default 'active' check(status in ('active','suspended')),
@@ -194,18 +194,16 @@ create function public.remove_photo() returns void language plpgsql security def
  update public.profiles set completed_at=null where user_id=auth.uid();
 end $$;
 -- Revoke PostgreSQL's default PUBLIC execute, including helper functions.
-revoke all on all functions in schema private from public,anon,authenticated;
+revoke all on function private.register_account(),private.active_user(),private.blocked(uuid,uuid),private.ready_user(),private.visible(uuid),private.throttle(text,integer),private.member_projection(public.profiles) from public,anon,authenticated;
 grant execute on function private.active_user(),private.ready_user(),private.blocked(uuid,uuid),private.visible(uuid) to authenticated;
-revoke all on all functions in schema public from public,anon,authenticated;
+revoke all on function public.save_profile(jsonb),public.complete_onboarding(),public.discover_members(text,integer,integer,text,text,text,uuid),public.member_profile(uuid),public.express_interest(uuid),public.my_matches(),public.block_member(uuid,boolean),public.my_blocks(),public.report_profile(uuid,text,text),public.register_photo(uuid,text),public.remove_photo() from public,anon,authenticated;
 grant execute on function public.save_profile(jsonb),public.complete_onboarding(),public.discover_members(text,integer,integer,text,text,text,uuid),public.member_profile(uuid),public.express_interest(uuid),public.my_matches(),public.block_member(uuid,boolean),public.my_blocks(),public.report_profile(uuid,text,text),public.remove_photo() to authenticated;
 grant execute on function public.register_photo(uuid,text) to service_role;
-grant all on all tables in schema public to service_role;
+grant all on public.account_security,public.profiles,public.profile_photos,public.countries,public.purposes,public.user_purposes,public.languages,public.user_languages,public.interests,public.user_interests,public.likes,public.matches,public.blocks,public.reports to service_role;
 create function public.member_active() returns boolean language sql stable security definer set search_path='' as $$ select private.active_user() $$;
 revoke all on function public.member_active() from public,anon;
 grant execute on function public.member_active() to authenticated;
--- Prevent pre-existing functions from becoming executable by later migrations by default.
-alter default privileges in schema public revoke execute on functions from public;
-alter default privileges in schema private revoke execute on functions from public;
+-- Every function declares its own ACL; do not alter defaults for unrelated future objects.
 create function public.photo_attempt() returns void language plpgsql security definer set search_path='' as $$ begin
  if not private.active_user() then raise exception 'Unauthorized'; end if;
  perform private.throttle('photo',20);

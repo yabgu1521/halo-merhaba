@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
     "test:unit": "node --import tsx --test tests/unit/*.test.ts",
-    "test:integration": "node --import tsx --test --test-concurrency=1 tests/integration/*.test.ts"
+    "test:integration": "node --import tsx --test --test-concurrency=1 tests/integration/*.test.ts",
+    "verify:supabase": "node scripts/verify-supabase.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
