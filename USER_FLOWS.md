@@ -20,3 +20,6 @@ Verified staff session → role check → scoped queue → review evidence → r
 
 ## Privacy
 Settings → edit visibility/photos → deletion request → retention/active-order review → erase/anonymize eligible data. Export requests require reauthentication; future export delivery must be temporary and private.
+
+## Member phase delivery details
+The implemented nine-step flow is welcome → basic information → purpose → languages → interests → biography → processed photo → acknowledged safety → completion. Save profile fields before uploading a photo. A refresh before the biography-save step does not persist an unfinished draft; already saved fields prefill on return. Members can later edit discovery visibility and profile data, replace/delete photos, manage blocks, and report profiles. Messaging after a mutual match is clearly labeled as a later phase. See docs/MEMBER_SYSTEM.md for exact visibility and completion rules.

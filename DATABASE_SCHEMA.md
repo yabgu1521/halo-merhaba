@@ -25,3 +25,6 @@ Index every FK used for joins; profiles(country,city), user_purposes(purpose_id,
 
 ## Migration policy
 Versioned SQL under supabase/migrations, policy tests under tests/database. Migration forward/rollback strategy must be tested before production. Separate development seed; refuse production execution. Do not fabricate a migration completion claim from this design.
+
+## Implemented member subset
+The first member phase implements `account_security`, `profiles`, `profile_photos`, `countries`, `purposes`, `languages`, `interests`, `user_purposes`, `user_languages`, `user_interests`, `likes`, `matches`, `blocks`, `reports` and private rate-limit tables in versioned migrations. In this subset the whole raw profile is owner-only, including DOB; safe SQL functions project permitted member information. `profile_privacy` is represented by profiles.discoverable for this phase. `auth.users` remains the only credential authority. Conversation, membership, service, journey and publishing tables above remain proposed. See DATABASE.md for execution/validation status; migration files have not yet been exercised in a live database here.

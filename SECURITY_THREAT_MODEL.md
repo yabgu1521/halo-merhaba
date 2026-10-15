@@ -17,3 +17,6 @@ Trust boundaries: browser → Next server → Supabase Auth/Postgres/Storage; pr
 | Privacy/retention | Minimize data, no GPS, private DOB/progression, no content in logs, documented deletion/backups policy |
 
 Open risks: provider selection, regional privacy advice, malware scanner, incident response staffing, retention and legal hold policy. Fail closed when these controls are absent. Automated tests cannot prove legal compliance or guarantee member intentions.
+
+## Member phase implementation and remaining evidence
+Source now implements schema validation, origin enforcement, managed HttpOnly sessions, safe projections, deny-default database privileges/RLS, transaction-locked matching/blocks, bounded photo decoding and private byte delivery. Unit/browser tests cover local validation and unconfigured auth behavior. Real database authorization, live signup/verification/reset, and member-session browser tests are authored but unrun because the Supabase runtime could not be started. These are unresolved required validation gates. Production CAPTCHA/ingress limits, CSP review, moderator staffing, legal copy, deliverability and infrastructure retention remain deployment responsibilities; this phase does not claim comprehensive launch security.

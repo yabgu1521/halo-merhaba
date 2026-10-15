@@ -23,3 +23,6 @@ No member or document launch until database policy tests pass against real Postg
 11. Full critical-flow, responsive, accessibility and deployment checks.
 
 Run relevant tests, application smoke checks and authorization checks for each executable phase. Record results and commit separately. A schema design is not evidence of implemented authorization.
+
+## Current member-phase scope
+Implemented source and migrations for email auth, adult onboarding, profiles/photos, relational selections, discovery filters/pagination, interests, mutual matches, blocks and private reports. Messaging, memberships/payments, marriage documents, professional orders and admin tools are explicitly deferred by the current request. The member phase is not integration-verified until a working Supabase instance is available; public registration must not be opened solely because the build passes.
