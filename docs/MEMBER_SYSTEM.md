@@ -56,3 +56,6 @@ In the **Supabase project dashboard → Authentication → URL Configuration**:
 3. Enable email confirmations for the Email provider in Authentication, configure the permitted sender/SMTP and verify delivery with a controlled recipient. Keep hosted allowlists exact, not wildcarded. Local CLI wildcard settings are not a production configuration.
 
 The application uses PKCE code exchange, so confirmation/reset links should be opened in the originating browser. Confirmation, recovery, expired links, logout and session persistence need live tests after setup. No delivered-email test has passed remotely. Local loopback origins may be used explicitly for internal tests; they are not stable public previews or a production URL.
+
+### Latest availability update
+All three API bindings have reached the running task. The remaining connection blocker is a proxy tunnel HTTP 403, not proven invalid keys. A project-host-only allowlist addition is saved for publication. Application startup and redacted diagnostics use Node 24 `--use-env-proxy`; TLS stays verified. No remote member/Auth/storage result is claimed. Migration access and a confirmed public application origin remain separate prerequisites.
