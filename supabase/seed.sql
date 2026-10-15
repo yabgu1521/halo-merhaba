@@ -1,0 +1,2 @@
+-- Reference catalogs are installed by migration, not dashboard setup.
+-- No personal member data or shared credentials are seeded.
