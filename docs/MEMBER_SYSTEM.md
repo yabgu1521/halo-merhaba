@@ -59,3 +59,7 @@ The application uses PKCE code exchange, so confirmation/reset links should be o
 
 ### Latest availability update
 All three API bindings have reached the running task. The remaining connection blocker is a proxy tunnel HTTP 403, not proven invalid keys. A project-host-only allowlist addition is saved for publication. Application startup and redacted diagnostics use Node 24 `--use-env-proxy`; TLS stays verified. No remote member/Auth/storage result is claimed. Migration access and a confirmed public application origin remain separate prerequisites.
+
+
+### Published network retry
+The project-host network rule has been published and verified to match the configured API hostname. Runtime requests still receive proxy tunnel HTTP 403; no real Auth/member/storage flow has been verified. A reconnect/fresh-task check is needed to diagnose runtime policy activation. SQL migration access and the confirmed application origin are still missing.

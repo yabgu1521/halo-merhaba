@@ -32,3 +32,7 @@ Local validation in this follow-up: build/typecheck passed; **15 tests passed** 
 
 ### Latest published-binding check
 All three Supabase API variables are now available to the running task. Remote access is still unconfirmed: the environment proxy returns tunnel HTTP 403 before Supabase. A draft adds only the configured project API hostname; review/save and publish the network change to apply it. Dev/start/diagnostic scripts now use Node 24 `--use-env-proxy`. Secure SQL migration access and a confirmed application origin are still missing. No migrations or remote Auth/storage/RLS tests ran during this check.
+
+
+### Published network retry
+Latest retry: the exact API-host network rule is published, but runtime proxy requests still return HTTP 403. No remote integration success is claimed. Reconnect or retry in a fresh task using the published environment to diagnose policy activation; migration credentials and the public origin remain outstanding.

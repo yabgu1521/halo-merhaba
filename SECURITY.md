@@ -17,3 +17,7 @@ All `.env*` paths remain ignored except the credential-free `.env.example`. A de
 
 ### Published runtime update
 All three API bindings are now present, but the proxy denies the project destination with tunnel HTTP 403. This does not establish invalid credentials. The saved allowlist draft is limited to the configured API hostname and preserves other rules/presets. Proxy support is enabled in Node startup/diagnostics; no verification or authorization controls were weakened. SQL access, public-origin configuration and all real remote verification remain pending.
+
+
+### Published network retry
+Latest connectivity retry after publication still receives proxy tunnel HTTP 403 for both API access checks. The persisted allowlist matches the configured endpoint. This is a transport denial before provider authentication, not evidence that keys are invalid. No additional access broadening or credential changes were performed.

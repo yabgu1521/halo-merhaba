@@ -31,3 +31,7 @@ The existing integration test suite intentionally refuses hosted URLs and uses l
 
 ### Latest runtime recheck
 The three API variables are now available. Requests through the environment proxy are denied with tunnel HTTP 403 before reaching Supabase; no credential validity, remote schema inventory or RLS result is established. A draft now adds only the configured API hostname to the restricted network allowlist; review/save and publish that change before retrying. The hostname and variable values were not displayed. Migration credentials remain unavailable. `npm run verify:supabase` now uses Node 24's environment-proxy support, as do application dev/start commands.
+
+
+### Published network retry
+The network addition is now published and matches the configured API hostname, but read-only publishable/service checks still receive tunnel HTTP 403. Migration execution and remote inventory remain blocked. Reconnect or use a fresh task from the published environment to distinguish stale runtime policy from a persistent platform-network issue; do not republish an identical rule or replace credentials without evidence.
