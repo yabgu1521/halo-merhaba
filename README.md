@@ -11,3 +11,5 @@ Brand configuration lives in src/lib/brand.ts; UI copy lives in src/lib/i18n.ts.
 
 ## Verified progress
 Planning documents and localized responsive landing foundation created. Automated and runtime results are recorded in docs/PROGRESS.md. Follow later release gates before collecting personal data.
+
+Browser tests use system Chromium when present, otherwise Playwright's installed Chromium. On another machine run `npx playwright install --with-deps chromium` first, or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to its executable path.
