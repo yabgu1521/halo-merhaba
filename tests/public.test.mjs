@@ -39,6 +39,22 @@ test('unknown locale is rejected and defensive headers are present',async()=>{
 test('public foundation does not expose functional payment or upload controls',async()=>{
  const page=await browser.newPage();await page.goto(origin+'/en');
  assert.equal(await page.locator('input[type=file],input[type=password],form').count(),0);
- assert.ok(await page.getByText('Registration and service requests are not open yet.',{exact:false}).count()>0);
+ assert.ok(await page.locator('a[href="/en/auth/signup"]').count()>0);
+ await page.close();
+});
+test('localized auth screens and protected member routes fail safely without backend configuration',async()=>{
+ const page=await browser.newPage();
+ for(const locale of ['en','tr','id']){
+  for(const mode of ['signup','login','forgot','reset','resend']){
+   const r=await page.goto(`${origin}/${locale}/auth/${mode}`);assert.equal(r.status(),200);
+   assert.equal(await page.locator('html').getAttribute('lang'),locale);assert.equal(await page.locator('h1').count(),1);
+   await page.setViewportSize({width:375,height:812});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+   assert.ok((await page.locator('meta[name=robots]').getAttribute('content')).includes('noindex'));
+  }
+  const r=await page.goto(`${origin}/${locale}/app/discover`);assert.equal(r.status(),200);
+  assert.ok(page.url().endsWith('/auth/login')||await page.locator('.member-unavailable').count()>0);
+ }
+ const hostile=await fetch(origin+'/api/auth',{method:'POST',headers:{Origin:'https://hostile.example','Content-Type':'application/json'},body:JSON.stringify({action:'signup'})});assert.equal(hostile.status,403);
+ const photo=await fetch(origin+'/api/photos/11111111-1111-4111-8111-111111111111');assert.equal(photo.status,404);
  await page.close();
 });

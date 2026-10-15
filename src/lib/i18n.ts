@@ -92,7 +92,7 @@ export const copy = {
       ],
       [
         "Who can join?",
-        "The platform is intended exclusively for adults aged 18 and over in Türkiye and Indonesia. Registration is not open yet."
+        "The platform is intended exclusively for adults aged 18 and over in Türkiye and Indonesia. Registration requires email verification and adult confirmation."
       ],
       [
         "Can I book a professional service now?",
@@ -104,7 +104,7 @@ export const copy = {
       ]
     ],
     "launchTitle": "A thoughtful beginning is on its way.",
-    "launchText": "We are preparing the community. Registration and service requests are not open yet.",
+    "launchText": "Create your adult member profile to start connecting. Professional service requests are coming in a later phase.",
     "back": "Back to top",
     "footer": "Meaningful connections between Türkiye and Indonesia.",
     "policies": [
@@ -205,7 +205,7 @@ export const copy = {
       ],
       [
         "Kimler katılabilir?",
-        "Platform Türkiye ve Endonezya’daki 18 yaş ve üzeri yetişkinler içindir. Kayıt henüz açık değil."
+        "Platform Türkiye ve Endonezya’daki 18 yaş ve üzeri yetişkinler içindir. Kayıt için e-posta doğrulaması ve yetişkinlik onayı gerekir."
       ],
       [
         "Şimdi hizmet alabilir miyim?",
@@ -217,7 +217,7 @@ export const copy = {
       ]
     ],
     "launchTitle": "Özenli bir başlangıç yakında.",
-    "launchText": "Topluluğu hazırlıyoruz. Üyelik ve hizmet talepleri henüz açık değil.",
+    "launchText": "Bağ kurmaya başlamak için yetişkin üye profilinizi oluşturun. Profesyonel hizmet talepleri ilerleyen aşamada açılacak.",
     "back": "Başa dön",
     "footer": "Türkiye ve Endonezya arasında anlamlı bağlar.",
     "policies": [
@@ -318,7 +318,7 @@ export const copy = {
       ],
       [
         "Siapa yang dapat bergabung?",
-        "Khusus orang dewasa berusia 18 tahun ke atas di Türkiye dan Indonesia. Pendaftaran belum dibuka."
+        "Khusus orang dewasa berusia 18 tahun ke atas di Türkiye dan Indonesia. Pendaftaran memerlukan verifikasi email dan konfirmasi usia dewasa."
       ],
       [
         "Bisakah saya memesan layanan sekarang?",
@@ -330,7 +330,7 @@ export const copy = {
       ]
     ],
     "launchTitle": "Awal yang penuh perhatian segera hadir.",
-    "launchText": "Kami sedang mempersiapkan komunitas. Pendaftaran dan permintaan layanan belum dibuka.",
+    "launchText": "Buat profil anggota dewasa untuk mulai terhubung. Permintaan layanan profesional akan hadir pada tahap berikutnya.",
     "back": "Kembali ke atas",
     "footer": "Koneksi bermakna antara Türkiye dan Indonesia.",
     "policies": [
