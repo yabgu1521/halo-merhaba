@@ -24,3 +24,8 @@ Required member configuration (enter values securely; never commit `.env.local`)
 Brand: `src/lib/brand.ts` and CSS theme variables. Public UI copy: `src/lib/i18n.ts`; member UI copy: `src/lib/member/i18n.ts`. Country/language/purpose/interest choices are database catalogs with localized labels. Human translation and legal review remain launch prerequisites.
 
 Start with PRODUCT_PLAN.md, MVP_SCOPE.md, USER_FLOWS.md, ARCHITECTURE.md, DATABASE_SCHEMA.md, SECURITY_THREAT_MODEL.md, SECURITY.md, DEPLOYMENT.md and docs/MEMBER_SYSTEM.md. The source and migration files are not proof of a verified live deployment.
+
+## Remote integration follow-up
+`npm run verify:supabase` checks injected runtime variable presence/format and, when available, makes read-only provider/table checks without printing values. Current result: all three API bindings are **not available to this task**, despite their reported secure configuration. Apply existing saved bindings to the running environment rather than pasting/recreating credentials. No remote migration, table inventory, RLS/Auth or storage success is claimed. SQL migration access additionally needs a secure database connection or supported CLI credentials; see DATABASE.md.
+
+Local validation in this follow-up: build/typecheck passed; **15 tests passed** (9 unit, 6 browser/runtime). Remote member flows are not tested. No stable public preview URL is known, so NEXT_PUBLIC_SITE_URL remains unset. Dashboard callback setup and exact paths are in docs/MEMBER_SYSTEM.md. The member foundation is not yet verified for the next product phase.

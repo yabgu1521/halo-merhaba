@@ -38,3 +38,21 @@ Only an email-confirmation label exists in this phase. It is derived from Auth a
 A hosted Supabase project requires API URL, publishable key, server-only service-role key, and database migration access. Set an exact NEXT_PUBLIC_SITE_URL, enable email confirmation, configure SMTP/deliverability and password strength, and allow only deployment callback URLs. No payment, private document, calendar or subscription credentials are required. Blank configuration produces a localized unavailable state and disabled auth submits; no mock accounts are substituted.
 
 Local integration tooling uses a disposable local Supabase project and generated fictional accounts with random passwords; test cleanup removes them. Integration commands refuse non-loopback Supabase URLs. No shared demo credentials or real personal data are seeded. Local email verification/reset is exercised using Mailpit, never external recipients.
+
+## Remote verification follow-up and callbacks
+Current task: the three API binding names are absent from the running process. Saved configuration is distinct from runtime injection. Apply the existing saved bindings to this task; do not enter duplicates or paste secrets into chat. SQL migrations additionally require secure database/CLI migration access. `npm run verify:supabase` is a redacted, read-only preflight, not a replacement for owner/stranger/blocked-user RLS tests.
+
+No stable public application preview URL was discoverable through available runtime metadata/tools. There is no justified production value for NEXT_PUBLIC_SITE_URL yet. Once deployed, use the exact confirmed HTTPS application origin, without a route/query/fragment (for example, the origin of the deployed site). Do not infer it from the Supabase API URL, use an unconfirmed domain, or trust request headers as an origin fallback. With the origin unset, mutation origin checks fail closed and callback handling returns unavailable; full web Auth cannot be declared working.
+
+In the **Supabase project dashboard → Authentication → URL Configuration**:
+1. Set **Site URL** to the same confirmed application origin used in NEXT_PUBLIC_SITE_URL.
+2. Add these exact **Redirect URLs**, replacing `<APP_ORIGIN>` with that origin:
+   - `<APP_ORIGIN>/en/auth/callback`
+   - `<APP_ORIGIN>/tr/auth/callback`
+   - `<APP_ORIGIN>/id/auth/callback`
+   - `<APP_ORIGIN>/en/auth/callback?flow=recovery`
+   - `<APP_ORIGIN>/tr/auth/callback?flow=recovery`
+   - `<APP_ORIGIN>/id/auth/callback?flow=recovery`
+3. Enable email confirmations for the Email provider in Authentication, configure the permitted sender/SMTP and verify delivery with a controlled recipient. Keep hosted allowlists exact, not wildcarded. Local CLI wildcard settings are not a production configuration.
+
+The application uses PKCE code exchange, so confirmation/reset links should be opened in the originating browser. Confirmation, recovery, expired links, logout and session persistence need live tests after setup. No delivered-email test has passed remotely. Local loopback origins may be used explicitly for internal tests; they are not stable public previews or a production URL.

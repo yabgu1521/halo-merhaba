@@ -9,3 +9,8 @@ Never commit secrets. NEXT_PUBLIC variables are browser-visible; the Supabase se
 Legal, privacy, terms, cookies and community content remain placeholders requiring qualified review. No legal approval or jurisdictional compliance is implied. Account-deletion/export operations and retention procedures still require a later implementation. Email confirmation is a specific verification label, never proof of identity or intentions.
 
 Never send money to an independently unverified contact or share banking credentials/passwords. Be cautious about urgent money requests, use video communication before major commitments, meet safely and report suspicious behavior.
+
+## Remote integration review result
+This follow-up found no active Supabase API bindings in the task process, so it made no remote requests or database changes. Remote authorization, storage and Auth remain unverified. Static migration review corrected schema-wide permission changes to named app objects and removed unrelated default-privilege changes. Regression tests guard this scope; they do not prove live RLS. The service-role API key must never be substituted for a database password. Use secure runtime bindings and verified migration history; no production reset or arbitrary-SQL web endpoint is authorized or implemented.
+
+All `.env*` paths remain ignored except the credential-free `.env.example`. A dedicated diagnostic redacts all values and provider bodies and refuses redirects when sending API credentials. No new product capabilities were added.
