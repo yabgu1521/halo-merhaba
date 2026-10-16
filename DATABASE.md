@@ -3,7 +3,7 @@
 ## Implemented migrations
 `supabase/migrations/202610150001_members.sql`: account security state; private profiles; country/purpose/language/interest catalogs and joins; processed photo metadata; likes; canonical-pair matches; blocks; confidential reports; RLS; bounded safe-profile functions; transactional mutations; private profile-photo bucket and policies.
 
-`202610150002_auth_limits.sql`: private HMAC-address rate buckets and a service-only consumption function. No application passwords, member messages, payments or marriage documents are stored in this phase.
+`202610150002_auth_limits.sql`: private HMAC-address rate buckets and a service-only consumption function. No application passwords, payments or marriage documents are stored. The third migration adds private text messages, favorites, preferences, conversations and read markers.
 
 The standard Supabase `auth.users`, `storage.buckets`, `storage.objects`, `auth.uid()` and database roles must already exist. Do not apply these migrations to an uninitialized plain PostgreSQL database. They target PostgreSQL 15+ with Supabase infrastructure. No manual dashboard table creation is required.
 
@@ -35,3 +35,10 @@ The three API variables are now available. Requests through the environment prox
 
 ### Published network retry
 The network addition is now published and matches the configured API hostname, but read-only publishable/service checks still receive tunnel HTTP 403. Migration execution and remote inventory remain blocked. Reconnect or use a fresh task from the published environment to distinguish stale runtime policy from a persistent platform-network issue; do not republish an identical rule or replace credentials without evidence.
+
+## Functional member migration and current evidence
+New additive migration `202610160001_member_communication.sql` adds favorites, member_preferences, conversations, messages and conversation_reads (19 application tables total), explicit RLS/privileges, safe search and matched-user RPCs. All three migrations apply and 12 policy/business-flow tests pass in an isolated local PostgreSQL instance with Auth/Storage schema contracts. This is not remote RLS verification.
+
+Remote API connectivity now succeeds; expected REST member endpoints are unavailable and the profile bucket is absent. DATABASE_URL is present but malformed and is never echoed. The cloud's documented TCP forwarding path is private/VPN-only with no grants here, so a public Supabase database URI alone is not a usable SQL execution route. No management API token exists. Apply the three reviewed files through authorized SQL Editor execution, or configure supported management API access plus its exact HTTPS host; never invent a SQL RPC or reset the database to work around this. If applied manually, record/inspect migration history before using CLI automation later. No remote migration has been performed by this task.
+
+See docs/FUNCTIONAL_MVP.md for message retention/block semantics, test cleanup and current results. Message bodies are private; raw conversation data must never be exported to analytics/logs. Old blocked history remains inaccessible to members and needs a reviewed retention policy.

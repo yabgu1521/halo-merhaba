@@ -3,7 +3,7 @@
 A trust-centered Türkiye–Indonesia connection platform, with future professional marriage support.
 
 ## Current delivery
-Localized public website plus the first member implementation: managed email authentication, adult onboarding, private profile editing, processed photos, bounded/filterable discovery, interests, mutual matches, blocks and confidential profile reports. **Supabase configuration is required. Database policies and delivered-email integration have not been exercised in this environment; do not launch to real users until those gates pass.** No messaging, billing, subscriptions or private marriage documents are implemented.
+Localized public website and member implementation: managed email Auth, adult onboarding, profiles/private photos, saved search, discovery, favorites, mutual matches, text messaging, blocks/reports and account navigation. **Hosted API/Auth checks pass, but remote member migrations and the full member journey are still blocked. Do not launch to real users until hosted RLS/storage, email delivery/callbacks and operations gates pass.** Local PostgreSQL policy tests pass. Billing, subscriptions and private marriage documents remain unimplemented.
 
 ## Develop
 Node.js 24 and npm. Run `npm ci`, copy `.env.example` to `.env.local` and configure the four required member values below. Run `npm run dev`. Public routes are `/en`, `/tr`, `/id`; member entry is `/<locale>/auth/signup`. Without backend configuration the public site works, auth forms are disabled with a localized explanation, and protected pages fail safely.
@@ -36,3 +36,10 @@ All three Supabase API variables are now available to the running task. Remote a
 
 ### Published network retry
 Latest retry: the exact API-host network rule is published, but runtime proxy requests still return HTTP 403. No remote integration success is claimed. Reconnect or retry in a fresh task using the published environment to diagnose policy activation; migration credentials and the public origin remain outstanding.
+
+## Functional member journey update
+The approved UI is retained. Favorites, saved search preferences, real SQL display-name search, matched-user text messaging/unread state and account navigation are now implemented on the existing member architecture. Apply all three reviewed migrations before using these routes; no hosted member schema is currently confirmed.
+
+See [functional MVP status](docs/FUNCTIONAL_MVP.md) for the actual remote/local evidence and two-TEST-account procedure. Commands: `npm run test:postgres` (disposable local PostgreSQL, non-root runtime), `RUN_REMOTE_AUTH_TESTS=1 npm run test:remote:auth` (real Auth, no email delivery), `RUN_REMOTE_MEMBER_TESTS=1 npm run test:remote:members` (real hosted member journey, blocked until migrations exist). These are explicit opt-ins, create random-password TEST identities only and remove their own fixtures; never use shared/demo credentials. The live application has no demo-data fallback.
+
+Current results: 29 local tests and 5 remote Auth tests passed; full hosted profile/photo/match/message/RLS verification is still blocked. DATABASE_URL is malformed and the cloud has no supported public PostgreSQL TCP route. Use reviewed SQL Editor execution or securely configured management API access. NEXT_PUBLIC_SITE_URL and delivered-email/callback validation are still required. Payments remain unimplemented.
