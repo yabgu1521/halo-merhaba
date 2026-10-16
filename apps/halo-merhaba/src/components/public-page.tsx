@@ -8,6 +8,7 @@ import {
   serviceFaqs,
 } from "@/content/brand-content";
 import { BrandMotif, ConnectionPanel, LanguagePhrases } from "./brand-motif";
+import { FlagPair } from "./country-art";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
 import { business, track, whatsappLink } from "@/lib/config";
@@ -224,8 +225,15 @@ export function PublicPage({
                 <span>
                   HALO MERHABA<span>INDONESIA ↔ TÜRKİYE</span>
                 </span>
-                <Icon name={categoryIcon(p.category)} size={45} />
-                <h3>{productTitles[p.id][locale]}</h3>
+                <BrandMotif
+                  variant={
+                    p.category === "marriage"
+                      ? "marriage"
+                      : p.category === "documents"
+                        ? "documents"
+                        : "language"
+                  }
+                />
                 <i>01 / 0{p.index + 1}</i>
                 <small>{c.coming}</small>
               </div>
@@ -881,6 +889,10 @@ export function PublicPage({
         {kind === "store" && (
           <div className="hm-wrap">
             {heading(c.storeTitle, c.storeText, "HALO MERHABA STORE")}
+            <div className="hm-store-geography">
+              <FlagPair />
+              <span>{c.brandLine}</span>
+            </div>
             {productCards()}
             <div className="hm-boundary hm-store-boundary">
               <Icon name="lock" size={23} />
@@ -901,8 +913,16 @@ export function PublicPage({
                   <span>
                     HALO MERHABA<span>INDONESIA ↔ TÜRKİYE</span>
                   </span>
-                  <Icon name={categoryIcon(product.category)} size={55} />
-                  <h2>{productTitles[product.id][locale]}</h2>
+                  <BrandMotif
+                    variant={
+                      product.category === "marriage"
+                        ? "marriage"
+                        : product.category === "documents"
+                          ? "documents"
+                          : "language"
+                    }
+                  />
+                  <FlagPair />
                   <small>{c.coming}</small>
                 </div>
               </div>
@@ -1245,7 +1265,10 @@ export function PublicPage({
                 halo<span>merhaba</span>
               </Link>
               <p>{c.footer}</p>
-              <span className="hm-footer-connection">INDONESIA ↔ TÜRKİYE</span>
+              <span className="hm-footer-connection">
+                <FlagPair />
+                INDONESIA ↔ TÜRKİYE
+              </span>
             </div>
             <div>
               <strong>{c.services}</strong>

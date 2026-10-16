@@ -2269,3 +2269,185 @@
     scroll-margin-top: 88px;
   }
 }
+
+/* Geographic identity: original outline vectors and quiet, correctly proportioned flags. */
+.hm-app .hm-geographic-motif {
+  stroke: #96816c;
+  stroke-width: 1.25;
+}
+.hm-app .hm-country-outline {
+  fill: #faf7ef65;
+  stroke: #88715c;
+  stroke-width: 1.15;
+}
+.hm-app .hm-map-connection {
+  stroke: #8c3531;
+  stroke-width: 1.45;
+  fill: none;
+}
+.hm-app .hm-map-node {
+  fill: #8c3531;
+  stroke: #fffaf1;
+  stroke-width: 1;
+}
+.hm-app .hm-map-halo {
+  stroke: #8c3531;
+  stroke-width: 1;
+  opacity: 0.3;
+  fill: none;
+}
+.hm-app .hm-map-symbol {
+  stroke: #9b8066;
+  stroke-width: 1.2;
+}
+.hm-app .hm-map-symbol .hm-route-primary {
+  stroke-width: 1.6;
+}
+.hm-app .hm-chart-id,
+.hm-app .hm-chart-tr {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.hm-app .hm-chart-id {
+  left: 3%;
+  bottom: 1%;
+}
+.hm-app .hm-chart-tr {
+  right: 3%;
+  top: 3%;
+}
+.hm-app .hm-connection-chart {
+  margin: 8px 0 24px;
+}
+.hm-app .hm-country-flag {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 18px;
+  height: 12px;
+  aspect-ratio: 3/2;
+  stroke: none;
+  box-shadow: 0 0 0 0.5px #a89c8a;
+}
+.hm-app .hm-flag-pair {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.hm-app .hm-flag-pair > span {
+  font:
+    12px Arial,
+    sans-serif;
+  color: #8a7766;
+}
+.hm-app .hm-footer-connection {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.hm-app .hm-footer-connection .hm-country-flag {
+  width: 15px;
+  height: 10px;
+}
+.hm-app .hm-store-geography {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 26px;
+  margin-top: -16px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #665442;
+}
+.hm-app .hm-book {
+  justify-content: space-between;
+}
+.hm-app .hm-book > .hm-geographic-motif {
+  width: 100%;
+  height: auto;
+  min-height: 100px;
+  margin-block: 16px;
+}
+.hm-app .hm-book > .hm-flag-pair {
+  display: inline-flex;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  letter-spacing: 0;
+}
+.hm-app .hm-book > .hm-flag-pair > span {
+  display: inline;
+  margin: 0;
+}
+.hm-app .hm-product-detail .hm-book {
+  min-height: 310px;
+}
+@keyframes hm-map-link-reveal {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+@keyframes hm-map-point-arrival {
+  0%,
+  45% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hm-app .hm-connection-panel .hm-map-connection {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    animation: hm-map-link-reveal 900ms ease-out 150ms both;
+  }
+  .hm-app .hm-connection-panel .hm-map-halo {
+    animation: hm-map-point-arrival 1100ms ease-out 150ms both;
+  }
+}
+@media (max-width: 640px) {
+  .hm-app .hm-chart-id,
+  .hm-app .hm-chart-tr {
+    font-size: 12px;
+    gap: 7px;
+  }
+  .hm-app .hm-connection-chart {
+    margin: 12px 0 22px;
+  }
+  .hm-app .hm-world-art .hm-geographic-motif {
+    width: 95%;
+    height: 145px;
+  }
+  .hm-app .hm-service-sigil .hm-geographic-motif {
+    width: 100%;
+    max-height: 190px;
+  }
+  .hm-app .hm-store-geography {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    flex-wrap: wrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-app .hm-map-connection {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1;
+  }
+  .hm-app .hm-map-halo {
+    animation: none !important;
+    opacity: 0.3;
+  }
+}

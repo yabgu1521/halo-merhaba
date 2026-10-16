@@ -63,3 +63,5 @@ Relative to `/workspace/halo-merhaba-site`. All files are new in this standalone
 - `src/components/brand-motif.tsx`
 
 - `src/content/brand-content.ts`
+
+- `src/components/country-art.tsx`

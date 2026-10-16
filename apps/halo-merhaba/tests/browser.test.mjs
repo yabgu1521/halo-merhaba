@@ -197,6 +197,72 @@ test(
       );
       await page.locator("a[lang=tr]").first().click();
       await page.waitForURL("**/tr/layanan/konsultasi");
+      // Vector geometry stays sharp at high DPI and product titles stay in HTML.
+      const retina = await browser.newPage({
+        viewport: { width: 390, height: 844 },
+        deviceScaleFactor: 3,
+        reducedMotion: "reduce",
+      });
+      await retina.goto(origin + "/id");
+      assert.equal(await retina.evaluate(() => devicePixelRatio), 3);
+      for (const country of ["id", "tr"]) {
+        assert.equal(
+          await retina
+            .locator(`.hm-connection-panel [data-country="${country}"]`)
+            .count(),
+          1,
+        );
+        assert.equal(
+          await retina
+            .locator(`.hm-connection-panel [data-flag="${country}"]`)
+            .count(),
+          1,
+        );
+      }
+      for (const box of await retina
+        .locator(".hm-country-flag")
+        .evaluateAll((nodes) =>
+          nodes.map((node) => {
+            const r = node.getBoundingClientRect();
+            return { width: r.width, height: r.height };
+          }),
+        ))
+        assert.ok(Math.abs(box.width / box.height - 1.5) < 0.01);
+      assert.equal(
+        await retina
+          .locator(".hm-map-connection")
+          .first()
+          .evaluate((node) => getComputedStyle(node).animationName),
+        "none",
+      );
+      assert.equal(
+        await retina
+          .locator(".hm-geographic-motif image,.hm-geographic-motif text")
+          .count(),
+        0,
+      );
+      await retina.goto(origin + "/id/digital-guides");
+      assert.equal(
+        await retina.locator(".hm-product-card .hm-geographic-motif").count(),
+        3,
+      );
+      assert.equal(await retina.locator(".hm-book h2,.hm-book h3").count(), 0);
+      assert.equal(await retina.locator(".hm-product-info h3 a").count(), 3);
+      for (const link of await retina
+        .locator(".hm-product-info h3 a")
+        .evaluateAll((nodes) =>
+          nodes.map((node) => node.getAttribute("href")),
+        )) {
+        await retina.goto(origin + link);
+        assert.equal(
+          await retina
+            .locator(".hm-product-detail .hm-geographic-motif")
+            .count(),
+          1,
+        );
+        assert.equal(await retina.locator(".hm-product-detail h1").count(), 1);
+      }
+      await retina.close();
       await page.goto(origin + "/admin");
       assert.ok(
         await page
