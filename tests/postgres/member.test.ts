@@ -123,7 +123,7 @@ test("all actual SQL migrations apply with RLS while unrelated privileges remain
   const tables = await admin.query(
     "select tablename,rowsecurity from pg_tables where schemaname='public' and tablename<>'unrelated_table'",
   );
-  assert.equal(tables.rows.length, 21);
+  assert.equal(tables.rows.length, 25);
   assert.ok(tables.rows.every((r) => r.rowsecurity));
   const privileges = await admin.query(
     "select has_function_privilege('anon','public.unrelated_function()','execute') as preserved,has_table_privilege('service_role','public.unrelated_table','select') as broadened",
@@ -597,4 +597,315 @@ test("product discovery ranks actual shared selections, paginates, validates fil
     "update public.profiles set discoverable=true where user_id=$1",
     [a.id],
   );
+});
+
+const sought = {
+  min_age: 25,
+  max_age: 45,
+  genders: ["woman"],
+  countries: ["ID"],
+  languages: ["en"],
+  purpose: "marriage",
+  relocation: "maybe",
+  looking_for: "A kind person interested in building a serious relationship.",
+  share_summary: false,
+};
+const openPreferences = {
+  min_age: 18,
+  max_age: 125,
+  genders: [],
+  countries: [],
+  languages: [],
+  purpose: "",
+  relocation: "",
+  looking_for: "",
+  share_summary: false,
+};
+const cultural = {
+  nationality: "ID",
+  relocation: "maybe",
+  future_country: "TR",
+  education: "Design studies",
+  profession: "Designer",
+  children: "discuss",
+  destinations: ["TR"],
+  shared: false,
+};
+test("matchmaking preferences bind writes to the caller, use normalized catalogs and remain owner-only", async () => {
+  await a.db.query("select public.save_matchmaking_preferences($1)", [sought]);
+  const mine = (
+    await a.db.query("select public.my_matchmaking_preferences() as p")
+  ).rows[0].p;
+  assert.deepEqual(mine.genders, ["woman"]);
+  assert.deepEqual(mine.countries, ["ID"]);
+  assert.equal(mine.share_summary, false);
+  assert.ok(!("user_id" in mine));
+  assert.equal(
+    (await b.db.query("select * from public.matchmaking_preferences")).rowCount,
+    0,
+  );
+  assert.equal(
+    (await b.db.query("select * from public.preferred_countries")).rowCount,
+    0,
+  );
+  await denied(
+    b.db,
+    "update public.matchmaking_preferences set share_summary=true",
+  );
+  await denied(b.db, "insert into public.preferred_genders values($1,'man')", [
+    a.id,
+  ]);
+  await c.db.query("select public.save_matchmaking_preferences($1)", [
+    { ...openPreferences, user_id: a.id },
+  ]);
+  assert.deepEqual(
+    (await a.db.query("select public.my_matchmaking_preferences() as p"))
+      .rows[0].p.genders,
+    ["woman"],
+  );
+  for (const invalid of [
+    { ...sought, min_age: 17 },
+    { ...sought, min_age: 50, max_age: 40 },
+    { ...sought, genders: ["inferred"] },
+    { ...sought, countries: ["ZZ"] },
+    { ...sought, languages: ["unknown"] },
+    { ...sought, relocation: "unknown" },
+    { ...sought, share_summary: "yes" },
+  ])
+    await denied(a.db, "select public.save_matchmaking_preferences($1)", [
+      invalid,
+    ]);
+  await denied(c.db, "select private.matchmaking_projection($1)", [a.id]);
+  await admin.query("set role anon");
+  await denied(admin, "select public.my_matchmaking_preferences()");
+  await denied(admin, "select public.find_candidates()");
+  await admin.query("reset role");
+});
+test("every candidate mode enforces explicit gender, age, country, intention, language and shared relocation preferences", async () => {
+  await a.db.query("select public.save_profile($1)", [
+    {
+      ...payload,
+      display_name: "Candidate A",
+      gender: "man",
+      purposes: ["marriage"],
+      speaks: ["tr", "en"],
+    },
+  ]);
+  await b.db.query("select public.save_profile($1)", [
+    {
+      ...payload,
+      display_name: "Candidate B",
+      gender: "woman",
+      country: "ID",
+      city: "Bandung",
+      purposes: ["marriage"],
+      speaks: ["en"],
+      learns: ["tr"],
+    },
+  ]);
+  await b.db.query("select public.save_profile_context($1)", [cultural]);
+  assert.equal(
+    (await a.db.query("select * from public.find_candidates()")).rowCount,
+    0,
+    "hidden relocation must not become a filter oracle",
+  );
+  await b.db.query("select public.save_profile_context($1)", [
+    { ...cultural, shared: true },
+  ]);
+  for (const mode of ["for-you", "new", "discover", "search"]) {
+    const people = (
+      await a.db.query("select * from public.find_candidates(view_mode=>$1)", [
+        mode,
+      ])
+    ).rows.map((r) => r.find_candidates);
+    assert.deepEqual(
+      people.map((x) => x.public_id),
+      [b.pid],
+    );
+    assert.equal(people[0].context.profession, "Designer");
+    assert.equal(people[0].has_match, true);
+    for (const field of ["user_id", "date_of_birth", "email", "storage_path"])
+      assert.ok(!(field in people[0]));
+  }
+  for (const change of [
+    { genders: ["man"] },
+    { min_age: 70, max_age: 90 },
+    { countries: ["TR"] },
+    { languages: ["tr"] },
+    { purpose: "friendship" },
+    { relocation: "yes" },
+  ]) {
+    await a.db.query("select public.save_matchmaking_preferences($1)", [
+      { ...sought, ...change },
+    ]);
+    const people = (
+      await a.db.query("select * from public.find_candidates()")
+    ).rows.map((r) => r.find_candidates);
+    assert.ok(!people.some((x) => x.public_id === b.pid));
+  }
+  await a.db.query("select public.save_matchmaking_preferences($1)", [sought]);
+});
+test("advanced filters use only shared life context and saved search is owner-only", async () => {
+  const filters = {
+    gender: "woman",
+    country: "ID",
+    city: "Bandung",
+    min_age: 25,
+    max_age: 45,
+    purpose: "marriage",
+    language: "en",
+    interest: "books",
+    nationality: "ID",
+    education: "design",
+    profession: "designer",
+    relocation: "maybe",
+    future_country: "TR",
+    children: "discuss",
+    with_photo: true,
+  };
+  const search = async (f: unknown) =>
+    (
+      await a.db.query("select * from public.find_candidates(filters=>$1)", [f])
+    ).rows.map((r) => r.find_candidates);
+  assert.equal((await search(filters))[0].public_id, b.pid);
+  assert.equal((await search({ ...filters, city: "Jakarta" })).length, 0);
+  assert.equal(
+    (await search({ ...filters, profession: "'; DROP TABLE profiles; --" }))
+      .length,
+    0,
+  );
+  await b.db.query("select public.save_profile_context($1)", [cultural]);
+  assert.equal((await search(filters)).length, 0);
+  // Even without relocation preferences, hidden nationality/family details cannot be probed.
+  await a.db.query("select public.save_matchmaking_preferences($1)", [
+    { ...sought, relocation: "" },
+  ]);
+  for (const key of [
+    "nationality",
+    "education",
+    "profession",
+    "children",
+    "future_country",
+  ])
+    assert.equal(
+      (await search({ [key]: filters[key as keyof typeof filters] })).length,
+      0,
+    );
+  await b.db.query("select public.save_profile_context($1)", [
+    { ...cultural, shared: true },
+  ]);
+  await a.db.query("select public.save_matchmaking_preferences($1)", [sought]);
+  await a.db.query("select public.save_candidate_search($1)", [filters]);
+  assert.equal(
+    (await a.db.query("select advanced from public.member_preferences")).rows[0]
+      .advanced.city,
+    "Bandung",
+  );
+  assert.equal(
+    (await c.db.query("select * from public.member_preferences")).rowCount,
+    0,
+  );
+  for (const invalid of [
+    { min_age: 17 },
+    { min_age: 50, max_age: 25 },
+    { with_photo: "yes" },
+    { gender: "inferred" },
+    { country: "ZZ" },
+    { user_id: a.id },
+  ])
+    await denied(a.db, "select * from public.find_candidates(filters=>$1)", [
+      invalid,
+    ]);
+});
+test("looking-for summaries require explicit sharing and never bypass visibility or blocking", async () => {
+  assert.equal(
+    (await b.db.query("select public.member_looking_for($1) as p", [a.pid]))
+      .rows[0].p,
+    null,
+  );
+  await a.db.query("select public.save_matchmaking_preferences($1)", [
+    { ...sought, share_summary: true },
+  ]);
+  assert.equal(
+    (await b.db.query("select public.member_looking_for($1) as p", [a.pid]))
+      .rows[0].p.looking_for,
+    sought.looking_for,
+  );
+  await admin.query(
+    "update public.profiles set discoverable=false where user_id=$1",
+    [a.id],
+  );
+  assert.equal(
+    (await c.db.query("select public.candidate_profile($1) as p", [a.pid]))
+      .rows[0].p,
+    null,
+  );
+  await admin.query(
+    "update public.profiles set discoverable=true where user_id=$1",
+    [a.id],
+  );
+  await a.db.query("select public.save_matchmaking_preferences($1)", [sought]);
+  assert.equal(
+    (await b.db.query("select public.member_looking_for($1) as p", [a.pid]))
+      .rows[0].p,
+    null,
+  );
+});
+test("candidate keyset pagination, outgoing-only interest activity and block enforcement preserve connection security", async () => {
+  assert.equal(
+    (await c.db.query("select * from public.my_interests()")).rowCount,
+    0,
+  );
+  assert.equal(
+    (await a.db.query("select * from public.my_interests()")).rows[0]
+      .my_interests.public_id,
+    b.pid,
+  );
+  await a.db.query("select public.save_matchmaking_preferences($1)", [
+    openPreferences,
+  ]);
+  await admin.query(
+    "update public.profiles set completed_at=now()-interval '1 day' where user_id=$1",
+    [b.id],
+  );
+  const people = (
+    await a.db.query("select * from public.find_candidates(view_mode=>'new')")
+  ).rows.map((r) => r.find_candidates);
+  assert.equal(people[0].public_id, c.pid);
+  const page2 = (
+    await a.db.query(
+      "select * from public.find_candidates(view_mode=>'new',after_id=>$1)",
+      [c.pid],
+    )
+  ).rows.map((r) => r.find_candidates);
+  assert.deepEqual(
+    page2.map((x) => x.public_id),
+    [b.pid],
+  );
+  await a.db.query("select public.block_member($1)", [b.pid]);
+  assert.equal(
+    (await a.db.query("select * from public.my_interests()")).rowCount,
+    0,
+  );
+  assert.equal(
+    (await b.db.query("select public.candidate_profile($1) as p", [a.pid]))
+      .rows[0].p,
+    null,
+  );
+  assert.ok(
+    !(await a.db.query("select * from public.find_candidates()")).rows.some(
+      (r) => r.find_candidates.public_id === b.pid,
+    ),
+  );
+  const oldConversation = (
+    await admin.query(
+      "select id from public.conversations where user_low=least($1::uuid,$2::uuid) and user_high=greatest($1::uuid,$2::uuid) order by created_at desc limit 1",
+      [a.id, b.id],
+    )
+  ).rows[0].id;
+  await denied(b.db, "select public.send_message($1,$2,$3)", [
+    oldConversation,
+    "Blocked",
+    ids(),
+  ]);
 });
