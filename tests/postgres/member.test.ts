@@ -123,7 +123,7 @@ test("all actual SQL migrations apply with RLS while unrelated privileges remain
   const tables = await admin.query(
     "select tablename,rowsecurity from pg_tables where schemaname='public' and tablename<>'unrelated_table'",
   );
-  assert.equal(tables.rows.length, 19);
+  assert.equal(tables.rows.length, 21);
   assert.ok(tables.rows.every((r) => r.rowsecurity));
   const privileges = await admin.query(
     "select has_function_privilege('anon','public.unrelated_function()','execute') as preserved,has_table_privilege('service_role','public.unrelated_table','select') as broadened",
@@ -442,4 +442,159 @@ test("a fresh match cannot reopen the blocked conversation history; suspension r
     ids(),
   ]);
   await denied(b.db, "select * from public.list_conversations()");
+});
+
+test("optional cultural details are private by default, owner-bound, and visibility/block protected", async () => {
+  // c is an active completed stranger; b is suspended by the previous regression test.
+  const context = {
+    nationality: "TR",
+    relocation: "maybe",
+    future_country: "ID",
+    education: "Test education",
+    profession: "Test profession",
+    children: "discuss",
+    destinations: ["ID"],
+    shared: false,
+  };
+  await a.db.query("select public.save_profile_context($1)", [context]);
+  assert.equal(
+    (await c.db.query("select * from public.profile_context")).rowCount,
+    0,
+  );
+  assert.equal(
+    (await c.db.query("select public.member_context($1) as x", [a.pid])).rows[0]
+      .x,
+    null,
+  );
+  assert.equal(
+    (await a.db.query("select public.member_context($1) as x", [a.pid])).rows[0]
+      .x.profession,
+    "Test profession",
+  );
+  await denied(c.db, "update public.profile_context set shared=true");
+  await c.db.query("select public.save_profile_context($1)", [
+    { ...context, user_id: a.id, profession: "Other test profession" },
+  ]);
+  assert.equal(
+    (await a.db.query("select public.member_context($1) as x", [a.pid])).rows[0]
+      .x.profession,
+    "Test profession",
+  );
+  assert.equal(
+    (await c.db.query("select user_id from public.profile_context")).rows[0]
+      .user_id,
+    c.id,
+  );
+
+  await denied(
+    c.db,
+    "insert into public.profile_destinations values($1,'TR')",
+    [a.id],
+  );
+  await denied(a.db, "select public.save_profile_context($1)", [
+    { ...context, nationality: "ZZ" },
+  ]);
+  await denied(a.db, "select public.save_profile_context($1)", [
+    { ...context, relocation: "unknown" },
+  ]);
+  await denied(a.db, "select public.save_profile_context($1)", [
+    { ...context, destinations: ["ZZ"] },
+  ]);
+  await a.db.query("select public.save_profile_context($1)", [
+    { ...context, shared: true },
+  ]);
+  const projected = (
+    await c.db.query("select public.member_context($1) as x", [a.pid])
+  ).rows[0].x;
+  assert.equal(projected.profession, "Test profession");
+  assert.ok(!("user_id" in projected));
+  await admin.query(
+    "update public.profiles set discoverable=false where user_id=$1",
+    [a.id],
+  );
+  assert.equal(
+    (await c.db.query("select public.member_context($1) as x", [a.pid])).rows[0]
+      .x,
+    null,
+  );
+  await admin.query(
+    "update public.profiles set discoverable=true where user_id=$1",
+    [a.id],
+  );
+  await admin.query("set role anon");
+  await denied(admin, "select public.member_context($1)", [a.pid]);
+  await admin.query("reset role");
+  await a.db.query("select public.block_member($1)", [c.pid]);
+  assert.equal(
+    (await c.db.query("select public.member_context($1) as x", [a.pid])).rows[0]
+      .x,
+    null,
+  );
+  await a.db.query("select public.block_member($1,true)", [c.pid]);
+  await a.db.query("select public.save_profile_context($1)", [
+    { ...context, shared: false },
+  ]);
+  assert.equal(
+    (await c.db.query("select public.member_context($1) as x", [a.pid])).rows[0]
+      .x,
+    null,
+  );
+});
+test("product discovery ranks actual shared selections, paginates, validates filters and respects privacy", async () => {
+  await admin.query(
+    "update public.account_security set status='active' where user_id=$1",
+    [b.id],
+  );
+  await b.db.query("select public.save_profile($1)", [
+    {
+      ...payload,
+      country: "ID",
+      display_name: "ID Test",
+      speaks: ["en"],
+      learns: [],
+    },
+  ]);
+  await admin.query(
+    "update public.profiles set completed_at=now()-interval '1 day' where user_id=$1",
+    [a.id],
+  );
+  const newRows = (
+    await c.db.query(
+      "select * from public.search_product_members(view_mode=>'new')",
+    )
+  ).rows.map((r) => r.search_product_members);
+  assert.equal(newRows[0].public_id, b.pid);
+  const forYou = (
+    await c.db.query("select * from public.search_product_members() ")
+  ).rows.map((r) => r.search_product_members);
+  assert.equal(forYou[0].public_id, a.pid); // a shares language too; b currently only purpose + interest.
+  const remaining = (
+    await c.db.query(
+      "select * from public.search_product_members(after_id=>$1)",
+      [a.pid],
+    )
+  ).rows.map((r) => r.search_product_members);
+  assert.ok(!remaining.some((r) => r.public_id === a.pid));
+  assert.equal(remaining[0].public_id, b.pid);
+  await denied(
+    c.db,
+    "select * from public.search_product_members(view_mode=>'active')",
+  );
+  await denied(
+    c.db,
+    "select * from public.search_product_members(min_age=>17)",
+  );
+  await admin.query(
+    "update public.profiles set discoverable=false where user_id=$1",
+    [a.id],
+  );
+  assert.ok(
+    !(
+      await c.db.query("select * from public.search_product_members() ")
+    ).rows.some((r) => r.search_product_members.public_id === a.pid),
+  );
+  await admin.query(
+    "update public.profiles set discoverable=true where user_id=$1",
+    [a.id],
+  );
 });
