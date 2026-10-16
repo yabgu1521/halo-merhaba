@@ -36,6 +36,43 @@ test(
           );
           assert.ok(await page.locator('meta[property="og:image"]').count());
           assert.equal(await page.locator("input[type=file]").count(), 0);
+          for (const id of await page
+            .locator("[aria-describedby]")
+            .evaluateAll((nodes) =>
+              nodes.flatMap((node) =>
+                (node.getAttribute("aria-describedby") || "").split(" "),
+              ),
+            )) {
+            assert.equal(
+              await page.locator(`[id="${id}"]`).count(),
+              1,
+              `missing field help ${url} ${id}`,
+            );
+          }
+          if (url.endsWith("/kontak")) {
+            assert.equal(
+              await page.locator(".hm-contact-channels article").count(),
+              1,
+              "only the configured Instagram channel is shown in an unconfigured test build",
+            );
+          }
+          if (url.endsWith("/tentang")) {
+            assert.equal(
+              await page
+                .locator("[data-content-slot=team-photo]")
+                .getAttribute("aria-hidden"),
+              "true",
+            );
+            assert.equal(
+              await page
+                .locator(
+                  "[data-content-slot=team-photo] strong,[data-content-slot=team-photo] p",
+                )
+                .count(),
+              0,
+              "no public placeholder instructions",
+            );
+          }
           assert.equal(
             await page.locator('a[download],a[href$=".pdf"]').count(),
             0,
@@ -51,6 +88,17 @@ test(
             .allTextContents())
             JSON.parse(json);
         }
+      }
+      await page.goto(origin + "/id");
+      const cards = page.locator(".hm-service-card");
+      assert.equal(await cards.count(), 6);
+      for (const url of await cards.evaluateAll((nodes) =>
+        nodes.map((node) => node.getAttribute("href")),
+      )) {
+        await page.goto(origin + url);
+        assert.equal(await page.locator("#request-form form").count(), 1);
+        await page.locator('.hm-service-next a[href="#request-form"]').click();
+        await page.waitForURL("**#request-form");
       }
       await page.goto(origin + "/id/layanan/konsultasi");
       await page.getByLabel("Nama", { exact: true }).fill("Browser QA");

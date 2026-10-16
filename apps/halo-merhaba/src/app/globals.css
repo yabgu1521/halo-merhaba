@@ -4467,3 +4467,191 @@ a {
     animation: none !important;
   }
 }
+
+/* Content hierarchy polish: retain the existing cream, red and navy system. */
+.hm-service-card {
+  display: flex;
+  flex-direction: column;
+}
+.hm-service-card > p {
+  flex: 1;
+  max-width: none;
+}
+.hm-card-link {
+  justify-content: space-between;
+  line-height: 1.6;
+  gap: 12px;
+}
+.hm-card-link svg,
+.hm-service-next .hm-text-link svg {
+  flex-shrink: 0;
+}
+.hm-how-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px;
+}
+.hm-hero-foot {
+  align-items: flex-start;
+  max-width: 460px;
+  font-size: 12px;
+}
+.hm-hero-foot svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.hm-trust {
+  padding-top: 12px;
+}
+.hm-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+.hm-trust-grid article {
+  border-top: 1px solid #d8cdb5;
+  padding-top: 22px;
+}
+.hm-trust-grid svg {
+  color: var(--red);
+  margin-bottom: 16px;
+}
+.hm-trust-grid h3 {
+  font-size: 20px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.hm-trust-grid p,
+.hm-trust-disclaimer,
+.hm-about-context,
+.hm-form-intro {
+  color: #625d52;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.hm-trust-disclaimer {
+  padding: 20px 24px;
+  margin: 30px 0;
+  border-left: 3px solid var(--red);
+  background: #efeade;
+  border-radius: 0 8px 8px 0;
+}
+.hm-about-context {
+  max-width: 800px;
+  margin: -10px 0 45px;
+}
+.hm-photo-placeholder {
+  border: 1px solid #d8d7c9;
+  background: linear-gradient(140deg, #eeeee1, #f4efdf);
+  gap: 24px;
+}
+.hm-photo-connection {
+  font-family: Georgia, serif;
+  font-size: 24px;
+  color: #626a57;
+}
+.hm-service-next .hm-button {
+  white-space: normal;
+  line-height: 1.6;
+}
+.hm-service-next .hm-text-link {
+  margin-top: 20px;
+  line-height: 1.7;
+}
+.hm-course-note {
+  color: #625d52;
+  font-size: 14px;
+  line-height: 1.8;
+  margin: 24px 0 40px;
+}
+.hm-contact-inquiry {
+  margin-bottom: 36px;
+}
+.hm-contact-channels a {
+  overflow-wrap: anywhere;
+}
+.hm-form-intro {
+  max-width: 680px;
+  margin: 12px 0;
+}
+.hm-form-required,
+.hm-form-contact-help {
+  color: #625d52;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.hm-form-required {
+  margin-bottom: 20px;
+}
+.hm-form-contact-help {
+  grid-column: 1 / -1;
+  margin: -6px 0 12px;
+}
+.hm-field small {
+  line-height: 1.7;
+}
+@media (max-width: 1100px) {
+  .hm-how-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 850px) {
+  .hm-trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hm-how-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .hm-hero h1 {
+    font-size: clamp(34px, 9.4vw, 46px);
+    letter-spacing: -1.2px;
+  }
+  .hm-hero-text {
+    font-size: 15px;
+  }
+  .hm-hero-foot {
+    font-size: 12px;
+  }
+  .hm-trust-grid,
+  .hm-how-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .hm-trust-grid h3 {
+    font-size: 21px;
+  }
+  .hm-trust-disclaimer {
+    padding: 18px;
+  }
+  .hm-card-link {
+    font-size: 12px;
+  }
+  .hm-photo-connection {
+    font-size: 21px;
+  }
+  .hm-form-intro {
+    font-size: 14px;
+  }
+  .hm-service-next .hm-button {
+    font-size: 13px;
+  }
+}
+@media (max-width: 640px) {
+  .hm-service-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hm-service-card {
+    padding: 24px;
+  }
+  .hm-service-card h3 {
+    font-size: 22px;
+  }
+  .hm-service-card > p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .hm-card-link {
+    font-size: 13px;
+  }
+}

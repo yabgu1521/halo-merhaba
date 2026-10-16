@@ -62,6 +62,49 @@ export function PublicPage({
       ? "Halo Merhaba, danışmanlık hakkında bilgi almak istiyorum."
       : "Halo Merhaba, saya ingin informasi konsultasi.",
   );
+  const serviceWa = service
+    ? whatsappLink(`${c.whatsappIntro}: ${service.name[locale]}.`)
+    : null;
+  function courseLevels() {
+    return (
+      <div className="hm-course-levels">
+        {c.courseLevels.map((level, index) => (
+          <article key={level}>
+            <span>0{index + 1}</span>
+            <h2>{level}</h2>
+            <p>{c.courseDescriptions[index]}</p>
+            <a className="hm-text-link" href="#request-form">
+              {c.courseCta}
+              <Icon name="arrow" size={16} />
+            </a>
+          </article>
+        ))}
+      </div>
+    );
+  }
+  function trust() {
+    return (
+      <section className="hm-section hm-trust" aria-labelledby="trust-title">
+        <div className="hm-section-heading">
+          <div>
+            <p className="hm-eyebrow">{c.brandLine}</p>
+            <h2 id="trust-title">{c.trustTitle}</h2>
+          </div>
+          <p>{c.trustIntro}</p>
+        </div>
+        <div className="hm-trust-grid">
+          {c.trustPoints.map((point, index) => (
+            <article key={point}>
+              <Icon name={index === 3 ? "shield" : "check"} size={22} />
+              <h3>{point}</h3>
+              <p>{c.trustTexts[index]}</p>
+            </article>
+          ))}
+        </div>
+        <p className="hm-trust-disclaimer">{c.officialNotice}</p>
+      </section>
+    );
+  }
   function serviceCards() {
     return (
       <div className="hm-service-grid">
@@ -80,7 +123,7 @@ export function PublicPage({
               <h3>{s.name[locale]}</h3>
               <p>{s.short[locale]}</p>
               <span className="hm-card-link">
-                {c.explore}
+                {s.cta[locale]}
                 <Icon name="arrow" size={17} />
               </span>
             </Link>
@@ -371,9 +414,12 @@ export function PublicPage({
                       {c.whatsapp}
                     </a>
                   ) : (
-                    <Link className="hm-whatsapp" href={href("kontak")}>
+                    <Link
+                      className="hm-whatsapp"
+                      href={href("layanan/konsultasi#request-form")}
+                    >
                       <Icon name="chat" size={17} />
-                      {c.whatsapp}
+                      {c.consultCta}
                     </Link>
                   )}
                 </div>
@@ -424,6 +470,7 @@ export function PublicPage({
               </div>
               {serviceCards()}
             </section>
+            <div className="hm-wrap">{trust()}</div>
             <div className="hm-warm-band">
               <div className="hm-wrap">{how()}</div>
             </div>
@@ -548,8 +595,8 @@ export function PublicPage({
                   <Icon name="shield" size={23} />
                   <div>
                     <h2>{c.limitations}</h2>
+                    <p>{service.limitations[locale]}</p>
                     <p>{c.officialNotice}</p>
-                    <p>{c.faqAnswers[2]}</p>
                   </div>
                 </section>
                 <section>
@@ -559,7 +606,7 @@ export function PublicPage({
               </article>
               <aside className="hm-service-next">
                 <p className="hm-eyebrow">{c.nextStep}</p>
-                <h2>{c.request}</h2>
+                <h2>{service.cta[locale]}</h2>
                 {service.provisionalPrice && (
                   <div className="hm-provisional-price">
                     <strong>{service.provisionalPrice} TRY</strong>
@@ -568,12 +615,32 @@ export function PublicPage({
                 )}
                 <p>{c.sensitiveWarning}</p>
                 <a className="hm-button" href="#request-form">
-                  {c.request}
+                  {service.cta[locale]}
                   <Icon name="arrow" size={17} />
                 </a>
-                <small>{c.faqAnswers[4]}</small>
+                {serviceWa && (
+                  <a
+                    className="hm-text-link"
+                    href={serviceWa}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() =>
+                      track("whatsapp_click", { kind: service.kind })
+                    }
+                  >
+                    {service.whatsappCta[locale]}
+                    <Icon name="arrow" size={16} />
+                  </a>
+                )}
+                <small>{c.inquiryNote}</small>
               </aside>
             </div>
+            {service.kind === "course" && (
+              <>
+                {courseLevels()}
+                <p className="hm-course-note">{c.courseUnknown}</p>
+              </>
+            )}
             <IntakeForm
               kind={service.kind}
               locale={locale}
@@ -584,19 +651,8 @@ export function PublicPage({
         {kind === "course" && (
           <div className="hm-wrap">
             {heading(c.courseTitle, c.courseText, c.course)}
-            <div className="hm-course-levels">
-              {c.courseLevels.map((level, index) => (
-                <article key={level}>
-                  <span>0{index + 1}</span>
-                  <h2>{level}</h2>
-                  <p>{c.courseUnknown}</p>
-                  <a className="hm-text-link" href="#request-form">
-                    {c.courseCta}
-                    <Icon name="arrow" size={16} />
-                  </a>
-                </article>
-              ))}
-            </div>
+            {courseLevels()}
+            <p className="hm-course-note">{c.courseUnknown}</p>
             <IntakeForm
               kind="course"
               locale={locale}
@@ -819,6 +875,7 @@ export function PublicPage({
         {kind === "about" && (
           <div className="hm-wrap">
             {heading(c.aboutTitle, c.aboutText, c.about)}
+            <p className="hm-about-context">{c.aboutContext}</p>
             <div className="hm-values">
               {c.aboutPrinciples.map((title, index) => (
                 <article key={title}>
@@ -829,19 +886,19 @@ export function PublicPage({
               ))}
             </div>
             <section className="hm-team">
+              {/* Replace this decorative slot only with consented real team photography. */}
               <div
                 className="hm-photo-placeholder"
-                role="img"
-                aria-label={c.teamPhoto}
+                data-content-slot="team-photo"
+                aria-hidden="true"
               >
-                <Icon name="globe" size={42} />
-                <strong>{c.teamPhoto}</strong>
-                <p>{c.teamPhotoNote}</p>
+                <Icon name="globe" size={64} />
+                <span className="hm-photo-connection">Indonesia ↔ Türkiye</span>
               </div>
               <div>
                 <p className="hm-eyebrow">HALO MERHABA</p>
-                <h2>{c.teamTitle}</h2>
-                <p>{c.teamNote}</p>
+                <h2>{c.aboutMission}</h2>
+                <p>{c.aboutMissionText}</p>
                 <a
                   className="hm-text-link"
                   href={business.instagramUrl}
@@ -864,6 +921,7 @@ export function PublicPage({
                 </Link>
               </div>
             </section>
+            <p className="hm-trust-disclaimer">{c.officialNotice}</p>
             {instagram()}
           </div>
         )}
@@ -880,12 +938,16 @@ export function PublicPage({
         {kind === "contact" && (
           <div className="hm-wrap">
             {heading(c.contactTitle, c.contactText, c.contact)}
+            <a className="hm-button hm-contact-inquiry" href="#request-form">
+              {c.contactInquiry}
+              <Icon name="arrow" size={17} />
+            </a>
             <section className="hm-contact-grid" id="channels">
               <div className="hm-contact-channels">
-                <article>
-                  <Icon name="chat" size={25} />
-                  <h2>WhatsApp</h2>
-                  {wa ? (
+                {wa && (
+                  <article>
+                    <Icon name="chat" size={25} />
+                    <h2>WhatsApp</h2>
                     <a
                       className="hm-text-link"
                       href={wa}
@@ -898,19 +960,15 @@ export function PublicPage({
                       {c.whatsapp}
                       <Icon name="arrow" size={16} />
                     </a>
-                  ) : (
-                    <p>{c.whatsappUnavailable}</p>
-                  )}
-                </article>
-                <article>
-                  <Icon name="mail" size={25} />
-                  <h2>{c.contact}</h2>
-                  {business.email ? (
+                  </article>
+                )}
+                {business.email && (
+                  <article>
+                    <Icon name="mail" size={25} />
+                    <h2>{c.email}</h2>
                     <a href={`mailto:${business.email}`}>{business.email}</a>
-                  ) : (
-                    <p>{c.emailUnavailable}</p>
-                  )}
-                </article>
+                  </article>
+                )}
                 <article>
                   <Icon name="instagram" size={25} />
                   <h2>Instagram</h2>

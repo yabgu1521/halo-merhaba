@@ -12,20 +12,20 @@ export function pageInfo(locale: Locale, kind: PublicKind, slug?: string) {
     service = slug ? serviceBySlug(slug) : undefined,
     article = slug ? guideById(slug) : undefined;
   const titles: Record<string, string> = {
-    home: "Halo Merhaba · Indonesia ↔ Türkiye",
-    services: c.services,
-    course: c.course,
+    home: c.seoHomeTitle,
+    services: c.seoServicesTitle,
+    course: serviceBySlug("kursus-bahasa-turki")!.seoTitle[locale],
     store: c.store,
     guides: c.guides,
-    about: c.about,
+    about: c.seoAboutTitle,
     faq: c.faq,
-    contact: c.contact,
+    contact: c.seoContactTitle,
     privacy: c.privacyTitle,
     terms: c.termsTitle,
   };
   return {
     title:
-      service?.name[locale] ||
+      service?.seoTitle[locale] ||
       article?.title[locale] ||
       (slug ? productTitles[slug]?.[locale] : undefined) ||
       titles[kind] ||
@@ -34,7 +34,15 @@ export function pageInfo(locale: Locale, kind: PublicKind, slug?: string) {
       service?.short[locale] ||
       article?.description[locale] ||
       (slug ? productDescriptions[slug]?.[locale] : undefined) ||
-      c.heroText,
+      (kind === "course"
+        ? c.courseText
+        : kind === "about"
+          ? c.aboutText
+          : kind === "contact"
+            ? c.contactText
+            : kind === "services"
+              ? c.servicesText
+              : c.heroText),
   };
 }
 export function metadata(

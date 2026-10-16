@@ -213,6 +213,20 @@ export function IntakeForm({
   function field(key: Key) {
     const choices = options(key),
       isRequired = Boolean(required[kind]?.includes(key));
+    const help =
+      key === "documentCategory" || key === "documentType"
+        ? c.documentHelp
+        : key === "deadline" || key === "plannedDate"
+          ? c.deadlineHelp
+          : key === "certified"
+            ? c.certifiedHelp
+            : key === "pages"
+              ? c.pagesHelp
+              : key === "eventType"
+                ? c.eventHelp
+                : key === "level"
+                  ? c.levelHelp
+                  : undefined;
     return (
       <label className="hm-field" key={key}>
         <span>
@@ -223,6 +237,7 @@ export function IntakeForm({
           <select
             name={key}
             aria-label={c[key]}
+            aria-describedby={help ? `help-${key}` : undefined}
             required={isRequired}
             aria-invalid={errors.includes(key)}
             defaultValue=""
@@ -238,6 +253,7 @@ export function IntakeForm({
           <input
             name={key}
             aria-label={c[key]}
+            aria-describedby={help ? `help-${key}` : undefined}
             required={isRequired}
             aria-invalid={errors.includes(key)}
             type={
@@ -252,6 +268,7 @@ export function IntakeForm({
             maxLength={200}
           />
         )}
+        {help && <small id={`help-${key}`}>{help}</small>}
       </label>
     );
   }
@@ -274,7 +291,17 @@ export function IntakeForm({
   return (
     <section className="hm-intake" id="request-form">
       <p className="hm-eyebrow">{name}</p>
-      <h2>{kind === "product_interest" ? c.notify : c.requestTitle}</h2>
+      <h2>
+        {kind === "product_interest"
+          ? c.notify
+          : serviceByKind(kind)?.cta[locale] || c.requestTitle}
+      </h2>
+      <p className="hm-form-intro">
+        {kind === "product_interest" ? c.interestHelp : c.formIntro}
+      </p>
+      {kind !== "product_interest" && (
+        <p className="hm-form-required">{c.formRequired}</p>
+      )}
       {!canPersist && (
         <div className="hm-dev-state">
           <Icon name="lock" size={16} />
@@ -309,11 +336,13 @@ export function IntakeForm({
             <input
               name="name"
               aria-label={c.name}
+              aria-describedby="help-name"
               autoComplete="name"
               maxLength={120}
               required={kind !== "product_interest"}
               aria-invalid={errors.includes("name")}
             />
+            <small id="help-name">{c.nameHelp}</small>
           </label>
           <label className="hm-field">
             <span>
@@ -323,6 +352,9 @@ export function IntakeForm({
             <input
               name="email"
               aria-label={c.email}
+              aria-describedby={
+                kind !== "product_interest" ? "help-contact" : undefined
+              }
               type="email"
               autoComplete="email"
               maxLength={254}
@@ -336,12 +368,18 @@ export function IntakeForm({
               <input
                 name="whatsapp"
                 aria-label={c.whatsappContact}
+                aria-describedby="help-contact"
                 type="tel"
                 autoComplete="tel"
                 maxLength={30}
                 aria-invalid={errors.includes("whatsapp")}
               />
             </label>
+          )}
+          {kind !== "product_interest" && (
+            <p className="hm-form-contact-help" id="help-contact">
+              {c.contactHelp}
+            </p>
           )}
           {fields[kind].map(field)}
         </div>
@@ -354,13 +392,14 @@ export function IntakeForm({
             <textarea
               name="summary"
               aria-label={c.summary}
+              aria-describedby="help-summary"
               rows={4}
               minLength={8}
               maxLength={1800}
               required
               aria-invalid={errors.includes("summary")}
             />
-            <small>{c.sensitiveWarning}</small>
+            <small id="help-summary">{c.summaryHelp}</small>
           </label>
         )}
         <div className="hm-honeypot" aria-hidden="true">
@@ -386,7 +425,7 @@ export function IntakeForm({
             {error}
           </p>
         )}
-        <button className="hm-button" disabled={busy}>
+        <button type="submit" className="hm-button" disabled={busy}>
           {busy ? c.submitting : canPersist ? c.submit : c.prepareMessage}
           <Icon name="arrow" size={18} />
         </button>
