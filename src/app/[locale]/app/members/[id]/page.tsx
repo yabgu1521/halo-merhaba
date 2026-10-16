@@ -1,3 +1,4 @@
+import { matchmakingCopy } from "@/lib/matchmaking-copy";
 import { viewerSignals } from "@/lib/member/viewer";
 import { Insights } from "@/components/member/insights";
 import { productCopy } from "@/lib/product-copy";
@@ -13,6 +14,7 @@ import {
   BlockButton,
   Report,
   Favorite,
+  OpenConversation,
 } from "@/components/member/controls";
 export default async function MemberProfile({
   params,
@@ -24,7 +26,7 @@ export default async function MemberProfile({
   const { db } = await memberContext(locale),
     options = await catalog(db),
     c = memberCopy[locale];
-  const { data, error } = await db.rpc("member_profile", { profile_id: id });
+  const { data, error } = await db.rpc("candidate_profile", { profile_id: id });
   if (error) throw new Error("Profile unavailable");
   if (!data)
     return (
@@ -36,10 +38,8 @@ export default async function MemberProfile({
   const m = data as Member,
     viewer = await viewerSignals(db),
     p = productCopy[locale];
-  const contextResult = await db.rpc("member_context", { profile_id: id });
-  if (contextResult.error && contextResult.error.code !== "PGRST202")
-    throw new Error("Optional profile unavailable");
-  const context = contextResult.data as ProfileContext | null;
+  const context = m.context as ProfileContext | null,
+    k = matchmakingCopy[locale];
   const country = (v: string) => label(options.countries, v, locale);
   return (
     <>
@@ -77,7 +77,36 @@ export default async function MemberProfile({
           </div>
           <h2>{p.story}</h2>
           <p className="biography">{m.biography}</p>
-          <Insights me={viewer} member={m} catalog={options} locale={locale} />
+          <section className="looking-story">
+            <h2>{k.aboutLooking}</h2>
+            {m.looking_for ? (
+              <>
+                <p className="biography">
+                  {m.looking_for.looking_for || k.any}
+                </p>
+                <p>
+                  {c.minAge}: {m.looking_for.min_age}–{m.looking_for.max_age}
+                </p>
+                <div className="tags">
+                  {m.looking_for.genders.map((g) => (
+                    <span key={g}>{c[g as "woman"]}</span>
+                  ))}
+                  {m.looking_for.countries.map((code) => (
+                    <span key={code}>
+                      {label(options.countries, code, locale)}
+                    </span>
+                  ))}
+                  {m.looking_for.purpose && (
+                    <span>
+                      {label(options.purposes, m.looking_for.purpose, locale)}
+                    </span>
+                  )}
+                </div>
+              </>
+            ) : (
+              <p>{k.notShared}</p>
+            )}
+          </section>
           <h2>{c.speaks}</h2>
           <p>
             {m.speaks
@@ -169,9 +198,14 @@ export default async function MemberProfile({
               </dl>
             </section>
           )}
+          <Insights me={viewer} member={m} catalog={options} locale={locale} />
           <div className="profile-connect">
             <Favorite id={id} locale={locale} saved={m.favorited} />
-            <Interest id={id} locale={locale} sent={m.interested} />
+            {m.has_match ? (
+              <OpenConversation id={id} locale={locale} />
+            ) : (
+              <Interest id={id} locale={locale} sent={m.interested} />
+            )}
           </div>
           <div className="safety-actions">
             <BlockButton id={id} locale={locale} />

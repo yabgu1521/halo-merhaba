@@ -1,3 +1,4 @@
+import { matchmakingCopy } from "@/lib/matchmaking-copy";
 import Link from "next/link";
 import { productCopy } from "@/lib/product-copy";
 import { notFound } from "next/navigation";
@@ -15,7 +16,7 @@ export async function generateMetadata({
     origin = siteUrl();
   return {
     title: `${brand.name} · ${c.pathsTitle}`,
-    description: c.intro,
+    description: matchmakingCopy[locale].heroText,
     ...(origin
       ? {
           metadataBase: origin,
@@ -25,7 +26,11 @@ export async function generateMetadata({
           },
         }
       : {}),
-    openGraph: { title: brand.name, description: c.intro, type: "website" },
+    openGraph: {
+      title: brand.name,
+      description: matchmakingCopy[locale].heroText,
+      type: "website",
+    },
   };
 }
 export default async function Home({
@@ -36,7 +41,8 @@ export default async function Home({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const c = copy[locale],
-    p = productCopy[locale];
+    p = productCopy[locale],
+    k = matchmakingCopy[locale];
   return (
     <>
       <a className="skip" href="#main">
@@ -85,8 +91,8 @@ export default async function Home({
         <section className="product-hero wrap">
           <div className="hero-story">
             <p className="eyebrow">{p.heroLabel}</p>
-            <h1>{p.heroTitle}</h1>
-            <p className="intro">{p.heroText}</p>
+            <h1>{k.hero}</h1>
+            <p className="intro">{k.heroText}</p>
             <div className="actions">
               <Link className="button" href={`/${locale}/auth/signup`}>
                 {p.create} <span aria-hidden>↗</span>
@@ -206,7 +212,6 @@ export default async function Home({
               <p className="eyebrow">{c.founderLabel}</p>
               <h2>{c.founderTitle}</h2>
               <p>{c.founderText}</p>
-              <small>{c.founderNote}</small>
             </div>
             <div className="media">
               <span aria-hidden>▷</span>

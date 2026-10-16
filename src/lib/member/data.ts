@@ -1,3 +1,5 @@
+import type { ProfileContext } from "@/components/member/context-form";
+import type { MatchmakingPreferences } from "./matchmaking";
 import "server-only";
 import { redirect } from "next/navigation";
 import { supabase, configured } from "@/lib/supabase/server";
@@ -25,6 +27,9 @@ export type Member = {
   interested: boolean;
   favorited?: boolean;
   matched_at?: string;
+  context?: ProfileContext | null;
+  looking_for?: MatchmakingPreferences | null;
+  has_match?: boolean;
 };
 export async function memberContext(locale: string, requireComplete = true) {
   if (!configured()) redirect(`/${locale}/auth/login`);

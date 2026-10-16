@@ -1,3 +1,7 @@
+import {
+  matchmakingSchema,
+  candidateFiltersSchema,
+} from "@/lib/member/matchmaking";
 import { boundedBody } from "@/lib/member/body";
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -26,6 +30,16 @@ export async function POST(request: Request) {
     if (!user || !user.email_confirmed_at) return failure("loginRequired", 401);
     let result;
     switch (body.action) {
+      case "matchmaking":
+        result = await db.rpc("save_matchmaking_preferences", {
+          payload: matchmakingSchema.parse(body.preferences),
+        });
+        break;
+      case "candidate-search":
+        result = await db.rpc("save_candidate_search", {
+          filters: candidateFiltersSchema.parse(body.filters),
+        });
+        break;
       case "profile-context":
         result = await db.rpc("save_profile_context", {
           payload: contextSchema.parse(body.context),

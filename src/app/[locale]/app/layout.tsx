@@ -1,3 +1,4 @@
+import { matchmakingCopy } from "@/lib/matchmaking-copy";
 import { NavLink } from "@/components/member/nav-link";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -75,6 +76,15 @@ export default async function MemberLayout({
             </NavLink>
           ))}
           <div className="desktop-secondary">
+            <Link href={`/${locale}/app/search`}>
+              {matchmakingCopy[locale].search}
+            </Link>
+            <Link href={`/${locale}/app/preferences`}>
+              {matchmakingCopy[locale].preferences}
+            </Link>
+            <Link href={`/${locale}/app/likes`}>
+              {matchmakingCopy[locale].interests}
+            </Link>
             <Link href={`/${locale}/app/favorites`}>{c.favorites}</Link>
             <Link href={`/${locale}/app/marriage`}>{p.marriage}</Link>
             <Link href={`/${locale}/app/premium`}>{p.premium}</Link>

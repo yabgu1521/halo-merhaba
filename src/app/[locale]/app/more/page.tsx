@@ -1,3 +1,4 @@
+import { matchmakingCopy } from "@/lib/matchmaking-copy";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/lib/i18n";
@@ -20,7 +21,10 @@ export default async function More({
       <h1>{p.more}</h1>
       <div className="destination-list">
         {[
+          ["search", matchmakingCopy[locale].search],
+          ["preferences", matchmakingCopy[locale].preferences],
           ["favorites", c.favorites],
+          ["likes", matchmakingCopy[locale].interests],
           ["profile", c.profile],
           ["marriage", p.marriage],
           ["premium", p.premium],

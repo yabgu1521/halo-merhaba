@@ -36,7 +36,10 @@ export async function ownProfile(locale: string) {
   const context = await db.rpc("member_context", {
     profile_id: profile?.public_id || "00000000-0000-4000-8000-000000000000",
   });
+  const preferences = await db.rpc("my_matchmaking_preferences");
+  if (preferences.error) throw new Error("Preferences unavailable");
   return {
+    preferences: preferences.data,
     ...ctx,
     initial,
     photo: photo.data?.id || null,

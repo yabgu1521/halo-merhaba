@@ -245,9 +245,9 @@ test("REMOTE MEMBER: real filtered discovery, favorites and preferences persist"
   await a.page.locator(".member-card").filter({ hasText: b.name }).waitFor();
   await a.page.goto(origin + "/en/app/discover");
   await expandFilters(a.page);
-  await a.page.getByLabel("Country", { exact: false }).selectOption("ID");
+  await a.page.locator('select[name="country"]').selectOption("ID");
   await a.page
-    .getByRole("button", { name: "Save search preferences", exact: true })
+    .getByRole("button", { name: "Save this search", exact: true })
     .click();
   await a.page
     .getByRole("status")
@@ -255,7 +255,7 @@ test("REMOTE MEMBER: real filtered discovery, favorites and preferences persist"
     .waitFor();
   await a.page.reload();
   assert.equal(
-    await a.page.getByLabel("Country", { exact: false }).inputValue(),
+    await a.page.locator('select[name="country"]').inputValue(),
     "ID",
   );
 });
@@ -268,9 +268,7 @@ test("REMOTE MEMBER: reciprocal likes create one match and both participants can
     .waitFor();
   await b.page.goto(`${origin}/en/app/members/${a.pid}`);
   await b.page.getByRole("button", { name: "Interested", exact: true }).click();
-  await b.page
-    .getByRole("button", { name: "Interest sent", exact: true })
-    .waitFor();
+  await b.page.getByRole("button", { name: "Message", exact: true }).waitFor();
   for (const [self, other] of [
     [a, b],
     [b, a],

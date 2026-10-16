@@ -16,7 +16,8 @@
     "verify:supabase": "node --use-env-proxy scripts/verify-supabase.mjs",
     "test:postgres": "node --import tsx --test --test-concurrency=1 tests/postgres/*.test.ts",
     "test:remote:auth": "node --use-env-proxy --test --test-concurrency=1 tests/remote/auth.test.mjs",
-    "test:remote:members": "node --use-env-proxy --test --test-concurrency=1 tests/remote/member.test.mjs"
+    "test:remote:members": "node --use-env-proxy --test --test-concurrency=1 tests/remote/member.test.mjs",
+    "test:candidate-browser": "node --test --test-concurrency=1 tests/browser/candidates.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

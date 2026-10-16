@@ -1,4 +1,8 @@
 "use client";
+import { MatchmakingForm } from "./matchmaking-form";
+import type { MatchmakingPreferences } from "@/lib/member/matchmaking";
+import { matchmakingCopy } from "@/lib/matchmaking-copy";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -82,6 +86,7 @@ export function ProfileForm({
   safetyRules,
   initialContext,
   contextAvailable = false,
+  initialPreferences,
 }: {
   locale: Locale;
   catalog: Catalog;
@@ -91,6 +96,7 @@ export function ProfileForm({
   safetyRules: readonly string[];
   initialContext?: ProfileContext | null;
   contextAvailable?: boolean;
+  initialPreferences?: MatchmakingPreferences | null;
 }) {
   const c = memberCopy[locale],
     router = useRouter();
@@ -219,6 +225,7 @@ export function ProfileForm({
         <strong>{score}%</strong>
       </div>
       <progress value={score} max={100} aria-label={c.completion} />
+      <p className="profile-quality">{matchmakingCopy[locale].completeHelp}</p>
       {onboarding && (
         <p className="eyebrow">
           {c.step} {step} / 9
@@ -393,9 +400,7 @@ export function ProfileForm({
         {step === 9 && finished && (
           <>
             <p>{c.completeText}</p>
-            <Link className="button" href={`/${locale}/app/discover`}>
-              {c.discover}
-            </Link>
+            <p>{matchmakingCopy[locale].optionalPrompt}</p>
           </>
         )}
         {step !== 7 && step < 9 && (
@@ -506,6 +511,18 @@ export function ProfileForm({
           initial={initialContext}
           available={contextAvailable}
         />
+      )}
+      {(step === 0 || step === 9) && (
+        <MatchmakingForm
+          locale={locale}
+          catalog={catalog}
+          initial={initialPreferences}
+        />
+      )}
+      {step === 9 && finished && (
+        <Link className="button" href={`/${locale}/app/discover`}>
+          {c.discover} ↗
+        </Link>
       )}
       {notice && (
         <p className="form-notice" role="status">

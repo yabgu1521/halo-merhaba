@@ -47,3 +47,7 @@ Current results: 29 local tests and 5 remote Auth tests passed; full hosted prof
 ## Product redesign awaiting review
 
 The local review candidate includes photo-based discovery, explainable common-ground insights, optional private cultural context, conversation prompts, a four-destination mobile shell, and first-stage Marriage Center/Premium information. See [product review](docs/PRODUCT_REVIEW.md) for screenshots, changed-file map, test outcomes, honest service limits and the unapplied additive migration. No production push is authorized yet. `node tests/review/render.mjs` produces isolated fixture screenshots; it is not a production demo mode or hosted security test.
+
+## Member-first implementation awaiting migration
+
+The next candidate centers real candidate discovery, explicit matchmaking preferences, essential/advanced search, separate preference-fit explanations, and outgoing-interest activity. **Apply/review `202610160003_matchmaking_preferences.sql` before releasing this dependent source.** No production push is performed by this implementation task until that migration gate is resolved. See [member-first release notes](docs/MEMBER_FIRST_RELEASE.md). `npm run test:candidate-browser` exercises actual routes/forms against an isolated loopback contract fixture; it is not hosted security proof or a demo mode.

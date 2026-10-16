@@ -46,3 +46,7 @@ See docs/FUNCTIONAL_MVP.md for message retention/block semantics, test cleanup a
 ## Product review candidate: additive context and discovery
 
 `202610160002_product_experience.sql` adds private optional profile context and normalized destination-country selections, owner-only RLS, explicit section sharing, visibility-bound safe projection and keyset-paginated product discovery. All country selections reference the extensible catalog. Existing profile, photo, block, report, match and message contracts remain unchanged. Tested with the full isolated PostgreSQL suite; NOT applied or verified on hosted Supabase in this delivery. See `docs/PRODUCT_REVIEW.md` before rollout.
+
+## Member-first candidate migration — must precede application release
+
+`202610160003_matchmaking_preferences.sql` adds normalized `matchmaking_preferences`, `preferred_genders`, `preferred_countries`, and `preferred_languages` with owner-only RLS and identity-bound saving. Optional selected-preference disclosure requires explicit sharing and existing profile visibility. `member_preferences.advanced` stores validated owner-only search filters without breaking older saved-search readers. `find_candidates` respects saved preferences in every mode, filters sensitive context only when shared, and returns bounded safe projections. `my_interests` discloses only the actor's outgoing interests. The old connection/Auth/Storage/messaging contracts are untouched. **Not applied remotely; dependent application must not be pushed first.** See `docs/MEMBER_FIRST_RELEASE.md`.

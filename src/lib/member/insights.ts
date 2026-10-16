@@ -10,7 +10,10 @@ export type Insight = {
 export type SharedProfile = Pick<
   Member,
   "purposes" | "interests" | "speaks" | "learns"
->;
+> & {
+  context?: import("@/components/member/context-form").ProfileContext | null;
+  preferences?: import("./matchmaking").MatchmakingPreferences | null;
+};
 const overlap = (a: string[], b: string[]) =>
   [...new Set(a)].filter((x) => b.includes(x)).sort();
 export function compatibility(

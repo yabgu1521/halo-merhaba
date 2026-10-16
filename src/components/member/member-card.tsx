@@ -49,6 +49,9 @@ export function MemberCard({
             <span>, {m.age}</span>
           </h2>
         </Link>
+        {m.verification === "email" && (
+          <p className="card-trust">✓ {c.emailVerified}</p>
+        )}
         <p className="location">
           {m.city} · {label(catalog.countries, m.country, locale)}
         </p>
@@ -72,17 +75,19 @@ export function MemberCard({
         )}
         <div className="member-card-actions">
           <Favorite id={m.public_id} locale={locale} saved={m.favorited} />
-          {match ? (
+          {match || m.has_match ? (
             <>
               <p className="form-notice">{c.matched}</p>
               <OpenConversation id={m.public_id} locale={locale} />
-              <small>
-                {c.matchDate}{" "}
-                {new Intl.DateTimeFormat(locale, {
-                  dateStyle: "medium",
-                  timeZone: "UTC",
-                }).format(new Date(m.matched_at!))}
-              </small>
+              {m.matched_at && (
+                <small>
+                  {c.matchDate}{" "}
+                  {new Intl.DateTimeFormat(locale, {
+                    dateStyle: "medium",
+                    timeZone: "UTC",
+                  }).format(new Date(m.matched_at!))}
+                </small>
+              )}
             </>
           ) : (
             <Interest locale={locale} id={m.public_id} sent={m.interested} />

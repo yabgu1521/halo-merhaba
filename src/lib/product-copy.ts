@@ -72,7 +72,7 @@ const en = {
   childrenDiscuss: "Would like to discuss privately",
   saveContext: "Save optional details",
   setupRequired:
-    "Optional profile details and new discovery ordering need the reviewed product migration. Your existing profile and connections still work.",
+    "These optional details are temporarily unavailable. Your existing profile and connections remain available.",
   more: "More",
   menu: "Your space",
   marriage: "Marriage Center",
@@ -209,7 +209,7 @@ const tr: {
   childrenDiscuss: "Özel olarak konuşmak isterim",
   saveContext: "İsteğe bağlı bilgileri kaydet",
   setupRequired:
-    "İsteğe bağlı profil alanları ve yeni keşif sıralaması için ürün migration dosyası gerekir. Mevcut profiliniz ve bağlantılarınız çalışmaya devam eder.",
+    "İsteğe bağlı bilgiler geçici olarak kullanılamıyor. Mevcut profiliniz ve bağlantılarınız kullanılabilir.",
   more: "Diğer",
   menu: "Senin alanın",
   marriage: "Evlilik Merkezi",
@@ -343,7 +343,7 @@ const id: typeof tr = {
   childrenDiscuss: "Ingin membicarakannya secara pribadi",
   saveContext: "Simpan detail opsional",
   setupRequired:
-    "Detail opsional dan urutan penemuan baru memerlukan migrasi produk. Profil dan koneksimu yang ada tetap berfungsi.",
+    "Detail opsional sementara tidak tersedia. Profil dan koneksimu yang ada tetap berfungsi.",
   more: "Lainnya",
   menu: "Ruangmu",
   marriage: "Pusat Pernikahan",
