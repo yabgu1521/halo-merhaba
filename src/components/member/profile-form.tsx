@@ -7,6 +7,8 @@ import { memberCopy, message } from "@/lib/member/i18n";
 import type { Catalog, Choice } from "@/lib/member/data";
 import { completion, profileSchema, ageFromDob } from "@/lib/member/validation";
 import { postMember } from "./controls";
+import { ContextForm, type ProfileContext } from "./context-form";
+import { productCopy } from "@/lib/product-copy";
 export type Draft = {
   display_name: string;
   date_of_birth: string;
@@ -78,6 +80,8 @@ export function ProfileForm({
   initialPhoto,
   onboarding = false,
   safetyRules,
+  initialContext,
+  contextAvailable = false,
 }: {
   locale: Locale;
   catalog: Catalog;
@@ -85,6 +89,8 @@ export function ProfileForm({
   initialPhoto: string | null;
   onboarding?: boolean;
   safetyRules: readonly string[];
+  initialContext?: ProfileContext | null;
+  contextAvailable?: boolean;
 }) {
   const c = memberCopy[locale],
     router = useRouter();
@@ -219,6 +225,7 @@ export function ProfileForm({
         </p>
       )}
       <h1>{titles[step]}</h1>
+      <p className="onboard-note">{productCopy[locale].onboardNote}</p>
       {selected(1) && step !== 0 && <p className="intro">{c.welcomeText}</p>}
       <form
         onSubmit={(e) => {
@@ -491,6 +498,14 @@ export function ProfileForm({
             </div>
           )}
         </section>
+      )}
+      {(step === 0 || step === 9) && (
+        <ContextForm
+          locale={locale}
+          catalog={catalog}
+          initial={initialContext}
+          available={contextAvailable}
+        />
       )}
       {notice && (
         <p className="form-notice" role="status">

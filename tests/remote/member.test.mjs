@@ -143,6 +143,11 @@ after(async () => {
     );
   }
 });
+async function expandFilters(page) {
+  await page.locator('.filters[data-ready="true"]').waitFor();
+  if ((await page.locator(".filters").getAttribute("open")) === null)
+    await page.locator(".filters summary").click();
+}
 async function onboard(a, country) {
   const page = a.page;
   await page.goto(origin + "/en/auth/login");
@@ -153,9 +158,9 @@ async function onboard(a, country) {
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page.getByLabel("Display name", { exact: true }).fill(a.name);
   await page
-    .getByLabel("Date of birth · private", { exact: true })
+    .getByLabel("Date of birth · private", { exact: false })
     .fill("1990-03-12");
-  await page.getByLabel("Country", { exact: true }).selectOption(country);
+  await page.getByLabel("Country", { exact: false }).selectOption(country);
   await page
     .getByLabel("City", { exact: true })
     .fill(country === "TR" ? "Ankara" : "Bandung");
@@ -172,7 +177,7 @@ async function onboard(a, country) {
   await page.getByLabel("Books", { exact: true }).check();
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   await page
-    .getByLabel("About me", { exact: true })
+    .getByLabel("About me", { exact: false })
     .fill("Temporary TEST account for authorized remote journey checks only.");
   await page.getByRole("button", { name: "Continue", exact: true }).click();
   const image = await sharp({
@@ -224,6 +229,7 @@ test("REMOTE MEMBER: two verified TEST accounts log in, onboard and upload proce
 test("REMOTE MEMBER: real filtered discovery, favorites and preferences persist", async () => {
   const [a, b] = accounts;
   await a.page.goto(origin + "/en/app/discover");
+  await expandFilters(a.page);
   await a.page.getByLabel("Display name", { exact: true }).fill(b.name);
   await a.page
     .getByRole("button", { name: "Apply filters", exact: true })
@@ -238,7 +244,8 @@ test("REMOTE MEMBER: real filtered discovery, favorites and preferences persist"
   await a.page.goto(origin + "/en/app/favorites");
   await a.page.locator(".member-card").filter({ hasText: b.name }).waitFor();
   await a.page.goto(origin + "/en/app/discover");
-  await a.page.getByLabel("Country", { exact: true }).selectOption("ID");
+  await expandFilters(a.page);
+  await a.page.getByLabel("Country", { exact: false }).selectOption("ID");
   await a.page
     .getByRole("button", { name: "Save search preferences", exact: true })
     .click();
@@ -248,7 +255,7 @@ test("REMOTE MEMBER: real filtered discovery, favorites and preferences persist"
     .waitFor();
   await a.page.reload();
   assert.equal(
-    await a.page.getByLabel("Country", { exact: true }).inputValue(),
+    await a.page.getByLabel("Country", { exact: false }).inputValue(),
     "ID",
   );
 });
@@ -300,6 +307,65 @@ test("REMOTE MEMBER: reciprocal likes create one match and both participants can
   await b.page.getByText("Reply from TEST B", { exact: true }).waitFor();
   await a.page.reload();
   await a.page.getByText("Reply from TEST B", { exact: true }).waitFor();
+});
+test("REMOTE MEMBER: unread/read transitions and private Storage permissions remain enforced", async () => {
+  const [a, b] = accounts;
+  await a.page.goto(origin + "/en/app/account");
+  await b.page.goto(origin + "/en/app/account");
+  await rpc(a.db, "send_message", {
+    conversation: a.conversation,
+    message_body: "Unread TEST marker",
+    request_id: randomUUID(),
+  });
+  let rows = await rpc(b.db, "list_conversations");
+  assert.equal(rows.find((x) => x.id === a.conversation).unread, true);
+  const thread = await rpc(b.db, "read_thread", {
+      conversation: a.conversation,
+    }),
+    last = thread.messages.at(-1);
+  assert.equal(last.body, "Unread TEST marker");
+  await rpc(b.db, "mark_conversation_read", {
+    conversation: a.conversation,
+    through_id: last.id,
+  });
+  rows = await rpc(b.db, "list_conversations");
+  assert.equal(rows.find((x) => x.id === a.conversation).unread, false);
+  const bucket = await admin.storage.getBucket("profile-photos");
+  check(bucket.error, "Private bucket");
+  assert.equal(bucket.data.public, false);
+  const photo = await b.db
+    .from("profile_photos")
+    .select("storage_path")
+    .single();
+  check(photo.error, "Own photo metadata");
+  const path = photo.data.storage_path;
+  check(
+    (await b.db.storage.from("profile-photos").download(path)).error,
+    "Owner photo read",
+  );
+  assert.ok((await a.db.storage.from("profile-photos").download(path)).error);
+  assert.ok(
+    (await a.db.storage.from("profile-photos").createSignedUrl(path, 60)).error,
+  );
+  const anon = createClient(url, key, options);
+  assert.ok((await anon.storage.from("profile-photos").download(path)).error);
+  const image = await sharp({
+    create: { width: 4, height: 4, channels: 3, background: "#808080" },
+  })
+    .webp()
+    .toBuffer();
+  assert.ok(
+    (
+      await a.db.storage
+        .from("profile-photos")
+        .upload(`${a.id}/${randomUUID()}.webp`, image, {
+          contentType: "image/webp",
+        })
+    ).error,
+  );
+  assert.ok(
+    !(await fetch(`${url}/storage/v1/object/public/profile-photos/${path}`)).ok,
+  );
 });
 test("REMOTE MEMBER: owner privacy, cross-user modification, anonymous conversation/photo access and underage data are rejected", async () => {
   const [a, b] = accounts;

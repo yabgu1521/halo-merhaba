@@ -5,6 +5,7 @@ import { supabase, configured } from "@/lib/supabase/server";
 import { sameOrigin, failure } from "@/lib/member/http";
 import {
   profileSchema,
+  contextSchema,
   uuid,
   reportCategories,
   preferencesSchema,
@@ -25,6 +26,11 @@ export async function POST(request: Request) {
     if (!user || !user.email_confirmed_at) return failure("loginRequired", 401);
     let result;
     switch (body.action) {
+      case "profile-context":
+        result = await db.rpc("save_profile_context", {
+          payload: contextSchema.parse(body.context),
+        });
+        break;
       case "favorite":
         result = await db.rpc("set_favorite", {
           profile_id: uuid.parse(body.id),

@@ -33,5 +33,15 @@ export async function ownProfile(locale: string) {
         interests: (interests.data || []).map((i) => i.code),
       }
     : {};
-  return { ...ctx, initial, photo: photo.data?.id || null, options };
+  const context = await db.rpc("member_context", {
+    profile_id: profile?.public_id || "00000000-0000-4000-8000-000000000000",
+  });
+  return {
+    ...ctx,
+    initial,
+    photo: photo.data?.id || null,
+    options,
+    context: context.data,
+    contextAvailable: !context.error,
+  };
 }

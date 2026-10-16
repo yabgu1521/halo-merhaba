@@ -20,3 +20,7 @@ This member implementation builds and passes local unit/public/auth-screen brows
 
 ## Functional member expansion
 `202610160001_member_communication.sql` adds private favorites/preferences and match-bound conversations/messages/read cursors. Text-only thread UI uses 15-second visible-tab refresh plus manual refresh, without a realtime subscription or file exchange. Profile, discovery and match components retain their approved visual tokens; controls/routes are added in place. Account navigation reuses profile/privacy and managed password/logout flows. See docs/FUNCTIONAL_MVP.md for the updated implementation, hosted Auth evidence and still-blocked remote member verification.
+
+## Product experience candidate
+
+The product presentation reuses existing member API/RPC contracts. `insights.ts` is a pure deterministic explanation/prompt layer over safe profile selections; `viewer.ts` reads only the current member’s RLS-scoped selections. Optional life-planning context has its own additive tables and explicit sharing projection. Discovery ordering is a bounded SQL RPC with a keyset cursor and an explicit legacy-schema fallback. First-stage Marriage Center and Premium are informational product routes; booking, commerce and entitlement state are not fabricated. The visual-review runner builds an isolated application copy against a loopback fixture API; it is excluded from application routes and is not a demo data source. See `docs/PRODUCT_REVIEW.md` for rollout gates.

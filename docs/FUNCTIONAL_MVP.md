@@ -1,3 +1,5 @@
+> Current review candidate (2026-10-16): the original three migrations were subsequently applied manually, and hosted member/Auth regressions now pass. The original blocked-state record below is historical. The new product-experience migration is not applied remotely. See [PRODUCT_REVIEW.md](PRODUCT_REVIEW.md) for the current implementation, exact test limits and screenshots. No redesign push/deployment has been authorized.
+
 # Functional member MVP — current delivery and release gates
 
 The approved visual system is retained. Changes add functional controls/routes using the existing components, theme and EN/TR/ID architecture. No payments, voice/video, documents or unrelated services were added.

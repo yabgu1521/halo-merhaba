@@ -9,12 +9,15 @@ export default async function Onboarding({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const { initial, photo, options } = await ownProfile(locale);
+  const { initial, photo, options, context, contextAvailable } =
+    await ownProfile(locale);
   return (
     <ProfileForm
       locale={locale}
       initial={initial}
       initialPhoto={photo}
+      initialContext={context}
+      contextAvailable={contextAvailable}
       catalog={options}
       onboarding
       safetyRules={copy[locale].safetyRules}

@@ -99,3 +99,14 @@ export const messageCursor = z
   .string()
   .regex(/^[1-9]\d{0,18}$/)
   .refine((v) => BigInt(v) <= 9223372036854775807n);
+
+export const contextSchema = z.object({
+  nationality: z.string().regex(/^([A-Z]{2})?$/),
+  future_country: z.string().regex(/^([A-Z]{2})?$/),
+  relocation: z.enum(["", "yes", "maybe", "no"]),
+  education: text(0, 100),
+  profession: text(0, 100),
+  children: z.enum(["", "yes", "no", "discuss"]),
+  destinations: z.array(z.string().regex(/^[A-Z]{2}$/)).max(20),
+  shared: z.boolean(),
+});

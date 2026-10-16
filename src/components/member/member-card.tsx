@@ -4,16 +4,20 @@ import type { Member, Catalog } from "@/lib/member/data";
 import { label } from "@/lib/member/data";
 import { memberCopy } from "@/lib/member/i18n";
 import { Interest, Favorite, OpenConversation } from "./controls";
+import { Insights } from "./insights";
+import type { SharedProfile } from "@/lib/member/insights";
 export function MemberCard({
   member: m,
   catalog,
   locale,
   match = false,
+  viewer,
 }: {
   member: Member;
   catalog: Catalog;
   locale: Locale;
   match?: boolean;
+  viewer?: SharedProfile;
 }) {
   const c = memberCopy[locale];
   return (
@@ -57,22 +61,33 @@ export function MemberCard({
         <p className="member-languages">
           {m.speaks.map((l) => label(catalog.languages, l, locale)).join(" · ")}
         </p>
-        <Favorite id={m.public_id} locale={locale} saved={m.favorited} />
-        {match ? (
-          <>
-            <p className="form-notice">{c.matched}</p>
-            <OpenConversation id={m.public_id} locale={locale} />
-            <small>
-              {c.matchDate}{" "}
-              {new Intl.DateTimeFormat(locale, {
-                dateStyle: "medium",
-                timeZone: "UTC",
-              }).format(new Date(m.matched_at!))}
-            </small>
-          </>
-        ) : (
-          <Interest locale={locale} id={m.public_id} sent={m.interested} />
+        {viewer && (
+          <Insights
+            me={viewer}
+            member={m}
+            catalog={catalog}
+            locale={locale}
+            compact
+          />
         )}
+        <div className="member-card-actions">
+          <Favorite id={m.public_id} locale={locale} saved={m.favorited} />
+          {match ? (
+            <>
+              <p className="form-notice">{c.matched}</p>
+              <OpenConversation id={m.public_id} locale={locale} />
+              <small>
+                {c.matchDate}{" "}
+                {new Intl.DateTimeFormat(locale, {
+                  dateStyle: "medium",
+                  timeZone: "UTC",
+                }).format(new Date(m.matched_at!))}
+              </small>
+            </>
+          ) : (
+            <Interest locale={locale} id={m.public_id} sent={m.interested} />
+          )}
+        </div>
       </div>
     </article>
   );

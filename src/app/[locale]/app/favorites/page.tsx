@@ -1,3 +1,4 @@
+import { viewerSignals } from "@/lib/member/viewer";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/lib/i18n";
@@ -15,6 +16,7 @@ export default async function Favorites({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const { db } = await memberContext(locale),
+    viewer = await viewerSignals(db),
     options = await catalog(db),
     c = memberCopy[locale],
     q = await searchParams;
@@ -34,6 +36,7 @@ export default async function Favorites({
           {members.map((m) => (
             <MemberCard
               key={m.public_id}
+              viewer={viewer}
               member={m}
               catalog={options}
               locale={locale}

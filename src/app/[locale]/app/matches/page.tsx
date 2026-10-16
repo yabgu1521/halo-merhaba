@@ -1,3 +1,4 @@
+import { viewerSignals } from "@/lib/member/viewer";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/lib/i18n";
 import { memberCopy } from "@/lib/member/i18n";
@@ -11,6 +12,7 @@ export default async function Matches({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const { db } = await memberContext(locale),
+    viewer = await viewerSignals(db),
     options = await catalog(db),
     c = memberCopy[locale];
   const { data, error } = await db.rpc("my_matches");
@@ -25,6 +27,7 @@ export default async function Matches({
         <div className="members-grid">
           {(data as Member[]).map((m) => (
             <MemberCard
+              viewer={viewer}
               member={m}
               key={m.public_id}
               locale={locale}

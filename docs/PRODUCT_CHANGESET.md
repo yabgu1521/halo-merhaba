@@ -1,0 +1,45 @@
+# Product review changeset
+
+Local candidate only; no production push.
+
+- `ARCHITECTURE.md`
+- `DATABASE.md`
+- `README.md`
+- `SECURITY.md`
+- `docs/FUNCTIONAL_MVP.md`
+- `docs/PRODUCT_CHANGESET.md`
+- `docs/PRODUCT_REVIEW.md`
+- `docs/PROGRESS.md`
+- `src/app/[locale]/app/discover/page.tsx`
+- `src/app/[locale]/app/favorites/page.tsx`
+- `src/app/[locale]/app/layout.tsx`
+- `src/app/[locale]/app/marriage/page.tsx`
+- `src/app/[locale]/app/matches/page.tsx`
+- `src/app/[locale]/app/member.css`
+- `src/app/[locale]/app/members/[id]/page.tsx`
+- `src/app/[locale]/app/messages/[id]/page.tsx`
+- `src/app/[locale]/app/more/page.tsx`
+- `src/app/[locale]/app/onboarding/page.tsx`
+- `src/app/[locale]/app/premium/page.tsx`
+- `src/app/[locale]/app/profile/page.tsx`
+- `src/app/[locale]/page.tsx`
+- `src/app/api/member/route.ts`
+- `src/app/globals.css`
+- `src/components/member/context-form.tsx`
+- `src/components/member/discovery-filters.tsx`
+- `src/components/member/insights.tsx`
+- `src/components/member/member-card.tsx`
+- `src/components/member/nav-link.tsx`
+- `src/components/member/profile-form.tsx`
+- `src/components/member/thread.tsx`
+- `src/components/product-area.tsx`
+- `src/lib/member/insights.ts`
+- `src/lib/member/own-profile.ts`
+- `src/lib/member/validation.ts`
+- `src/lib/member/viewer.ts`
+- `src/lib/product-copy.ts`
+- `supabase/migrations/202610160002_product_experience.sql`
+- `tests/postgres/member.test.ts`
+- `tests/remote/member.test.mjs`
+- `tests/review/render.mjs`
+- `tests/unit/insights.test.ts`

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { memberCopy, message } from "@/lib/member/i18n";
+import { productCopy } from "@/lib/product-copy";
 import { postMember } from "./controls";
 export type ThreadMessage = {
   id: string;
@@ -14,10 +15,12 @@ export function Thread({
   locale,
   conversation,
   messages,
+  starters = [],
 }: {
   locale: Locale;
   conversation: string;
   messages: ThreadMessage[];
+  starters?: string[];
 }) {
   const c = memberCopy[locale],
     router = useRouter();
@@ -60,6 +63,28 @@ export function Thread({
           </article>
         ))}
       </div>
+      {starters.length > 0 && (
+        <details className="conversation-starters" open={!messages.length}>
+          <summary>{productCopy[locale].starterTitle}</summary>
+          <p>{productCopy[locale].starterHelp}</p>
+          <div>
+            {starters.map((s) => (
+              <button
+                type="button"
+                className="starter-option"
+                key={s}
+                onClick={() => {
+                  setBody(s);
+                  document.getElementById("message-draft")?.focus();
+                }}
+              >
+                {s}
+                <span aria-hidden> ↗</span>
+              </button>
+            ))}
+          </div>
+        </details>
+      )}
       <form
         className="message-composer"
         onSubmit={async (e) => {
@@ -93,6 +118,7 @@ export function Thread({
         <label>
           {c.messageBody}
           <textarea
+            id="message-draft"
             value={body}
             onChange={(e) => setBody(e.target.value)}
             minLength={1}

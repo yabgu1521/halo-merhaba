@@ -11,7 +11,8 @@ export default async function Profile({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const { initial, photo, options, db } = await ownProfile(locale),
+  const { initial, photo, options, context, contextAvailable, db } =
+      await ownProfile(locale),
     c = memberCopy[locale];
   const { data: blocks, error } = await db.rpc("my_blocks");
   if (error) throw new Error("Member data unavailable");
@@ -21,6 +22,8 @@ export default async function Profile({
         locale={locale}
         initial={initial}
         initialPhoto={photo}
+        initialContext={context}
+        contextAvailable={contextAvailable}
         catalog={options}
         safetyRules={copy[locale].safetyRules}
       />

@@ -1,8 +1,10 @@
+import { NavLink } from "@/components/member/nav-link";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/lib/i18n";
 import { brand } from "@/lib/brand";
 import { memberCopy } from "@/lib/member/i18n";
+import { productCopy } from "@/lib/product-copy";
 import { configured } from "@/lib/supabase/server";
 import { Logout } from "@/components/member/controls";
 import "./member.css";
@@ -17,11 +19,12 @@ export default async function MemberLayout({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const c = memberCopy[locale];
+  const c = memberCopy[locale],
+    p = productCopy[locale];
   if (!configured())
     return (
       <main className="wrap member-unavailable">
-        <Link href={`/${locale}`} className="brand">
+        <Link className="brand" href={`/${locale}`}>
           {brand.name}
         </Link>
         <h1>{c.backendUnavailable}</h1>
@@ -30,10 +33,19 @@ export default async function MemberLayout({
         </Link>
       </main>
     );
+  const nav = [
+    ["discover", c.discover, "◈"],
+    ["matches", c.matches, "↔"],
+    ["messages", c.messages, "▤"],
+    ["more", p.more, "☰"],
+  ];
   return (
     <>
+      <a className="skip" href="#member-main">
+        {c.discover}
+      </a>
       <header className="member-header">
-        <Link href={`/${locale}`} className="brand">
+        <Link className="brand" href={`/${locale}/app/discover`}>
           <span className="mark">{brand.monogram}</span>
           {brand.name}
         </Link>
@@ -54,16 +66,26 @@ export default async function MemberLayout({
           <Logout locale={locale} />
         </div>
       </header>
-      <nav className="member-nav" aria-label={c.community}>
-        <Link href={`/${locale}/app/discover`}>{c.discover}</Link>
-        <Link href={`/${locale}/app/matches`}>{c.matches}</Link>
-        <Link href={`/${locale}/app/messages`}>{c.messages}</Link>
-        <Link href={`/${locale}/app/favorites`}>{c.favorites}</Link>
-        <Link href={`/${locale}#community`}>{c.community}</Link>
-        <Link href={`/${locale}#marriage`}>{c.marriage}</Link>
-        <Link href={`/${locale}/app/profile`}>{c.profile}</Link>
-      </nav>
-      <main className="member-main wrap">{children}</main>
+      <div className="member-workspace">
+        <nav className="member-nav" aria-label={c.discover}>
+          {nav.map(([href, label, icon]) => (
+            <NavLink key={href} href={`/${locale}/app/${href}`}>
+              <span aria-hidden>{icon}</span>
+              <span>{label}</span>
+            </NavLink>
+          ))}
+          <div className="desktop-secondary">
+            <Link href={`/${locale}/app/favorites`}>{c.favorites}</Link>
+            <Link href={`/${locale}/app/marriage`}>{p.marriage}</Link>
+            <Link href={`/${locale}/app/premium`}>{p.premium}</Link>
+            <Link href={`/${locale}/app/profile`}>{c.profile}</Link>
+          </div>
+          <p className="nav-note">{p.membersOnly}</p>
+        </nav>
+        <main id="member-main" className="member-main">
+          {children}
+        </main>
+      </div>
     </>
   );
 }

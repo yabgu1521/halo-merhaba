@@ -1,3 +1,6 @@
+import { viewerSignals } from "@/lib/member/viewer";
+import { conversationStarters } from "@/lib/member/insights";
+import { catalog } from "@/lib/member/data";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isLocale } from "@/lib/i18n";
@@ -31,6 +34,12 @@ export default async function Conversation({
       </div>
     );
   const thread = data as { member: Member; messages: ThreadMessage[] };
+  const starters = conversationStarters(
+    await viewerSignals(db),
+    thread.member,
+    await catalog(db),
+    locale,
+  );
   return (
     <>
       <Link className="text-link" href={`/${locale}/app/messages`}>
@@ -59,6 +68,7 @@ export default async function Conversation({
         locale={locale}
         conversation={id}
         messages={thread.messages}
+        starters={starters}
       />
       <div className="safety-actions">
         <BlockButton id={thread.member.public_id} locale={locale} />
