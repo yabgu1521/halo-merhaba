@@ -1,0 +1,78 @@
+{
+  "brand": "Halo Merhaba",
+  "status": "scope_and_content_draft",
+  "payments_enabled": false,
+  "document_uploads_enabled": false,
+  "funnel": [
+    "free_article",
+    "digital_product",
+    "document_precheck",
+    "consultation"
+  ],
+  "products": [
+    {
+      "id": "marriage-checklist-wni",
+      "title": "Menikah di Türkiye – Complete Checklist",
+      "audience": "Türkiye'de evlenmeyi planlayan Endonezya vatandaşları",
+      "format": "PDF + doldurulabilir süreç takip çizelgesi",
+      "proposed_test_price": { "amount": 79, "currency": "TRY" },
+      "content_status": "needs_authoring_and_current_official_source_review",
+      "next_offer": "document-precheck",
+      "deliverable_available": false
+    },
+    {
+      "id": "document-apostille-organizer",
+      "title": "Dokumen & Apostille Organizer",
+      "audience": "Belgelerini ve ilgili kurumlara sorulacak soruları düzenlemek isteyenler",
+      "format": "PDF + belge envanteri + son tarih takip çizelgesi",
+      "proposed_test_price": { "amount": 99, "currency": "TRY" },
+      "content_status": "needs_authoring",
+      "next_offer": "document-precheck",
+      "deliverable_available": false
+    },
+    {
+      "id": "turkish-a1-survival",
+      "title": "Türkçe A1 – Survival Pack for Indonesians",
+      "audience": "Günlük Türkçeye başlangıç yapmak isteyen Endonezyalılar",
+      "format": "PDF + konuşma kartları + alıştırmalar",
+      "proposed_test_price": { "amount": 99, "currency": "TRY" },
+      "content_status": "needs_authoring_and_language_review",
+      "next_offer": "turkish-course",
+      "deliverable_available": false
+    }
+  ],
+  "services": [
+    {
+      "id": "document-precheck",
+      "title": "Belge Ön Kontrol",
+      "proposed_test_price": { "amount": 250, "currency": "TRY" },
+      "output": [
+        "eksik görünenler",
+        "kuruma sorulacak sorular",
+        "önerilen sonraki adım"
+      ],
+      "public_upload": false,
+      "requires_before_launch": [
+        "hizmet kapsamı ve teslim süresi",
+        "yetkili inceleyici",
+        "özel belge saklama ve erişim politikası",
+        "onay ve silme süreci"
+      ]
+    },
+    {
+      "id": "consultation",
+      "title": "Halo Merhaba Danışmanlık",
+      "price": null,
+      "booking_enabled": false
+    },
+    {
+      "id": "turkish-course",
+      "title": "Türkçe Kursu",
+      "price": null,
+      "booking_enabled": false
+    }
+  ],
+  "affiliate_links": [],
+  "display_ads_enabled": false,
+  "note": "Fiyatlar yalnızca teklif taslağıdır. Hazır olmayan ürün için ödeme veya indirme vaadi sunulmaz. Mevcut TurkIndo Connect ve Supabase yapılandırması değiştirilmez."
+}
