@@ -1,6 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+  brandCopy,
+  serviceWorlds,
+  worldForService,
+  serviceFaqs,
+} from "@/content/brand-content";
+import { BrandMotif, ConnectionPanel, LanguagePhrases } from "./brand-motif";
 import type { Locale } from "@/lib/i18n";
 import { locales } from "@/lib/i18n";
 import { business, track, whatsappLink } from "@/lib/config";
@@ -32,7 +39,10 @@ export function PublicPage({
   slug?: string;
   persistenceEnabled?: boolean;
 }) {
-  const c = siteCopy[locale];
+  const c = siteCopy[locale],
+    b = brandCopy[locale];
+  const root = useRef<HTMLDivElement>(null),
+    menuButton = useRef<HTMLButtonElement>(null);
   const [menu, setMenu] = useState(false),
     [query, setQuery] = useState(""),
     [category, setCategory] = useState("all");
@@ -44,6 +54,55 @@ export function PublicPage({
     if (kind === "service" && service)
       track("service_view", { kind: service.kind });
   }, [kind, service]);
+  useEffect(() => {
+    if (!menu) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenu(false);
+        menuButton.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [menu]);
+  useEffect(() => {
+    const element = root.current;
+    if (
+      !element ||
+      !window.IntersectionObserver ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+    const nodes = element.querySelectorAll<HTMLElement>(".hm-reveal");
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        }),
+      { threshold: 0.08 },
+    );
+    nodes.forEach((node) => {
+      if (node.getBoundingClientRect().top < window.innerHeight)
+        node.classList.add("is-visible");
+      else observer.observe(node);
+    });
+    element.dataset.revealReady = "true";
+    return () => {
+      observer.disconnect();
+      delete element.dataset.revealReady;
+    };
+  }, [kind, locale, slug, query, category]);
+  const activeNav = (url: string) =>
+    url === "layanan"
+      ? ["service", "services", "course"].includes(kind)
+      : url === "panduan"
+        ? ["guides", "article"].includes(kind)
+        : url === "digital-guides"
+          ? ["store", "product"].includes(kind)
+          : kind === "about";
   const categoryName = (key: string) =>
     key === "marriage"
       ? c.categoryMarriage
@@ -94,7 +153,7 @@ export function PublicPage({
         </div>
         <div className="hm-trust-grid">
           {c.trustPoints.map((point, index) => (
-            <article key={point}>
+            <article className="hm-reveal" key={point}>
               <Icon name={index === 3 ? "shield" : "check"} size={22} />
               <h3>{point}</h3>
               <p>{c.trustTexts[index]}</p>
@@ -113,6 +172,7 @@ export function PublicPage({
           .map((s, index) => (
             <Link
               className="hm-service-card"
+              data-world={worldForService(s.slug)}
               href={href(`layanan/${s.slug}`)}
               key={s.slug}
             >
@@ -131,13 +191,17 @@ export function PublicPage({
       </div>
     );
   }
-  function faq() {
+  function faq(limit = c.faqQuestions.length) {
+    const indexes =
+      kind === "service" && service
+        ? serviceFaqs[service.kind]
+        : c.faqQuestions.map((_, index) => index);
     return (
       <div className="hm-faq-list">
-        {c.faqQuestions.map((q, index) => (
-          <details key={q}>
+        {indexes.slice(0, limit).map((index) => (
+          <details key={c.faqQuestions[index]}>
             <summary>
-              {q}
+              {c.faqQuestions[index]}
               <Icon name="chevron" size={17} />
             </summary>
             <p>{c.faqAnswers[index]}</p>
@@ -238,25 +302,26 @@ export function PublicPage({
           </div>
         )}
         <div className="hm-guide-grid">
-          {shown.map((g, index) => (
-            <article className="hm-guide-card" key={g.id}>
+          {(kind === "home" ? shown.slice(0, 3) : shown).map((g, index) => (
+            <article className="hm-guide-card hm-reveal" key={g.id}>
               <Link
                 className={`hm-guide-art art-${g.category}`}
                 href={href(`panduan/${g.id}`)}
                 aria-label={g.title[locale]}
               >
-                <span className="hm-art-disc" />
-                <span className="hm-art-arch" />
-                <span className="hm-art-paper">
-                  <Icon name={categoryIcon(g.category)} size={39} />
-                  <i>
-                    HALO
-                    <br />
-                    MERHABA
-                  </i>
-                </span>
+                <BrandMotif
+                  variant={
+                    g.category === "marriage"
+                      ? "marriage"
+                      : g.category === "documents"
+                        ? "documents"
+                        : g.category === "language"
+                          ? "language"
+                          : "guidance"
+                  }
+                />
                 <span className="hm-art-tag">
-                  0{index + 1} · {c.guides}
+                  0{index + 1} · {categoryName(g.category)}
                 </span>
               </Link>
               <p className="hm-meta">
@@ -285,14 +350,128 @@ export function PublicPage({
       <section className="hm-section hm-how">
         <p className="hm-eyebrow">{c.howEyebrow}</p>
         <h2>{c.howTitle}</h2>
-        <div className="hm-how-grid">
+        <ol className="hm-how-grid">
           {c.howSteps.map((title, index) => (
-            <article key={title}>
+            <li key={title}>
               <span>0{index + 1}</span>
               <h3>{title}</h3>
               <p>{c.howTexts[index]}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    );
+  }
+  function worlds() {
+    return (
+      <section className="hm-section hm-worlds">
+        <div className="hm-section-heading">
+          <div>
+            <p className="hm-eyebrow">{b.worldEyebrow}</p>
+            <h2>{b.worldTitle}</h2>
+          </div>
+          <p>{b.worldIntro}</p>
+        </div>
+        <div className="hm-world-grid">
+          {serviceWorlds.map((world, index) => (
+            <article
+              className="hm-world-card hm-reveal"
+              data-world={world.key}
+              key={world.key}
+            >
+              <div className="hm-world-art">
+                <span>0{index + 1}</span>
+                <BrandMotif variant={world.key} />
+              </div>
+              <div className="hm-world-copy">
+                <h3>{b.worldNames[index]}</h3>
+                <p>{b.worldTexts[index]}</p>
+                <div>
+                  {world.slugs.map((slug) => {
+                    const item = serviceBySlug(slug)!;
+                    return (
+                      <Link
+                        key={slug}
+                        href={href(`layanan/${slug}`)}
+                        className="hm-text-link"
+                      >
+                        {item.name[locale]}
+                        <Icon name="arrow" size={16} />
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
             </article>
           ))}
+        </div>
+      </section>
+    );
+  }
+  function safety() {
+    return (
+      <section className="hm-safety hm-reveal">
+        <div className="hm-safety-intro">
+          <p className="hm-eyebrow">{b.safetyEyebrow}</p>
+          <h2>{b.safetyTitle}</h2>
+          <p>{b.safetyIntro}</p>
+          <Link href={href("privasi")} className="hm-text-link">
+            {c.privacy}
+            <Icon name="arrow" size={16} />
+          </Link>
+        </div>
+        <div className="hm-safety-points">
+          {b.safetyPoints.map((title, index) => (
+            <article key={title}>
+              <Icon
+                name={["shield", "lock", "check", "compass"][index]}
+                size={22}
+              />
+              <div>
+                <h3>{title}</h3>
+                <p>{b.safetyTexts[index]}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <aside className="hm-official-note">
+          <span>{b.noticeTitle}</span>
+          <p>{c.officialNotice}</p>
+        </aside>
+      </section>
+    );
+  }
+  function finalCta() {
+    return (
+      <section className="hm-final-cta hm-reveal">
+        <div>
+          <p className="hm-eyebrow">{b.finalEyebrow}</p>
+          <h2>{b.finalTitle}</h2>
+          <p>{b.finalText}</p>
+          <div className="hm-actions">
+            <Link
+              className="hm-button"
+              href={href("layanan/konsultasi#request-form")}
+            >
+              {b.finalCta}
+              <Icon name="arrow" size={18} />
+            </Link>
+            {wa && (
+              <a
+                className="hm-whatsapp"
+                href={wa}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => track("whatsapp_click", { source: "final_cta" })}
+              >
+                {c.whatsapp}
+                <Icon name="arrow" size={16} />
+              </a>
+            )}
+          </div>
+        </div>
+        <div className="hm-final-mark" aria-hidden="true">
+          <BrandMotif />
         </div>
       </section>
     );
@@ -330,7 +509,7 @@ export function PublicPage({
     );
   }
   return (
-    <div className="hm-app">
+    <div className="hm-app" ref={root}>
       <a className="hm-skip" href="#hm-main">
         {c.choose}
       </a>
@@ -344,20 +523,38 @@ export function PublicPage({
             <small>{c.brandLine}</small>
           </span>
         </Link>
-        <nav className={menu ? "open" : ""} aria-label={c.services}>
+        <nav
+          id="hm-navigation"
+          className={menu ? "open" : ""}
+          aria-label={c.services}
+        >
           {[
             ["layanan", c.services],
             ["panduan", c.guides],
             ["digital-guides", c.store],
             ["tentang", c.about],
           ].map(([url, label]) => (
-            <Link key={url} href={href(url)} onClick={() => setMenu(false)}>
+            <Link
+              key={url}
+              href={href(url)}
+              aria-current={activeNav(url) ? "page" : undefined}
+              onClick={() => setMenu(false)}
+            >
               {label}
             </Link>
           ))}
+          <Link
+            className="hm-mobile-contact"
+            aria-current={kind === "contact" ? "page" : undefined}
+            href={href("kontak")}
+            onClick={() => setMenu(false)}
+          >
+            {c.contact}
+            <Icon name="arrow" size={16} />
+          </Link>
         </nav>
         <div className="hm-header-actions">
-          <div className="hm-language" aria-label="Language">
+          <div className="hm-language" aria-label={b.languageNav}>
             {locales.map((l) => (
               <Link
                 key={l}
@@ -375,6 +572,8 @@ export function PublicPage({
           </Link>
           <button
             className="hm-menu"
+            ref={menuButton}
+            aria-controls="hm-navigation"
             aria-expanded={menu}
             aria-label={c.menu}
             onClick={() => setMenu(!menu)}
@@ -383,7 +582,7 @@ export function PublicPage({
           </button>
         </div>
       </header>
-      <main id="hm-main">
+      <main id="hm-main" tabIndex={-1}>
         {kind === "home" && (
           <>
             <section className="hm-hero hm-wrap">
@@ -428,38 +627,10 @@ export function PublicPage({
                   {c.heroFoot}
                 </div>
               </div>
-              <div className="hm-hero-art" aria-hidden="true">
-                <span className="hm-hero-circle" />
-                <div className="hm-arch turkey">
-                  <div />
-                  <i />
-                </div>
-                <div className="hm-arch indonesia">
-                  <div />
-                  <i />
-                </div>
-                <div className="hm-hero-paper">
-                  <p>{c.paperLabel}</p>
-                  <h2>{c.paperTitle}</h2>
-                  <span className="hm-paper-lines" />
-                  <small>{c.paperText}</small>
-                  <span className="hm-paper-seal">hm</span>
-                </div>
-                <div className="hm-hero-sticker">
-                  {c.heroNote}
-                  <span>↗</span>
-                </div>
-                <span className="hm-hero-route">
-                  INDONESIA <i>╌╌╌ ✦ ╌╌╌</i> TÜRKİYE
-                </span>
+              <div className="hm-hero-art">
+                <ConnectionPanel locale={locale} />
               </div>
             </section>
-            <div className="hm-specialization">
-              <span>INDONESIA</span>
-              <Icon name="globe" size={17} />
-              <p>{c.brandLine}</p>
-              <span>TÜRKİYE</span>
-            </div>
             <section className="hm-section hm-wrap" id="services">
               <div className="hm-section-heading">
                 <div>
@@ -470,15 +641,19 @@ export function PublicPage({
               </div>
               {serviceCards()}
             </section>
-            <div className="hm-wrap">{trust()}</div>
+            <div className="hm-wrap">
+              {worlds()}
+              {trust()}
+            </div>
             <div className="hm-warm-band">
               <div className="hm-wrap">{how()}</div>
             </div>
+            <div className="hm-wrap">{safety()}</div>
             <section className="hm-section hm-wrap">
               <div className="hm-section-heading">
                 <div>
                   <p className="hm-eyebrow">{c.guides}</p>
-                  <h2>{c.guidesTitle}</h2>
+                  <h2>{b.resourceTitle}</h2>
                 </div>
                 <Link className="hm-text-link" href={href("panduan")}>
                   {c.allGuides}
@@ -487,33 +662,26 @@ export function PublicPage({
               </div>
               {guideCards()}
             </section>
-            <section className="hm-course-strip hm-wrap">
-              <div className="hm-course-art" aria-hidden="true">
-                <span>merhaba.</span>
-                <small>selamat datang.</small>
-                <i>ı ş ğ ü ö ç</i>
-              </div>
-              <div>
-                <p className="hm-eyebrow">{c.course}</p>
-                <h2>{c.courseTitle}</h2>
-                <p>{c.courseText}</p>
-                <Link className="hm-button" href={href("kursus")}>
-                  {c.courseCta}
-                  <Icon name="arrow" size={17} />
-                </Link>
-                <small>{c.courseUnknown}</small>
-              </div>
-            </section>
-            <section className="hm-section hm-wrap">
-              <div className="hm-section-heading">
-                <div>
-                  <p className="hm-eyebrow">HALO MERHABA STORE</p>
-                  <h2>{c.storeTitle}</h2>
-                </div>
-                <p>{c.storeText}</p>
-              </div>
-              {productCards()}
-            </section>
+            <div className="hm-wrap hm-resource-links">
+              <Link href={href("kursus")}>
+                <Icon name="book" size={24} />
+                <span>
+                  {c.course}
+                  <small>{c.courseUnknown}</small>
+                </span>
+                <Icon name="arrow" size={20} />
+              </Link>
+              <Link href={href("digital-guides")}>
+                <Icon name="file" size={24} />
+                <span>
+                  {c.store}
+                  <small>
+                    {c.coming} · {c.productUnavailable}
+                  </small>
+                </span>
+                <Icon name="arrow" size={20} />
+              </Link>
+            </div>
             <section className="hm-section hm-wrap hm-home-faq">
               <div>
                 <p className="hm-eyebrow">{c.faq}</p>
@@ -523,9 +691,12 @@ export function PublicPage({
                   <Icon name="arrow" size={16} />
                 </Link>
               </div>
-              {faq()}
+              {faq(4)}
             </section>
-            <div className="hm-wrap">{instagram()}</div>
+            <div className="hm-wrap">
+              {finalCta()}
+              {instagram()}
+            </div>
           </>
         )}
         {kind === "services" && (
@@ -554,8 +725,42 @@ export function PublicPage({
           </div>
         )}
         {kind === "service" && service && (
-          <div className="hm-wrap">
-            {heading(service.name[locale], service.short[locale], c.services)}
+          <div
+            className="hm-wrap"
+            data-service-world={worldForService(service.slug)}
+          >
+            <section className="hm-service-hero">
+              <div>
+                {heading(
+                  service.name[locale],
+                  service.short[locale],
+                  c.services,
+                )}
+                <div className="hm-actions">
+                  <a className="hm-button" href="#request-form">
+                    {service.cta[locale]}
+                    <Icon name="arrow" size={18} />
+                  </a>
+                  {serviceWa && (
+                    <a
+                      className="hm-whatsapp"
+                      href={serviceWa}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        track("whatsapp_click", { kind: service.kind })
+                      }
+                    >
+                      {service.whatsappCta[locale]}
+                    </a>
+                  )}
+                </div>
+              </div>
+              <div className="hm-service-sigil" aria-hidden="true">
+                <BrandMotif variant={worldForService(service.slug)} />
+                <span>{c.brandLine}</span>
+              </div>
+            </section>
             <div className="hm-service-detail">
               <article>
                 <section>
@@ -637,6 +842,7 @@ export function PublicPage({
             </div>
             {service.kind === "course" && (
               <>
+                <LanguagePhrases locale={locale} />
                 {courseLevels()}
                 <p className="hm-course-note">{c.courseUnknown}</p>
               </>
@@ -650,7 +856,19 @@ export function PublicPage({
         )}
         {kind === "course" && (
           <div className="hm-wrap">
-            {heading(c.courseTitle, c.courseText, c.course)}
+            <section className="hm-service-hero">
+              <div>
+                {heading(c.courseTitle, c.courseText, c.course)}
+                <a href="#request-form" className="hm-button">
+                  {c.courseCta}
+                  <Icon name="arrow" size={18} />
+                </a>
+              </div>
+              <div className="hm-course-language">
+                <BrandMotif variant="language" />
+                <LanguagePhrases locale={locale} />
+              </div>
+            </section>
             {courseLevels()}
             <p className="hm-course-note">{c.courseUnknown}</p>
             <IntakeForm
@@ -892,7 +1110,7 @@ export function PublicPage({
                 data-content-slot="team-photo"
                 aria-hidden="true"
               >
-                <Icon name="globe" size={64} />
+                <BrandMotif />
                 <span className="hm-photo-connection">Indonesia ↔ Türkiye</span>
               </div>
               <div>

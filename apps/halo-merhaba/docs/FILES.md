@@ -57,3 +57,9 @@ Relative to `/workspace/halo-merhaba-site`. All files are new in this standalone
 - `tests/rls.test.sql`
 - `tests/unit.test.ts`
 - `tsconfig.json`
+
+- `src/app/brand.css`
+
+- `src/components/brand-motif.tsx`
+
+- `src/content/brand-content.ts`

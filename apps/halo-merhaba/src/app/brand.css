@@ -1,0 +1,2271 @@
+/* Public brand layer. Deliberately scoped: admin, persistence and auth styles stay intact. */
+.hm-app {
+  --brand-paper: #fffdf8;
+  --brand-cream: #f8f5ee;
+  --brand-sand: #ede6da;
+  --brand-line: #d9d1c4;
+  --brand-ink: #243345;
+  --brand-muted: #575e65;
+  --brand-red: #8c3531;
+  background: var(--brand-cream);
+  color: var(--brand-ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.hm-app p {
+  color: var(--brand-muted);
+}
+.hm-app h1,
+.hm-app h2 {
+  color: var(--brand-ink);
+  text-wrap: balance;
+}
+.hm-app h1 {
+  letter-spacing: -1.7px;
+}
+.hm-app h2 {
+  letter-spacing: -1px;
+}
+.hm-app .hm-wrap {
+  max-width: 1272px;
+  padding-inline: 48px;
+}
+.hm-app .hm-narrow {
+  max-width: 880px;
+}
+.hm-app .hm-section {
+  padding-block: 96px;
+}
+.hm-app .hm-eyebrow {
+  color: #80463c !important;
+  font-size: 10px !important;
+  letter-spacing: 0.17em;
+  line-height: 1.8;
+}
+.hm-app .hm-section-heading {
+  align-items: end;
+  gap: 64px;
+  margin-bottom: 40px;
+}
+.hm-app .hm-section-heading h2 {
+  font-size: clamp(32px, 3.2vw, 45px);
+  line-height: 1.16;
+  max-width: 640px;
+  margin-top: 14px;
+}
+.hm-app .hm-section-heading > p {
+  max-width: 340px;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.hm-app .hm-button {
+  min-height: 50px;
+  padding: 14px 22px;
+  gap: 18px;
+  border-radius: 4px;
+  background: var(--brand-red);
+  border-color: var(--brand-red);
+  color: #fffdf8;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+.hm-app .hm-button:hover {
+  background: #702824;
+  border-color: #702824;
+  box-shadow: 0 4px 12px #3c292312;
+  transform: translateY(-2px);
+}
+.hm-app .hm-button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+.hm-app .hm-button.secondary {
+  background: transparent;
+  color: var(--brand-ink);
+  border-color: #b3a694;
+}
+.hm-app .hm-button.secondary:hover {
+  background: #ede6da;
+}
+.hm-app .hm-button.compact {
+  min-height: 42px;
+  font-size: 12px;
+  padding: 10px 16px;
+}
+.hm-app .hm-text-link,
+.hm-app .hm-whatsapp {
+  color: #843b32;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.hm-app .hm-whatsapp {
+  min-height: 44px;
+}
+.hm-app a svg {
+  transition: transform 200ms ease;
+}
+.hm-app .hm-text-link:hover svg,
+.hm-app .hm-button:hover svg,
+.hm-app .hm-service-card:hover .hm-card-link svg {
+  transform: translateX(3px);
+}
+.hm-app :is(a, button, input, textarea, select, summary):focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 5px;
+}
+.hm-app .hm-actions {
+  gap: 20px;
+  margin-top: 28px;
+}
+.hm-app .hm-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  max-width: none;
+  min-height: 84px;
+  padding: 18px max(32px, calc((100vw - 1176px) / 2));
+  gap: 28px;
+  margin: 0;
+  border-bottom: 1px solid #ded7cb;
+  background: #f8f5eef5;
+  backdrop-filter: blur(14px);
+}
+.hm-app .hm-logo {
+  font-size: 23px;
+}
+.hm-app .hm-logo-symbol {
+  color: var(--brand-red);
+  border-color: var(--brand-line);
+}
+.hm-app .hm-logo-symbol > span {
+  color: #67715e;
+}
+.hm-app .hm-logo small {
+  color: #5f625e !important;
+}
+.hm-app .hm-header nav {
+  gap: 28px;
+  color: #505963;
+  font-size: 12px;
+}
+.hm-app .hm-header nav a {
+  position: relative;
+  padding-block: 8px;
+}
+.hm-app .hm-header nav a:after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--brand-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms ease;
+}
+.hm-app .hm-header nav a:hover:after,
+.hm-app .hm-header nav a[aria-current]:after {
+  transform: scaleX(1);
+}
+.hm-app .hm-header nav a[aria-current] {
+  color: var(--brand-red);
+}
+.hm-app .hm-header .hm-mobile-contact {
+  display: none;
+}
+.hm-app .hm-language {
+  gap: 4px;
+  font-size: 11px;
+}
+.hm-app .hm-language a {
+  min-width: 32px;
+  min-height: 40px;
+  display: grid;
+  place-items: center;
+}
+.hm-app .hm-language a[aria-current] {
+  color: var(--brand-red);
+  text-underline-offset: 7px;
+}
+.hm-app .hm-hero {
+  grid-template-columns: 1.08fr 1fr;
+  gap: 72px;
+  padding-top: 76px;
+  padding-bottom: 88px;
+  min-height: 640px;
+}
+.hm-app .hm-hero h1 {
+  font-size: clamp(43px, 4.25vw, 62px);
+  line-height: 1.1;
+  margin: 24px 0;
+  max-width: 630px;
+}
+.hm-app .hm-hero h1 em {
+  color: var(--brand-red);
+}
+.hm-app .hm-hero-text {
+  font-size: 16px;
+  line-height: 1.85;
+  max-width: 490px;
+}
+.hm-app .hm-hero-foot {
+  font-size: 12px;
+  line-height: 1.8;
+  max-width: 470px;
+  margin-top: 26px;
+  color: #5d665b;
+}
+.hm-app .hm-hero-foot svg {
+  color: #65705c;
+}
+.hm-app .hm-hero-art {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  margin: 0;
+}
+.hm-app .hm-connection-panel {
+  position: relative;
+  border: 1px solid #d5c9b8;
+  background: #f0eade;
+  padding: 28px 32px 30px;
+  box-shadow: 12px 12px 0 #e9e2d45c;
+  border-radius: 2px;
+}
+.hm-app .hm-panel-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #d4c7b5;
+}
+.hm-app .hm-panel-top > span:first-child {
+  font:
+    italic 29px Georgia,
+    serif;
+  color: var(--brand-red);
+}
+.hm-app .hm-panel-top > span:nth-child(2) {
+  letter-spacing: 0.12em;
+  font-size: 9px;
+  color: #515b62;
+}
+.hm-app .hm-panel-top i {
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 9px;
+  font-style: normal;
+  color: #736858;
+}
+.hm-app .hm-connection-chart {
+  position: relative;
+  padding: 0;
+}
+.hm-app .hm-brand-motif {
+  display: block;
+  width: 100%;
+  height: auto;
+  stroke: #aa9580;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.hm-app .hm-route-primary {
+  stroke: var(--brand-red);
+  stroke-width: 1.9;
+}
+.hm-app .hm-route-secondary {
+  stroke-dasharray: 3 8;
+  opacity: 0.55;
+}
+.hm-app .hm-route-point {
+  fill: var(--brand-red);
+  stroke: none;
+}
+.hm-app .hm-motif-rule {
+  stroke: #c5b8a4;
+}
+.hm-app .hm-chart-id,
+.hm-app .hm-chart-tr {
+  position: absolute;
+  font:
+    16px Georgia,
+    serif;
+  color: #37434d;
+}
+.hm-app .hm-chart-id {
+  left: 3%;
+  bottom: 13%;
+}
+.hm-app .hm-chart-tr {
+  right: 3%;
+  top: 10%;
+}
+.hm-app .hm-panel-bottom h2 {
+  white-space: pre-line;
+  font-size: 29px;
+  line-height: 1.22;
+  letter-spacing: -0.5px;
+}
+.hm-app .hm-panel-bottom > p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 12px;
+  max-width: 300px;
+}
+.hm-app .hm-panel-bottom > div {
+  margin-top: 24px;
+  display: flex;
+  gap: 20px;
+  border-top: 1px solid #d4c7b5;
+  padding-top: 16px;
+}
+.hm-app .hm-panel-bottom > div span {
+  font-size: 10px;
+  color: #525951;
+  display: flex;
+  gap: 7px;
+}
+.hm-app .hm-panel-bottom i {
+  font-style: normal;
+  color: #8d4d3b;
+}
+.hm-app #services {
+  border-top: 1px solid var(--brand-line);
+}
+.hm-app .hm-service-grid {
+  gap: 20px;
+}
+.hm-app .hm-service-card {
+  border-radius: 5px;
+  border: 1px solid #dcd4c7;
+  background: var(--brand-paper);
+  padding: 30px;
+  box-shadow: none;
+  transition:
+    transform 240ms ease,
+    border-color 240ms ease,
+    box-shadow 240ms ease;
+}
+.hm-app .hm-service-card:hover {
+  transform: translateY(-3px);
+  border-color: #b2947e;
+  box-shadow: 0 8px 24px #3e302109;
+}
+.hm-app .hm-service-icon {
+  background: transparent !important;
+  border: 1px solid #d8c7b5;
+  color: #8d4b3b !important;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: 30px;
+}
+.hm-app .hm-card-number {
+  font:
+    12px Georgia,
+    serif;
+  color: #8d7968;
+  top: 33px;
+  right: 30px;
+}
+.hm-app .hm-service-card h3 {
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  color: var(--brand-ink);
+  line-height: 1.3;
+}
+.hm-app .hm-service-card > p {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--brand-muted);
+  margin-top: 2px;
+  min-height: 0;
+}
+.hm-app .hm-card-link {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #e5ddd0;
+  font-size: 12px;
+  color: #843b32;
+}
+.hm-app .hm-worlds {
+  border-top: 1px solid var(--brand-line);
+}
+.hm-app .hm-world-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.hm-app .hm-world-card {
+  display: grid;
+  grid-template-columns: 36% 1fr;
+  border: 1px solid #dbd1c1;
+  background: #f0eade;
+  border-radius: 5px;
+  overflow: hidden;
+  transition:
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+.hm-app .hm-world-card:hover {
+  border-color: #b79d85;
+  transform: translateY(-2px);
+}
+.hm-app .hm-world-art {
+  position: relative;
+  align-content: center;
+  border-right: 1px solid #dcd0c1;
+}
+.hm-app .hm-world-art > span {
+  position: absolute;
+  left: 18px;
+  top: 14px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #776451;
+}
+.hm-app .hm-world-art .hm-brand-motif {
+  width: 100%;
+}
+.hm-app [data-world="documents"] {
+  background-color: #f4f0e6;
+}
+.hm-app [data-world="language"] {
+  background-color: #efeee6;
+}
+.hm-app [data-world="guidance"] {
+  background-color: #eee9e2;
+}
+.hm-app .hm-service-card[data-world] {
+  background-color: var(--brand-paper);
+}
+.hm-app .hm-world-copy {
+  padding: 30px 24px;
+}
+.hm-app .hm-world-copy h3 {
+  font:
+    25px/1.25 Georgia,
+    serif;
+  letter-spacing: -0.4px;
+}
+.hm-app .hm-world-copy > p {
+  font-size: 13px;
+  line-height: 1.85;
+  margin: 14px 0 20px;
+}
+.hm-app .hm-world-copy > div {
+  display: grid;
+  gap: 12px;
+}
+.hm-app .hm-world-copy .hm-text-link {
+  font-size: 12px;
+  justify-content: space-between;
+}
+.hm-app .hm-trust {
+  padding-top: 12px;
+  padding-bottom: 96px;
+}
+.hm-app .hm-trust-grid {
+  gap: 34px 42px;
+}
+.hm-app .hm-trust-grid article {
+  padding-top: 24px;
+}
+.hm-app .hm-trust-grid h3 {
+  font:
+    23px/1.3 Georgia,
+    serif;
+  color: var(--brand-ink);
+}
+.hm-app .hm-trust-grid p {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--brand-muted);
+}
+.hm-app .hm-trust-grid svg {
+  stroke-width: 1.3;
+  color: var(--brand-red);
+}
+.hm-app .hm-trust-disclaimer {
+  background: none;
+  border-left: 2px solid #b9a28b;
+  font-size: 13px;
+  margin-top: 36px;
+  color: #575e65;
+}
+.hm-app .hm-warm-band {
+  background: #ede6da;
+  border-block: 1px solid #d9cfbf;
+}
+.hm-app .hm-how h2 {
+  font-size: 42px;
+  margin-bottom: 46px;
+}
+.hm-app .hm-how-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+}
+.hm-app .hm-how-grid li {
+  position: relative;
+  padding-right: 26px;
+}
+.hm-app .hm-how-grid li:before {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background: #bca890;
+  top: 21px;
+  left: 42px;
+  right: 0;
+}
+.hm-app .hm-how-grid li:last-child:before {
+  display: none;
+}
+.hm-app .hm-how-grid li > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #bca890;
+  border-radius: 50%;
+  font:
+    15px Georgia,
+    serif;
+  color: #804337;
+  margin-bottom: 25px;
+}
+.hm-app .hm-how-grid h3 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--brand-ink);
+  margin-bottom: 12px;
+}
+.hm-app .hm-how-grid p {
+  color: #57584f;
+  font-size: 12px;
+  line-height: 1.9;
+}
+.hm-app .hm-safety {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 42px 80px;
+  background: #243345;
+  border: 1px solid #354354;
+  border-radius: 5px;
+  padding: 54px;
+  margin-top: 96px;
+}
+.hm-app .hm-safety-intro h2 {
+  white-space: pre-line;
+  font-size: 41px;
+  line-height: 1.18;
+  color: #fffaf0;
+  margin: 20px 0;
+}
+.hm-app .hm-safety .hm-eyebrow {
+  color: #d7bc9e !important;
+}
+.hm-app .hm-safety-intro > p:not(.hm-eyebrow) {
+  color: #d1d3d3;
+  font-size: 14px;
+  line-height: 1.9;
+  max-width: 365px;
+}
+.hm-app .hm-safety .hm-text-link {
+  color: #e8cbae;
+  margin-top: 24px;
+}
+.hm-app .hm-safety-points {
+  display: grid;
+  gap: 24px;
+}
+.hm-app .hm-safety-points article {
+  display: flex;
+  align-items: flex-start;
+  gap: 17px;
+}
+.hm-app .hm-safety-points svg {
+  color: #d8b99a;
+  margin-top: 3px;
+}
+.hm-app .hm-safety-points h3 {
+  color: #fcf9f2;
+  font-size: 15px;
+  font-weight: 500;
+}
+.hm-app .hm-safety-points p {
+  color: #d1d3d3;
+  font-size: 12px;
+  line-height: 1.85;
+  margin-top: 7px;
+}
+.hm-app .hm-official-note {
+  grid-column: 1/-1;
+  border-top: 1px solid #5b6570;
+  padding-top: 25px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 30px;
+}
+.hm-app .hm-official-note > span {
+  color: #f2e2d0;
+  font:
+    22px Georgia,
+    serif;
+}
+.hm-app .hm-official-note p {
+  color: #d1d3d3;
+  font-size: 12px;
+  line-height: 1.9;
+}
+.hm-app .hm-guide-grid {
+  gap: 26px;
+}
+.hm-app .hm-guide-art {
+  height: auto;
+  aspect-ratio: 1.5;
+  background: #eee7da;
+  border: 1px solid #ded1bf;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.hm-app .hm-guide-art .hm-brand-motif {
+  width: 68%;
+  height: 90%;
+  margin: auto;
+}
+.hm-app .hm-guide-art .hm-art-tag {
+  left: 18px;
+  bottom: 13px;
+  color: #65594b;
+  font-size: 9px;
+}
+.hm-app .hm-guide-card .hm-meta {
+  font-size: 10px;
+  color: #6d5141;
+  line-height: 1.7;
+  margin-top: 20px;
+}
+.hm-app .hm-guide-card h3 {
+  font:
+    25px/1.35 Georgia,
+    serif;
+  color: var(--brand-ink);
+  margin-top: 12px;
+}
+.hm-app .hm-guide-card > p:not(.hm-meta) {
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--brand-muted);
+}
+.hm-app .hm-resource-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  padding-bottom: 30px;
+}
+.hm-app .hm-resource-links > a {
+  display: flex;
+  gap: 20px;
+  align-items: start;
+  border-top: 1px solid #d3c6b5;
+  padding-top: 26px;
+}
+.hm-app .hm-resource-links > a > svg:first-child {
+  color: #8e4c3c;
+  margin-top: 3px;
+}
+.hm-app .hm-resource-links > a > svg:last-child {
+  margin-left: auto;
+  margin-top: 5px;
+}
+.hm-app .hm-resource-links > a > span {
+  font:
+    24px/1.35 Georgia,
+    serif;
+}
+.hm-app .hm-resource-links small {
+  display: block;
+  font:
+    12px/1.8 Arial,
+    sans-serif;
+  color: var(--brand-muted);
+  margin-top: 10px;
+  max-width: 360px;
+}
+.hm-app .hm-home-faq {
+  gap: 70px;
+}
+.hm-app .hm-home-faq h2 {
+  font-size: 37px;
+}
+.hm-app .hm-faq-list summary {
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 22px 0;
+  color: var(--brand-ink);
+}
+.hm-app .hm-faq-list details {
+  border-color: #d9d0c0;
+}
+.hm-app .hm-faq-list details > p {
+  color: #575e65;
+  font-size: 14px;
+  line-height: 1.9;
+  padding-bottom: 22px;
+}
+.hm-app .hm-faq-list details[open] summary {
+  color: var(--brand-red);
+}
+.hm-app .hm-faq-list details[open] summary svg {
+  transform: rotate(180deg);
+}
+.hm-app .hm-final-cta {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  align-items: center;
+  gap: 80px;
+  border-top: 1px solid #c7b6a0;
+  padding: 60px 0 72px;
+}
+.hm-app .hm-final-cta h2 {
+  white-space: pre-line;
+  font-size: 48px;
+  line-height: 1.14;
+  margin: 18px 0;
+}
+.hm-app .hm-final-cta > div > p:not(.hm-eyebrow) {
+  font-size: 15px;
+  line-height: 1.85;
+  max-width: 470px;
+}
+.hm-app .hm-final-mark {
+  border: 1px solid #d7c9b7;
+  background: #eee7db;
+}
+.hm-app .hm-instagram {
+  border-radius: 4px;
+  padding: 27px 30px;
+  background: #efe9dd;
+  border: 1px solid #dcd1c0;
+  margin-bottom: 80px;
+  gap: 24px;
+}
+.hm-app .hm-instagram h2 {
+  font-size: 26px;
+}
+.hm-app .hm-instagram p:not(.hm-eyebrow) {
+  font-size: 13px;
+  color: var(--brand-muted);
+}
+.hm-app .hm-instagram-symbol {
+  background: none;
+  border: 1px solid #cbb69b;
+  color: #87513d;
+}
+.hm-app .hm-page-heading {
+  padding-top: 64px;
+  padding-bottom: 56px;
+}
+.hm-app .hm-page-heading h1 {
+  font-size: clamp(39px, 4.4vw, 62px);
+  line-height: 1.12;
+  margin: 18px 0 24px;
+  max-width: 850px;
+}
+.hm-app .hm-page-heading > p:not(.hm-eyebrow) {
+  color: var(--brand-muted);
+  font-size: 16px;
+  line-height: 1.85;
+  max-width: 710px;
+}
+.hm-app .hm-service-hero {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  align-items: center;
+  gap: 72px;
+  padding: 56px 0 72px;
+  margin-bottom: 56px;
+  border-bottom: 1px solid #d9d0c0;
+}
+.hm-app .hm-service-hero .hm-page-heading {
+  padding: 0;
+}
+.hm-app .hm-service-hero .hm-page-heading h1 {
+  font-size: 54px;
+}
+.hm-app .hm-service-hero .hm-button {
+  margin-top: 24px;
+}
+.hm-app .hm-service-hero .hm-actions .hm-button {
+  margin-top: 0;
+}
+.hm-app .hm-service-sigil {
+  border: 1px solid #d8c9b4;
+  background: #eee6d9;
+  border-radius: 3px;
+  padding: 18px 24px 26px;
+}
+.hm-app .hm-service-sigil > span {
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #745746;
+  border-top: 1px solid #d4c3af;
+  padding-top: 18px;
+}
+.hm-app [data-service-world="language"] .hm-service-sigil {
+  background: #ecebe2;
+}
+.hm-app [data-service-world="guidance"] .hm-service-sigil {
+  background: #ede9e3;
+}
+.hm-app .hm-service-detail {
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 80px;
+}
+.hm-app .hm-service-detail > article > section {
+  margin-bottom: 38px;
+  padding-bottom: 38px;
+  border-bottom: 1px solid #ded5c7;
+}
+.hm-app .hm-service-detail h2 {
+  font-size: 30px;
+  margin-bottom: 21px;
+}
+.hm-app .hm-service-detail > article > section > p {
+  color: var(--brand-muted);
+  font-size: 15px;
+  line-height: 1.95;
+}
+.hm-app .hm-detail-icon {
+  color: #8d4b3b;
+  margin-bottom: 20px;
+}
+.hm-app .hm-check-list {
+  gap: 18px;
+  margin-block: 24px;
+}
+.hm-app .hm-check-list li {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--brand-muted);
+  gap: 14px;
+}
+.hm-app .hm-check-list svg {
+  color: #6a745c;
+}
+.hm-app .hm-process-list {
+  list-style: none;
+  counter-reset: process;
+  padding: 0;
+  margin-top: 25px;
+  gap: 0;
+}
+.hm-app .hm-process-list li {
+  counter-increment: process;
+  position: relative;
+  padding: 0 0 26px 45px;
+  border-left: 1px solid #d7c5ad;
+  margin-left: 14px;
+}
+.hm-app .hm-process-list li:before {
+  content: counter(process, decimal-leading-zero);
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  left: -15px;
+  top: -3px;
+  border: 1px solid #bd9b7c;
+  border-radius: 50%;
+  background: #f8f5ee;
+  font-size: 10px;
+  color: #843b32;
+}
+.hm-app .hm-process-list li:last-child {
+  border-color: transparent;
+  padding-bottom: 0;
+}
+.hm-app .hm-process-list strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand-ink);
+}
+.hm-app .hm-process-list p {
+  color: #5a605f;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 7px;
+}
+.hm-app .hm-boundary {
+  background: #eee8dc;
+  border: 1px solid #d7c8b4;
+  border-radius: 4px;
+  padding: 24px;
+  gap: 18px;
+  color: #6d745b;
+}
+.hm-app .hm-boundary h2 {
+  font-size: 26px;
+}
+.hm-app .hm-boundary p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: #57594e;
+}
+.hm-app .hm-service-next {
+  top: 108px;
+  background: #eee5d7;
+  border-color: #d5c2a7;
+  border-radius: 4px;
+  padding: 28px;
+}
+.hm-app .hm-service-next h2 {
+  font-size: 30px;
+  line-height: 1.25;
+  margin-block: 19px;
+}
+.hm-app .hm-service-next > p:not(.hm-eyebrow),
+.hm-app .hm-service-next > small {
+  color: #5d5c52;
+  font-size: 12px;
+  line-height: 1.85;
+}
+.hm-app .hm-service-next .hm-button {
+  font-size: 12px;
+}
+.hm-app .hm-service-next .hm-text-link {
+  font-size: 12px;
+}
+.hm-app .hm-course-levels {
+  gap: 20px;
+  margin-block: 36px;
+}
+.hm-app .hm-course-levels article {
+  display: flex;
+  flex-direction: column;
+  background: #fffdf8;
+  border-color: #d8c9b6;
+  padding: 28px 24px;
+  border-radius: 4px;
+}
+.hm-app .hm-course-levels article > span {
+  display: block;
+  font:
+    12px Arial,
+    sans-serif;
+  letter-spacing: 0.1em;
+  color: #8d4f3d;
+}
+.hm-app .hm-course-levels h2 {
+  font-size: 28px;
+}
+.hm-app .hm-course-levels p {
+  font-size: 13px;
+  line-height: 1.85;
+  flex: 1;
+}
+.hm-app .hm-course-levels .hm-text-link {
+  margin-top: 26px;
+  font-size: 12px;
+}
+.hm-app .hm-course-language {
+  padding: 22px;
+  border: 1px solid #d7cbb9;
+  background: #eeeae0;
+}
+.hm-app .hm-course-language > .hm-brand-motif {
+  width: 75%;
+  margin: auto;
+}
+.hm-app .hm-language-phrases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.hm-app .hm-language-phrases > span {
+  display: block;
+  padding: 12px 14px;
+  background: #fbf8ef;
+  border: 1px solid #d7cbb8;
+  border-radius: 3px;
+  flex: 1;
+}
+.hm-app .hm-language-phrases strong {
+  display: block;
+  font:
+    18px Georgia,
+    serif;
+  color: #863c32;
+}
+.hm-app .hm-language-phrases small {
+  display: block;
+  margin-top: 5px;
+  font-size: 10px;
+  color: #58605b;
+}
+.hm-app .hm-about-context {
+  color: var(--brand-muted);
+  font-size: 16px;
+  line-height: 1.9;
+  margin: 0 0 56px;
+}
+.hm-app .hm-values {
+  gap: 44px;
+}
+.hm-app .hm-values h2 {
+  font-size: 27px;
+}
+.hm-app .hm-values p {
+  color: var(--brand-muted);
+  font-size: 14px;
+}
+.hm-app .hm-team {
+  gap: 64px;
+  margin-block: 68px;
+}
+.hm-app .hm-photo-placeholder {
+  padding: 30px;
+  background: #efe8db;
+  border: 1px solid #d7c9b4;
+  border-radius: 4px;
+  gap: 0;
+}
+.hm-app .hm-photo-placeholder .hm-brand-motif {
+  width: 85%;
+}
+.hm-app .hm-photo-connection {
+  font-size: 20px;
+  color: #594f44;
+}
+.hm-app .hm-team h2 {
+  font-size: 38px;
+}
+.hm-app .hm-team > div > p:not(.hm-eyebrow) {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--brand-muted);
+}
+.hm-app .hm-confidentiality {
+  padding: 30px;
+  background: #e9ecdf;
+  border: 1px solid #cbd1b9;
+  border-radius: 4px;
+  color: #566548;
+}
+.hm-app .hm-confidentiality p {
+  color: #4f5a49;
+  font-size: 14px;
+}
+.hm-app .hm-contact-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  margin-bottom: 72px;
+}
+.hm-app .hm-contact-channels article {
+  padding: 26px;
+  background: #fffdf8;
+  border: 1px solid #d9cfbf;
+  border-radius: 4px;
+}
+.hm-app .hm-contact-channels h2 {
+  font-size: 27px;
+}
+.hm-app .hm-contact-channels a {
+  font-size: 14px;
+}
+.hm-app .hm-contact-options {
+  border-color: #d6c8b3;
+  border-radius: 4px;
+  background: #eee7da;
+}
+.hm-app .hm-contact-options a {
+  font-size: 14px;
+  padding: 21px 24px;
+}
+.hm-app .hm-contact-options a > span {
+  color: #3d4752;
+}
+.hm-app .hm-intake {
+  background: #fffdf8;
+  border: 1px solid #d8c9b5;
+  border-top: 3px solid #8c3531;
+  border-radius: 4px;
+  padding: 48px;
+  max-width: 920px;
+  margin-top: 64px;
+  margin-bottom: 88px;
+  box-shadow: 0 10px 35px #53432905;
+  scroll-margin-top: 108px;
+}
+.hm-app .hm-intake > h2 {
+  font-size: 38px;
+  margin: 18px 0;
+  line-height: 1.2;
+}
+.hm-app .hm-form-intro {
+  color: var(--brand-muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+.hm-app .hm-form-required {
+  color: #595f61;
+  font-size: 12px;
+}
+.hm-app .hm-sensitive {
+  background: #edf0e6;
+  border: 1px solid #d3d9c6;
+  border-left: 2px solid #6f7d59;
+  border-radius: 3px;
+  padding: 16px 18px;
+  margin-block: 24px;
+  color: #566647;
+}
+.hm-app .hm-sensitive p {
+  color: #4b5941;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.hm-app .hm-dev-state {
+  border-radius: 3px;
+  background: #f1eadf;
+  border-color: #d8c7af;
+  padding: 18px;
+}
+.hm-app .hm-dev-state p,
+.hm-app .hm-dev-state strong {
+  color: #63523e;
+  font-size: 12px;
+}
+.hm-app .hm-form-group {
+  border: 0;
+  padding: 26px 0 0;
+  margin: 32px 0 0;
+  min-width: 0;
+  border-top: 1px solid #ded4c5;
+}
+.hm-app .hm-form-group legend {
+  padding: 0 20px 0 0;
+  color: #293849;
+  font:
+    24px/1.4 Georgia,
+    serif;
+  max-width: 100%;
+}
+.hm-app .hm-form-group legend > span {
+  display: inline-block;
+  font:
+    11px Arial,
+    sans-serif;
+  color: #8c4d39;
+  letter-spacing: 0.08em;
+  margin-right: 14px;
+  vertical-align: middle;
+}
+.hm-app .hm-form-grid {
+  gap: 24px;
+  margin: 0;
+}
+.hm-app .hm-field {
+  gap: 8px;
+  margin: 0 0 8px;
+  min-width: 0;
+}
+.hm-app .hm-field > span {
+  color: #293849;
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 600;
+}
+.hm-app .hm-field small,
+.hm-app .hm-form-contact-help {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #575e60;
+}
+.hm-app .hm-field input,
+.hm-app .hm-field textarea,
+.hm-app .hm-field select,
+.hm-app .hm-handoff > textarea {
+  border: 1px solid #8b8d86;
+  background: #fffefa;
+  color: #273748;
+  border-radius: 3px;
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 15px;
+  line-height: 1.6;
+  width: 100%;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+.hm-app .hm-field textarea {
+  min-height: 132px;
+}
+.hm-app .hm-field input:focus,
+.hm-app .hm-field textarea:focus,
+.hm-app .hm-field select:focus {
+  border-color: #8c3531;
+  box-shadow: 0 0 0 3px #8c35310c;
+  background: #fff;
+}
+.hm-app .hm-field > [aria-invalid="true"] {
+  border-color: #9a342d;
+  background: #fff9f5;
+}
+.hm-app .hm-form-group > .hm-field {
+  margin-top: 24px;
+}
+.hm-app .hm-form-privacy {
+  margin-bottom: 28px;
+}
+.hm-app .hm-consent {
+  color: #50595e;
+  font-size: 13px;
+  line-height: 1.85;
+  gap: 12px;
+}
+.hm-app .hm-consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 4px;
+  accent-color: #8c3531;
+}
+.hm-app .hm-consent a {
+  color: #84382f;
+  text-underline-offset: 3px;
+}
+.hm-app .hm-form-error {
+  font-size: 14px;
+  color: #832f29;
+  background: #fbefeb;
+  border-left: 2px solid #a44c3a;
+  padding: 16px 20px;
+}
+.hm-app .hm-handoff h3 {
+  color: #293849;
+  font-size: 22px;
+}
+.hm-app .hm-handoff > p {
+  color: #575e65;
+  font-size: 13px;
+}
+.hm-app .hm-form-success {
+  background: #edf0e6;
+  border: 1px solid #bcc6aa;
+  border-radius: 4px;
+  padding: 44px;
+  max-width: 920px;
+}
+.hm-app .hm-form-success h3 {
+  font-size: 32px;
+  color: #3f5839;
+}
+.hm-app .hm-form-success p {
+  font-size: 14px;
+  color: #43553e;
+}
+.hm-app .hm-book-scene {
+  border-radius: 3px;
+  background: #eee6d8;
+  border: 1px solid #d9cdbb;
+}
+.hm-app .hm-book {
+  transform: rotate(-3deg);
+  box-shadow: 3px 6px 12px #3f302013;
+  border-radius: 1px;
+}
+.hm-app .hm-product-card {
+  border-radius: 4px;
+  border-color: #d9cebd;
+}
+.hm-app .hm-product-info {
+  padding: 24px;
+}
+.hm-app .hm-product-info h3 {
+  font:
+    24px/1.3 Georgia,
+    serif;
+}
+.hm-app .hm-product-info > p {
+  color: var(--brand-muted);
+  font-size: 13px;
+}
+.hm-app .hm-product-price > span,
+.hm-app .hm-product-detail .hm-muted {
+  color: #665642;
+}
+.hm-app .hm-article h1 {
+  font-size: 52px;
+}
+.hm-app .hm-article h2 {
+  font-size: 32px;
+}
+.hm-app .hm-article p,
+.hm-app .hm-article li,
+.hm-app .hm-legal section p {
+  color: #515b62;
+  font-size: 15px;
+  line-height: 1.95;
+}
+.hm-app .hm-footer {
+  background: #202e3e;
+  padding-top: 64px;
+  padding-bottom: 30px;
+  margin-top: 40px;
+}
+.hm-app .hm-footer p,
+.hm-app .hm-footer a,
+.hm-app .hm-footer-bottom > span {
+  color: #d0d2d0;
+  font-size: 12px;
+}
+.hm-app .hm-footer-top > div > strong {
+  color: #f4eadc;
+  font-size: 12px;
+}
+.hm-app .hm-footer .hm-logo {
+  font-size: 25px;
+  color: #fff6e9;
+}
+.hm-app .hm-footer .hm-logo > span {
+  color: #d8b394;
+}
+.hm-app .hm-footer-bottom {
+  border-color: #4d5965;
+}
+.hm-app .hm-footer-connection {
+  color: #d8bda0;
+  font-size: 10px;
+}
+.hm-app .hm-reveal {
+  transition:
+    opacity 420ms ease,
+    transform 420ms ease;
+}
+.hm-app[data-reveal-ready="true"] .hm-reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(12px);
+}
+@keyframes hm-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hm-app .hm-connection-panel {
+    animation: hm-panel-enter 450ms ease both;
+  }
+}
+@media (max-width: 1100px) {
+  .hm-app .hm-wrap {
+    padding-inline: 32px;
+  }
+  .hm-app .hm-header {
+    padding-inline: 28px;
+    gap: 18px;
+  }
+  .hm-app .hm-header nav {
+    gap: 18px;
+    font-size: 11px;
+  }
+  .hm-app .hm-header-actions {
+    gap: 14px;
+  }
+  .hm-app .hm-hero {
+    gap: 40px;
+    min-height: 0;
+    padding-block: 64px;
+  }
+  .hm-app .hm-hero h1 {
+    font-size: 48px;
+  }
+  .hm-app .hm-connection-panel {
+    padding: 22px;
+  }
+  .hm-app .hm-panel-bottom h2 {
+    font-size: 26px;
+  }
+  .hm-app .hm-world-card {
+    grid-template-columns: 30% 1fr;
+  }
+  .hm-app .hm-world-copy {
+    padding: 28px 20px;
+  }
+  .hm-app .hm-safety {
+    padding: 40px;
+    gap: 36px;
+  }
+  .hm-app .hm-service-hero {
+    gap: 40px;
+  }
+  .hm-app .hm-service-hero .hm-page-heading h1 {
+    font-size: 46px;
+  }
+  .hm-app .hm-service-detail {
+    gap: 48px;
+    grid-template-columns: minmax(0, 1fr) 290px;
+  }
+  .hm-app .hm-service-next {
+    padding: 24px;
+  }
+  .hm-app .hm-course-levels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hm-app .hm-how-grid li {
+    padding-right: 18px;
+  }
+}
+@media (max-width: 850px) {
+  .hm-app .hm-header {
+    min-height: 74px;
+    padding: 14px 28px;
+  }
+  .hm-app .hm-menu {
+    display: grid;
+    place-items: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px;
+  }
+  .hm-app .hm-header nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 18px 28px 26px;
+    border: 0;
+    border-bottom: 1px solid #d7ccbb;
+    background: #f8f5eefa;
+    box-shadow: 0 12px 24px #3b30210a;
+  }
+  .hm-app .hm-header nav.open {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .hm-app .hm-header nav a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 10px 0;
+    font-size: 15px;
+  }
+  .hm-app .hm-header .hm-mobile-contact {
+    display: flex;
+    gap: 16px;
+  }
+  .hm-app .hm-header nav a:after {
+    right: auto;
+    width: 35px;
+  }
+  .hm-app .hm-header-actions > .hm-button {
+    display: none;
+  }
+  .hm-app .hm-hero {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 28px;
+    padding-block: 52px;
+  }
+  .hm-app .hm-hero h1 {
+    font-size: 40px;
+    letter-spacing: -1.2px;
+  }
+  .hm-app .hm-hero-text {
+    font-size: 14px;
+  }
+  .hm-app .hm-hero-foot {
+    font-size: 11px;
+  }
+  .hm-app .hm-panel-top {
+    gap: 10px;
+  }
+  .hm-app .hm-panel-top > span:nth-child(2) {
+    font-size: 8px;
+    letter-spacing: 0.06em;
+  }
+  .hm-app .hm-panel-top i {
+    display: none;
+  }
+  .hm-app .hm-panel-bottom h2 {
+    font-size: 23px;
+  }
+  .hm-app .hm-panel-bottom > div {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hm-app .hm-chart-id,
+  .hm-app .hm-chart-tr {
+    font-size: 12px;
+  }
+  .hm-app .hm-section {
+    padding-block: 64px;
+  }
+  .hm-app .hm-section-heading {
+    gap: 32px;
+  }
+  .hm-app .hm-section-heading h2 {
+    font-size: 34px;
+  }
+  .hm-app .hm-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .hm-app .hm-service-card {
+    padding: 26px;
+  }
+  .hm-app .hm-world-grid {
+    grid-template-columns: 1fr;
+  }
+  .hm-app .hm-world-card {
+    grid-template-columns: 28% 1fr;
+  }
+  .hm-app .hm-world-art .hm-brand-motif {
+    max-height: 180px;
+  }
+  .hm-app .hm-trust {
+    padding-top: 0;
+  }
+  .hm-app .hm-how-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .hm-app .hm-how-grid li {
+    padding: 0 0 30px 70px;
+    margin-left: 20px;
+    min-height: 92px;
+  }
+  .hm-app .hm-how-grid li:before {
+    height: auto;
+    width: 1px;
+    top: 42px;
+    bottom: 0;
+    left: 0;
+    right: auto;
+  }
+  .hm-app .hm-how-grid li > span {
+    position: absolute;
+    left: -21px;
+    top: 0;
+    margin: 0;
+  }
+  .hm-app .hm-how-grid li:last-child {
+    padding-bottom: 0;
+  }
+  .hm-app .hm-how-grid h3,
+  .hm-app .hm-how-grid p {
+    max-width: 540px;
+  }
+  .hm-app .hm-how-grid h3 {
+    font-size: 16px;
+    padding-top: 6px;
+  }
+  .hm-app .hm-how-grid p {
+    font-size: 13px;
+  }
+  .hm-app .hm-safety {
+    margin-top: 64px;
+    gap: 34px;
+    padding: 32px;
+  }
+  .hm-app .hm-safety-intro h2 {
+    font-size: 34px;
+  }
+  .hm-app .hm-guide-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hm-app .hm-guide-card h3 {
+    font-size: 24px;
+  }
+  .hm-app .hm-resource-links {
+    gap: 24px;
+  }
+  .hm-app .hm-resource-links > a {
+    gap: 14px;
+  }
+  .hm-app .hm-resource-links > a > span {
+    font-size: 21px;
+  }
+  .hm-app .hm-final-cta {
+    gap: 36px;
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+  .hm-app .hm-final-cta h2 {
+    font-size: 38px;
+  }
+  .hm-app .hm-service-hero {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 30px;
+    padding-block: 44px;
+  }
+  .hm-app .hm-service-hero .hm-page-heading h1 {
+    font-size: 39px;
+  }
+  .hm-app .hm-service-hero .hm-page-heading > p:not(.hm-eyebrow) {
+    font-size: 14px;
+  }
+  .hm-app .hm-service-sigil {
+    padding: 14px 14px 20px;
+  }
+  .hm-app .hm-service-detail {
+    grid-template-columns: minmax(0, 1fr) 245px;
+    gap: 30px;
+  }
+  .hm-app .hm-service-next {
+    padding: 20px;
+    top: 94px;
+  }
+  .hm-app .hm-service-next h2 {
+    font-size: 26px;
+  }
+  .hm-app .hm-contact-grid {
+    gap: 28px;
+  }
+  .hm-app .hm-intake {
+    padding: 36px;
+  }
+  .hm-app .hm-team {
+    gap: 34px;
+  }
+  .hm-app .hm-values {
+    gap: 25px;
+  }
+}
+@media (max-width: 640px) {
+  .hm-app .hm-wrap {
+    padding-inline: 24px;
+  }
+  .hm-app .hm-header {
+    padding: 12px 20px;
+    min-height: 72px;
+    gap: 12px;
+  }
+  .hm-app .hm-logo {
+    font-size: 20px;
+    gap: 7px;
+  }
+  .hm-app .hm-logo-symbol {
+    font-size: 32px;
+    width: 32px;
+    height: 34px;
+  }
+  .hm-app .hm-logo small {
+    font-size: 7px;
+    letter-spacing: 1.1px !important;
+    margin-top: 7px !important;
+  }
+  .hm-app .hm-header-actions {
+    gap: 8px;
+  }
+  .hm-app .hm-language a {
+    min-width: 27px;
+    min-height: 44px;
+    font-size: 10px;
+  }
+  .hm-app .hm-menu {
+    min-width: 40px;
+    min-height: 44px;
+  }
+  .hm-app .hm-header nav {
+    padding-inline: 24px;
+  }
+  .hm-app .hm-hero {
+    grid-template-columns: 1fr;
+    gap: 42px;
+    padding-top: 42px;
+    padding-bottom: 56px;
+  }
+  .hm-app .hm-hero .hm-eyebrow {
+    font-size: 8px !important;
+    letter-spacing: 0.14em;
+  }
+  .hm-app .hm-hero h1 {
+    font-size: clamp(36px, 9.6vw, 44px);
+    line-height: 1.12;
+    letter-spacing: -1.25px;
+    margin: 21px 0;
+  }
+  .hm-app .hm-hero-text {
+    font-size: 15px;
+    line-height: 1.9;
+    max-width: none;
+  }
+  .hm-app .hm-actions {
+    gap: 14px 22px;
+    margin-top: 26px;
+  }
+  .hm-app .hm-actions .hm-button {
+    font-size: 13px;
+    padding: 13px 18px;
+    min-height: 48px;
+    gap: 18px;
+  }
+  .hm-app .hm-whatsapp {
+    font-size: 12px;
+    min-height: 44px;
+  }
+  .hm-app .hm-hero-foot {
+    font-size: 12px;
+    line-height: 1.8;
+    margin-top: 22px;
+    max-width: none;
+    gap: 10px;
+  }
+  .hm-app .hm-hero-foot svg {
+    width: 17px;
+    height: 17px;
+  }
+  .hm-app .hm-hero-art {
+    max-width: none;
+    width: 100%;
+    height: auto;
+  }
+  .hm-app .hm-connection-panel {
+    padding: 22px;
+    box-shadow: 6px 6px 0 #e9e2d45c;
+  }
+  .hm-app .hm-panel-top > span:nth-child(2) {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+  }
+  .hm-app .hm-panel-bottom h2 {
+    font-size: 27px;
+  }
+  .hm-app .hm-connection-chart {
+    margin-block: -5px;
+  }
+  .hm-app .hm-panel-bottom > p {
+    font-size: 12px;
+  }
+  .hm-app .hm-panel-bottom > div {
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .hm-app .hm-panel-bottom > div span {
+    font-size: 9px;
+  }
+  .hm-app .hm-section {
+    padding-block: 56px;
+  }
+  .hm-app .hm-section-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .hm-app .hm-section-heading h2 {
+    font-size: 33px;
+    margin-top: 13px;
+  }
+  .hm-app .hm-section-heading > p {
+    font-size: 14px;
+    max-width: none;
+  }
+  .hm-app .hm-service-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .hm-app .hm-service-card {
+    padding: 26px;
+  }
+  .hm-app .hm-service-icon {
+    margin-bottom: 24px;
+  }
+  .hm-app .hm-service-card h3 {
+    font-size: 26px;
+  }
+  .hm-app .hm-service-card > p {
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .hm-app .hm-card-link {
+    font-size: 12px;
+    margin-top: 25px;
+  }
+  .hm-app .hm-world-grid {
+    gap: 18px;
+  }
+  .hm-app .hm-world-card {
+    grid-template-columns: 1fr;
+  }
+  .hm-app .hm-world-art {
+    border-right: 0;
+    border-bottom: 1px solid #d9cbb8;
+    height: 156px;
+    display: grid;
+    place-items: center;
+  }
+  .hm-app .hm-world-art .hm-brand-motif {
+    width: 70%;
+    height: 140px;
+  }
+  .hm-app .hm-world-copy {
+    padding: 25px;
+  }
+  .hm-app .hm-world-copy h3 {
+    font-size: 27px;
+  }
+  .hm-app .hm-world-copy > p {
+    font-size: 14px;
+  }
+  .hm-app .hm-world-copy .hm-text-link {
+    font-size: 13px;
+    min-height: 38px;
+  }
+  .hm-app .hm-trust {
+    padding-top: 0;
+  }
+  .hm-app .hm-trust-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .hm-app .hm-trust-grid h3 {
+    font-size: 24px;
+  }
+  .hm-app .hm-trust-grid p {
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .hm-app .hm-trust-disclaimer {
+    padding: 0 0 0 18px;
+    font-size: 12px;
+    margin: 28px 0 0;
+  }
+  .hm-app .hm-how h2 {
+    font-size: 34px;
+    margin: 17px 0 34px;
+  }
+  .hm-app .hm-how-grid li {
+    padding-left: 45px;
+    padding-right: 0;
+    margin-left: 20px;
+  }
+  .hm-app .hm-how-grid h3 {
+    font-size: 16px;
+  }
+  .hm-app .hm-how-grid p {
+    font-size: 13px;
+    line-height: 1.9;
+    margin-top: 10px;
+  }
+  .hm-app .hm-safety {
+    grid-template-columns: 1fr;
+    padding: 28px 24px;
+    gap: 32px;
+    margin-top: 56px;
+  }
+  .hm-app .hm-safety-intro h2 {
+    font-size: 33px;
+  }
+  .hm-app .hm-safety-intro > p:not(.hm-eyebrow) {
+    font-size: 14px;
+  }
+  .hm-app .hm-safety-points {
+    gap: 25px;
+  }
+  .hm-app .hm-safety-points p {
+    font-size: 13px;
+  }
+  .hm-app .hm-official-note {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding-top: 26px;
+  }
+  .hm-app .hm-official-note > span {
+    font-size: 25px;
+  }
+  .hm-app .hm-official-note p {
+    font-size: 12px;
+  }
+  .hm-app .hm-guide-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .hm-app .hm-guide-art {
+    aspect-ratio: 1.6;
+    height: auto;
+  }
+  .hm-app .hm-guide-card h3 {
+    font-size: 26px;
+  }
+  .hm-app .hm-guide-card > p:not(.hm-meta) {
+    font-size: 14px;
+  }
+  .hm-app .hm-guide-card .hm-text-link {
+    font-size: 13px;
+    min-height: 40px;
+  }
+  .hm-app .hm-resource-links {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-bottom: 0;
+  }
+  .hm-app .hm-resource-links > a > span {
+    font-size: 25px;
+  }
+  .hm-app .hm-resource-links small {
+    font-size: 12px;
+  }
+  .hm-app .hm-home-faq {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .hm-app .hm-home-faq h2 {
+    font-size: 33px;
+  }
+  .hm-app .hm-faq-list summary {
+    font-size: 15px;
+    padding-block: 21px;
+    gap: 20px;
+  }
+  .hm-app .hm-faq-list details > p {
+    font-size: 14px;
+  }
+  .hm-app .hm-final-cta {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 45px 0;
+  }
+  .hm-app .hm-final-cta h2 {
+    font-size: 38px;
+  }
+  .hm-app .hm-final-cta > div > p:not(.hm-eyebrow) {
+    font-size: 14px;
+  }
+  .hm-app .hm-final-mark {
+    display: none;
+  }
+  .hm-app .hm-instagram {
+    padding: 24px;
+    gap: 15px;
+    margin-bottom: 56px;
+  }
+  .hm-app .hm-instagram h2 {
+    font-size: 27px;
+  }
+  .hm-app .hm-instagram p:not(.hm-eyebrow) {
+    font-size: 13px;
+  }
+  .hm-app .hm-instagram .hm-button {
+    font-size: 12px;
+    width: auto;
+  }
+  .hm-app .hm-page-heading {
+    padding-top: 42px;
+    padding-bottom: 36px;
+  }
+  .hm-app .hm-page-heading h1 {
+    font-size: 39px;
+    line-height: 1.15;
+  }
+  .hm-app .hm-page-heading > p:not(.hm-eyebrow) {
+    font-size: 15px;
+  }
+  .hm-app .hm-service-hero {
+    grid-template-columns: 1fr;
+    padding: 42px 0;
+    margin-bottom: 38px;
+    gap: 32px;
+  }
+  .hm-app .hm-service-hero .hm-page-heading h1 {
+    font-size: 39px;
+  }
+  .hm-app .hm-service-hero .hm-page-heading > p:not(.hm-eyebrow) {
+    font-size: 15px;
+  }
+  .hm-app .hm-service-sigil {
+    padding: 10px 26px 20px;
+  }
+  .hm-app .hm-service-sigil .hm-brand-motif {
+    width: 78%;
+    max-height: 190px;
+    margin: auto;
+  }
+  .hm-app .hm-service-sigil > span {
+    font-size: 9px;
+    padding-top: 16px;
+  }
+  .hm-app .hm-service-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .hm-app .hm-service-detail > article > section {
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+  }
+  .hm-app .hm-service-detail h2 {
+    font-size: 29px;
+  }
+  .hm-app .hm-service-detail > article > section > p {
+    font-size: 15px;
+    line-height: 1.95;
+  }
+  .hm-app .hm-check-list li {
+    font-size: 14px;
+  }
+  .hm-app .hm-service-next {
+    position: static;
+    width: 100%;
+    padding: 26px;
+    margin-block: 0 25px;
+  }
+  .hm-app .hm-service-next h2 {
+    font-size: 30px;
+  }
+  .hm-app .hm-service-next .hm-button {
+    font-size: 13px;
+  }
+  .hm-app .hm-service-next > p:not(.hm-eyebrow),
+  .hm-app .hm-service-next > small {
+    font-size: 13px;
+  }
+  .hm-app .hm-course-levels {
+    grid-template-columns: 1fr;
+    gap: 17px;
+    margin-block: 30px;
+  }
+  .hm-app .hm-course-levels article {
+    padding: 27px;
+  }
+  .hm-app .hm-course-levels h2 {
+    font-size: 30px;
+  }
+  .hm-app .hm-course-levels p {
+    font-size: 14px;
+  }
+  .hm-app .hm-course-language {
+    padding: 20px;
+  }
+  .hm-app .hm-language-phrases {
+    gap: 8px;
+  }
+  .hm-app .hm-language-phrases > span {
+    padding: 12px 9px;
+  }
+  .hm-app .hm-language-phrases strong {
+    font-size: 16px;
+  }
+  .hm-app .hm-language-phrases small {
+    font-size: 9px;
+  }
+  .hm-app .hm-values {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 44px;
+  }
+  .hm-app .hm-values h2 {
+    font-size: 28px;
+  }
+  .hm-app .hm-values p,
+  .hm-app .hm-about-context {
+    font-size: 15px;
+  }
+  .hm-app .hm-team {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-block: 48px;
+  }
+  .hm-app .hm-team h2 {
+    font-size: 33px;
+  }
+  .hm-app .hm-team > div > p:not(.hm-eyebrow) {
+    font-size: 15px;
+  }
+  .hm-app .hm-confidentiality {
+    padding: 26px;
+    gap: 18px;
+  }
+  .hm-app .hm-confidentiality h2 {
+    font-size: 28px;
+  }
+  .hm-app .hm-confidentiality p {
+    font-size: 14px;
+  }
+  .hm-app .hm-contact-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 44px;
+  }
+  .hm-app .hm-contact-channels article {
+    padding: 25px;
+  }
+  .hm-app .hm-contact-options a {
+    padding: 21px;
+    font-size: 14px;
+  }
+  .hm-app .hm-intake {
+    padding: 28px 22px;
+    margin-block: 44px 60px;
+    scroll-margin-top: 92px;
+  }
+  .hm-app .hm-intake > h2 {
+    font-size: 31px;
+    line-height: 1.25;
+  }
+  .hm-app .hm-form-intro {
+    font-size: 14px;
+  }
+  .hm-app .hm-form-required {
+    font-size: 12px;
+  }
+  .hm-app .hm-form-group {
+    padding-top: 20px;
+    margin-top: 28px;
+  }
+  .hm-app .hm-form-group legend {
+    font-size: 23px;
+    padding-right: 10px;
+  }
+  .hm-app .hm-form-group legend > span {
+    font-size: 10px;
+    margin-right: 10px;
+  }
+  .hm-app .hm-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 21px;
+  }
+  .hm-app .hm-field > span {
+    font-size: 13px;
+  }
+  .hm-app .hm-field input,
+  .hm-app .hm-field select,
+  .hm-app .hm-field textarea {
+    font-size: 16px;
+    min-height: 50px;
+    padding: 12px;
+  }
+  .hm-app .hm-field textarea {
+    min-height: 145px;
+  }
+  .hm-app .hm-field small {
+    font-size: 12px;
+  }
+  .hm-app .hm-form-contact-help {
+    margin-top: -5px;
+    font-size: 12px;
+  }
+  .hm-app .hm-consent {
+    font-size: 12px;
+  }
+  .hm-app .hm-sensitive {
+    padding: 14px;
+  }
+  .hm-app .hm-sensitive p {
+    font-size: 12px;
+  }
+  .hm-app .hm-form-success {
+    padding: 32px 24px;
+  }
+  .hm-app .hm-form-success h3 {
+    font-size: 29px;
+  }
+  .hm-app .hm-form-success p {
+    font-size: 14px;
+  }
+  .hm-app .hm-product-grid {
+    grid-template-columns: 1fr;
+  }
+  .hm-app .hm-product-info h3 {
+    font-size: 26px;
+  }
+  .hm-app .hm-product-info > p {
+    font-size: 14px;
+  }
+  .hm-app .hm-product-detail {
+    gap: 32px;
+  }
+  .hm-app .hm-product-detail h1 {
+    font-size: 36px;
+  }
+  .hm-app .hm-article h1 {
+    font-size: 38px;
+  }
+  .hm-app .hm-article h2 {
+    font-size: 30px;
+  }
+  .hm-app .hm-article p,
+  .hm-app .hm-article li {
+    font-size: 15px;
+  }
+  .hm-app .hm-footer {
+    padding-top: 48px;
+    margin-top: 24px;
+  }
+  .hm-app .hm-footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 35px 28px;
+  }
+  .hm-app .hm-footer-top > div:first-child {
+    grid-column: 1/-1;
+  }
+  .hm-app .hm-footer p,
+  .hm-app .hm-footer a {
+    font-size: 12px;
+  }
+  .hm-app .hm-footer-bottom {
+    gap: 18px;
+    padding-top: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-app *,
+  .hm-app *:before,
+  .hm-app *:after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .hm-app[data-reveal-ready="true"] .hm-reveal:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+  }
+  .hm-app .hm-service-card:hover,
+  .hm-app .hm-world-card:hover,
+  .hm-app .hm-button:hover,
+  .hm-app .hm-button:active {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-app a:hover svg {
+    transform: none;
+  }
+}
+/* Keep anchored entry points clear of the compact sticky header. */
+.hm-app #services {
+  scroll-margin-top: 100px;
+}
+@media (max-width: 640px) {
+  .hm-app #services {
+    scroll-margin-top: 88px;
+  }
+}

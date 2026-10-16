@@ -21,7 +21,7 @@ test(
       );
       assert.equal(urls.length, 46);
       urls.push("/id/privasi", "/id/ketentuan", "/tr/privasi", "/tr/ketentuan");
-      for (const width of [375, 768, 1440]) {
+      for (const width of [360, 375, 390, 430, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 });
         for (const url of urls) {
           const r = await page.goto(origin + url);
@@ -89,6 +89,67 @@ test(
             JSON.parse(json);
         }
       }
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(origin + "/id");
+      const menu = page.getByRole("button", { name: "Buka menu", exact: true });
+      await menu.click();
+      assert.equal(await menu.getAttribute("aria-expanded"), "true");
+      assert.ok(await page.locator("#hm-navigation").isVisible());
+      await page.keyboard.press("Escape");
+      assert.equal(await menu.getAttribute("aria-expanded"), "false");
+      assert.ok(await menu.evaluate((node) => node === document.activeElement));
+      await menu.click();
+      await page.locator('#hm-navigation a[href="/id/layanan"]').click();
+      await page.waitForURL("**/id/layanan");
+      assert.equal(await menu.getAttribute("aria-expanded"), "false");
+      assert.equal(
+        await page
+          .locator('#hm-navigation a[href="/id/layanan"]')
+          .getAttribute("aria-current"),
+        "page",
+      );
+      // Reveal effects must not hide cards recreated by existing search/filter controls.
+      await page.goto(origin + "/id/panduan");
+      await page
+        .getByRole("button", { name: "Bahasa Turki", exact: true })
+        .click();
+      assert.equal(await page.locator(".hm-guide-card").count(), 1);
+      await page.getByRole("button", { name: "Semua", exact: true }).click();
+      assert.equal(await page.locator(".hm-guide-card").count(), 5);
+      for (let i = 0; i < 5; i++) {
+        const selector = `.hm-guide-card:nth-child(${i + 1})`;
+        await page.locator(selector).scrollIntoViewIfNeeded();
+        await page.waitForFunction(
+          (sel) =>
+            getComputedStyle(document.querySelector(sel)).opacity === "1",
+          selector,
+        );
+      }
+      await page.getByLabel("Cari panduan", { exact: true }).fill("apostille");
+      assert.equal(await page.locator(".hm-guide-card").count(), 1);
+      await page
+        .getByLabel("Cari panduan", { exact: true })
+        .fill("no-such-topic-qa");
+      assert.ok(await page.locator(".hm-empty").isVisible());
+      await page.getByLabel("Cari panduan", { exact: true }).fill("");
+      assert.equal(await page.locator(".hm-guide-card").count(), 5);
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.goto(origin + "/id");
+      assert.equal(
+        await page
+          .locator(".hm-connection-panel")
+          .evaluate((node) => getComputedStyle(node).animationName),
+        "none",
+      );
+      await page.locator(".hm-service-card").first().hover();
+      assert.equal(
+        await page
+          .locator(".hm-service-card")
+          .first()
+          .evaluate((node) => getComputedStyle(node).transform),
+        "none",
+      );
+      await page.setViewportSize({ width: 1440, height: 900 });
       await page.goto(origin + "/id");
       const cards = page.locator(".hm-service-card");
       assert.equal(await cards.count(), 6);
@@ -144,7 +205,7 @@ test(
       );
       assert.deepEqual(errors, []);
       console.log(
-        "Verified 50 localized URLs at 3 widths (150 renders), JSON-LD/metadata, no uploads/downloads, fallback and admin-disabled state.",
+        "Verified 50 localized URLs at 6 widths (300 renders), mobile navigation, Escape/focus return, reduced motion, JSON-LD/metadata, no uploads/downloads, fallback and admin-disabled state.",
       );
     } finally {
       await browser.close();

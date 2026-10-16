@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { locales, languageNames, type Locale } from "@/lib/i18n";
 import { siteCopy } from "@/content/site-copy";
+import { brandCopy } from "@/content/brand-content";
 import { serviceByKind, type LeadKind } from "@/content/services";
 import { intakeSchema, formatHandoff, type Intake } from "@/lib/intake";
 import { products, productTitles } from "@/content/catalog";
@@ -80,7 +81,8 @@ export function IntakeForm({
   persistenceEnabled: boolean;
   productId?: string;
 }) {
-  const c = siteCopy[locale];
+  const c = siteCopy[locale],
+    b = brandCopy[locale];
   const [canPersist, setCanPersist] = useState(persistenceEnabled);
   useEffect(() => {
     let live = true;
@@ -276,7 +278,8 @@ export function IntakeForm({
     return (
       <div className="hm-form-success" role="status">
         <Icon name="check" size={35} />
-        <h3>{c.received}</h3>
+        <h3>{b.formSuccessTitle}</h3>
+        <p>{c.received}</p>
         <p>
           {c.reference}: <code>{reference}</code>
         </p>
@@ -326,81 +329,94 @@ export function IntakeForm({
           void submit(e.currentTarget);
         }}
         noValidate
+        aria-busy={busy}
       >
-        <div className="hm-form-grid">
-          <label className="hm-field">
-            <span>
-              {c.name}
-              {kind !== "product_interest" && <i>*</i>}
-            </span>
-            <input
-              name="name"
-              aria-label={c.name}
-              aria-describedby="help-name"
-              autoComplete="name"
-              maxLength={120}
-              required={kind !== "product_interest"}
-              aria-invalid={errors.includes("name")}
-            />
-            <small id="help-name">{c.nameHelp}</small>
-          </label>
-          <label className="hm-field">
-            <span>
-              {c.email}
-              {kind === "product_interest" && <i>*</i>}
-            </span>
-            <input
-              name="email"
-              aria-label={c.email}
-              aria-describedby={
-                kind !== "product_interest" ? "help-contact" : undefined
-              }
-              type="email"
-              autoComplete="email"
-              maxLength={254}
-              required={kind === "product_interest"}
-              aria-invalid={errors.includes("email")}
-            />
-          </label>
-          {kind !== "product_interest" && (
+        <fieldset className="hm-form-group">
+          <legend>
+            <span>01</span>
+            {b.formContact}
+          </legend>
+          <div className="hm-form-grid">
             <label className="hm-field">
-              <span>{c.whatsappContact}</span>
+              <span>
+                {c.name}
+                {kind !== "product_interest" && <i>*</i>}
+              </span>
               <input
-                name="whatsapp"
-                aria-label={c.whatsappContact}
-                aria-describedby="help-contact"
-                type="tel"
-                autoComplete="tel"
-                maxLength={30}
-                aria-invalid={errors.includes("whatsapp")}
+                name="name"
+                aria-label={c.name}
+                aria-describedby="help-name"
+                autoComplete="name"
+                maxLength={120}
+                required={kind !== "product_interest"}
+                aria-invalid={errors.includes("name")}
+              />
+              <small id="help-name">{c.nameHelp}</small>
+            </label>
+            <label className="hm-field">
+              <span>
+                {c.email}
+                {kind === "product_interest" && <i>*</i>}
+              </span>
+              <input
+                name="email"
+                aria-label={c.email}
+                aria-describedby={
+                  kind !== "product_interest" ? "help-contact" : undefined
+                }
+                type="email"
+                autoComplete="email"
+                maxLength={254}
+                required={kind === "product_interest"}
+                aria-invalid={errors.includes("email")}
               />
             </label>
-          )}
-          {kind !== "product_interest" && (
-            <p className="hm-form-contact-help" id="help-contact">
-              {c.contactHelp}
-            </p>
-          )}
-          {fields[kind].map(field)}
-        </div>
+            {kind !== "product_interest" && (
+              <label className="hm-field">
+                <span>{c.whatsappContact}</span>
+                <input
+                  name="whatsapp"
+                  aria-label={c.whatsappContact}
+                  aria-describedby="help-contact"
+                  type="tel"
+                  autoComplete="tel"
+                  maxLength={30}
+                  aria-invalid={errors.includes("whatsapp")}
+                />
+              </label>
+            )}
+            {kind !== "product_interest" && (
+              <p className="hm-form-contact-help" id="help-contact">
+                {c.contactHelp}
+              </p>
+            )}
+          </div>
+        </fieldset>
         {kind !== "product_interest" && (
-          <label className="hm-field">
-            <span>
-              {c.summary}
-              <i>*</i>
-            </span>
-            <textarea
-              name="summary"
-              aria-label={c.summary}
-              aria-describedby="help-summary"
-              rows={4}
-              minLength={8}
-              maxLength={1800}
-              required
-              aria-invalid={errors.includes("summary")}
-            />
-            <small id="help-summary">{c.summaryHelp}</small>
-          </label>
+          <fieldset className="hm-form-group">
+            <legend>
+              <span>02</span>
+              {b.formDetails}
+            </legend>
+            <div className="hm-form-grid">{fields[kind].map(field)}</div>
+            <label className="hm-field">
+              <span>
+                {c.summary}
+                <i>*</i>
+              </span>
+              <textarea
+                name="summary"
+                aria-label={c.summary}
+                aria-describedby="help-summary"
+                rows={4}
+                minLength={8}
+                maxLength={1800}
+                required
+                aria-invalid={errors.includes("summary")}
+              />
+              <small id="help-summary">{c.summaryHelp}</small>
+            </label>
+          </fieldset>
         )}
         <div className="hm-honeypot" aria-hidden="true">
           <label>
@@ -408,18 +424,24 @@ export function IntakeForm({
             <input name="website" tabIndex={-1} autoComplete="off" />
           </label>
         </div>
-        <label className="hm-consent">
-          <input
-            name="consent"
-            type="checkbox"
-            required
-            aria-invalid={errors.includes("consent")}
-          />
-          <span>
-            {kind === "product_interest" ? c.productConsent : c.consent}{" "}
-            <Link href={`/${locale}/privasi`}>{c.privacy}</Link>
-          </span>
-        </label>
+        <fieldset className="hm-form-group hm-form-privacy">
+          <legend>
+            <span>{kind === "product_interest" ? "02" : "03"}</span>
+            {b.formConsent}
+          </legend>
+          <label className="hm-consent">
+            <input
+              name="consent"
+              type="checkbox"
+              required
+              aria-invalid={errors.includes("consent")}
+            />
+            <span>
+              {kind === "product_interest" ? c.productConsent : c.consent}{" "}
+              <Link href={`/${locale}/privasi`}>{c.privacy}</Link>
+            </span>
+          </label>
+        </fieldset>
         {error && (
           <p className="hm-form-error" role="alert">
             {error}
