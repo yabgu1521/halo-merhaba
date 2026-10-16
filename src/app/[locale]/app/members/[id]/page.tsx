@@ -4,7 +4,12 @@ import { isLocale } from "@/lib/i18n";
 import { memberCopy } from "@/lib/member/i18n";
 import { memberContext, catalog, label, type Member } from "@/lib/member/data";
 import { uuid } from "@/lib/member/validation";
-import { Interest, BlockButton, Report } from "@/components/member/controls";
+import {
+  Interest,
+  BlockButton,
+  Report,
+  Favorite,
+} from "@/components/member/controls";
 export default async function MemberProfile({
   params,
 }: {
@@ -83,6 +88,7 @@ export default async function MemberProfile({
               <span key={i}>{label(options.interests, i, locale)}</span>
             ))}
           </div>
+          <Favorite id={id} locale={locale} saved={m.favorited} />
           <Interest id={id} locale={locale} sent={m.interested} />
           <div className="safety-actions">
             <BlockButton id={id} locale={locale} />

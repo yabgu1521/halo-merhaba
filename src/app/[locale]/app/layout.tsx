@@ -50,12 +50,15 @@ export default async function MemberLayout({
               </Link>
             ))}
           </div>
+          <Link href={`/${locale}/app/account`}>{c.account}</Link>
           <Logout locale={locale} />
         </div>
       </header>
       <nav className="member-nav" aria-label={c.community}>
         <Link href={`/${locale}/app/discover`}>{c.discover}</Link>
         <Link href={`/${locale}/app/matches`}>{c.matches}</Link>
+        <Link href={`/${locale}/app/messages`}>{c.messages}</Link>
+        <Link href={`/${locale}/app/favorites`}>{c.favorites}</Link>
         <Link href={`/${locale}#community`}>{c.community}</Link>
         <Link href={`/${locale}#marriage`}>{c.marriage}</Link>
         <Link href={`/${locale}/app/profile`}>{c.profile}</Link>

@@ -105,3 +105,33 @@ test("streaming body limit does not depend on content-length", async () => {
   });
   await assert.rejects(boundedBody(request, 5));
 });
+
+test("message and preference inputs reject oversized text, invalid cursors and inverted ages", async () => {
+  const { messageSchema, messageCursor, preferencesSchema } =
+    await import("../../src/lib/member/validation");
+  const id = "11111111-1111-4111-8111-111111111111";
+  assert.equal(
+    messageSchema.safeParse({ conversation: id, request_id: id, body: "Hello" })
+      .success,
+    true,
+  );
+  for (const body of [" ", "x".repeat(2001), "unsafe\u0000text"])
+    assert.equal(
+      messageSchema.safeParse({ conversation: id, request_id: id, body })
+        .success,
+      false,
+    );
+  assert.equal(messageCursor.safeParse("9223372036854775808").success, false);
+  assert.equal(messageCursor.safeParse("-1").success, false);
+  assert.equal(
+    preferencesSchema.safeParse({
+      country: "ID",
+      min_age: 45,
+      max_age: 20,
+      purpose: "",
+      language: "",
+      interest: "",
+    }).success,
+    false,
+  );
+});

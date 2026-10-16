@@ -3,7 +3,7 @@ import type { Locale } from "@/lib/i18n";
 import type { Member, Catalog } from "@/lib/member/data";
 import { label } from "@/lib/member/data";
 import { memberCopy } from "@/lib/member/i18n";
-import { Interest } from "./controls";
+import { Interest, Favorite, OpenConversation } from "./controls";
 export function MemberCard({
   member: m,
   catalog,
@@ -57,9 +57,11 @@ export function MemberCard({
         <p className="member-languages">
           {m.speaks.map((l) => label(catalog.languages, l, locale)).join(" · ")}
         </p>
+        <Favorite id={m.public_id} locale={locale} saved={m.favorited} />
         {match ? (
           <>
             <p className="form-notice">{c.matched}</p>
+            <OpenConversation id={m.public_id} locale={locale} />
             <small>
               {c.matchDate}{" "}
               {new Intl.DateTimeFormat(locale, {

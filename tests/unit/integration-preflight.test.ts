@@ -46,3 +46,23 @@ test("member migration does not change permissions for unrelated schema objects"
   assert.doesNotMatch(sql, /alter\s+default\s+privileges/i);
   assert.match(sql, /revoke all on function public\.save_profile/);
 });
+
+test("remote schema guard rejects an empty HEAD 404 rather than treating it as an empty table", async () => {
+  const { requireRemoteSchema } =
+    await import("../../scripts/remote-schema.mjs");
+  let requests = 0;
+  const fakeFetch = async () => {
+    requests++;
+    return new Response(null, { status: 404 });
+  };
+  await assert.rejects(
+    requireRemoteSchema({
+      origin: "https://unit.invalid",
+      serviceKey: "unit-test-marker",
+      tables: ["profiles", "messages"],
+      fetchImpl: fakeFetch,
+    }),
+    { message: "Required remote schema is unavailable; no fixtures created." },
+  );
+  assert.equal(requests, 1);
+});

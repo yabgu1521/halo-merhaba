@@ -4,6 +4,7 @@ import { isLocale } from "@/lib/i18n";
 import { memberCopy } from "@/lib/member/i18n";
 import { memberContext, catalog, type Member } from "@/lib/member/data";
 import { MemberCard } from "@/components/member/member-card";
+import { SavePreferences } from "@/components/member/controls";
 import { uuid } from "@/lib/member/validation";
 export default async function Discover({
   params,
@@ -18,8 +19,24 @@ export default async function Discover({
     options = await catalog(db),
     c = memberCopy[locale],
     q = await searchParams;
+  const { data: preferences, error: preferenceError } = await db
+    .from("member_preferences")
+    .select("country,min_age,max_age,purpose,language,interest")
+    .maybeSingle();
+  if (preferenceError) throw new Error("Preferences unavailable");
+  const defaults: Record<string, string> =
+    q.reset === "1"
+      ? {}
+      : {
+          country: preferences?.country || "",
+          purpose: preferences?.purpose || "",
+          language: preferences?.language || "",
+          interest: preferences?.interest || "",
+          min: String(preferences?.min_age || 18),
+          max: String(preferences?.max_age || 100),
+        };
   const value = (k: string) =>
-    typeof q[k] === "string" ? (q[k] as string) : "";
+    typeof q[k] === "string" ? (q[k] as string) : defaults[k] || "";
   const validCode = (k: string, rows: { code: string }[]) =>
     rows.some((r) => r.code === value(k)) ? value(k) : null;
   const num = (k: string, fallback: number) =>
@@ -29,6 +46,7 @@ export default async function Discover({
   const min = num("min", 18),
     max = Math.max(min, num("max", 100));
   const filters = {
+    name_filter: value("name").trim().slice(0, 60) || null,
     country_filter: validCode("country", options.countries),
     purpose_filter: validCode("purpose", options.purposes),
     language_filter: validCode("language", options.languages),
@@ -37,12 +55,21 @@ export default async function Discover({
     max_age: max,
     after_id: uuid.safeParse(value("after")).success ? value("after") : null,
   };
-  const { data, error } = await db.rpc("discover_members", filters);
+  const { data, error } = await db.rpc("search_members", filters);
   if (error) throw new Error("Discovery unavailable");
   const rows = (data || []) as Member[],
     members = rows.slice(0, 12);
   const next = new URLSearchParams();
-  for (const k of ["country", "purpose", "language", "interest", "min", "max"])
+  for (const k of [
+    "country",
+    "purpose",
+    "language",
+    "interest",
+    "min",
+    "max",
+    "name",
+    "reset",
+  ])
     if (value(k)) next.set(k, value(k));
   if (members.length) next.set("after", members.at(-1)!.public_id);
   return (
@@ -95,8 +122,13 @@ export default async function Discover({
               defaultValue={max}
             />
           </label>
+          <label>
+            {c.searchName}
+            <input name="name" maxLength={60} defaultValue={value("name")} />
+          </label>
           <button className="button">{c.apply}</button>
-          <Link className="text-link" href={`/${locale}/app/discover`}>
+          <SavePreferences locale={locale} />
+          <Link className="text-link" href={`/${locale}/app/discover?reset=1`}>
             {c.clear}
           </Link>
         </form>

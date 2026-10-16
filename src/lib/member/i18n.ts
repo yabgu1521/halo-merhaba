@@ -1,5 +1,6 @@
+import { communicationCopy } from "./communication-copy";
 import type { Locale } from "@/lib/i18n";
-export const memberCopy = {
+const baseMemberCopy = {
   en: {
     login: "Log in",
     signup: "Create an account",
@@ -407,6 +408,11 @@ export const memberCopy = {
     ],
   },
 } as const;
+export const memberCopy = {
+  en: { ...baseMemberCopy.en, ...communicationCopy.en },
+  tr: { ...baseMemberCopy.tr, ...communicationCopy.tr },
+  id: { ...baseMemberCopy.id, ...communicationCopy.id },
+};
 export type MemberCopy = {
   [K in keyof typeof memberCopy.en]: K extends "reportCategories"
     ? readonly string[]

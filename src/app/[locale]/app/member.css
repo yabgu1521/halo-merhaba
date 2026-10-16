@@ -520,3 +520,69 @@ progress {
     padding: 20px;
   }
 }
+.conversation-list {
+  display: grid;
+  gap: 12px;
+}
+.conversation-row {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 18px;
+  border-radius: 9px;
+}
+.conversation-row img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.conversation-row small {
+  display: block;
+}
+.message-history {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 760px;
+  margin: 30px auto;
+}
+.message-bubble {
+  align-self: flex-start;
+  background: #edf0e6;
+  border: 1px solid var(--line);
+  padding: 15px 18px;
+  border-radius: 12px;
+  max-width: 88%;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.message-bubble.mine {
+  align-self: flex-end;
+  background: #e9e1d4;
+}
+.message-bubble p {
+  color: var(--ink);
+}
+.message-bubble time {
+  font-size: 10px;
+  color: var(--muted);
+}
+.message-composer {
+  max-width: 760px;
+  margin: 30px auto;
+}
+.message-composer button {
+  border: 0;
+}
+@media (max-width: 600px) {
+  .member-nav {
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+  .member-nav a {
+    flex: 0 0 auto;
+    min-width: 50px;
+    max-width: 85px;
+  }
+}

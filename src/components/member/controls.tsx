@@ -184,3 +184,122 @@ export function Report({ id, locale }: { id: string; locale: Locale }) {
     </details>
   );
 }
+export function Favorite({
+  id,
+  locale,
+  saved = false,
+}: {
+  id: string;
+  locale: Locale;
+  saved?: boolean;
+}) {
+  const c = memberCopy[locale],
+    router = useRouter();
+  const [value, setValue] = useState(saved),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState("");
+  return (
+    <div>
+      <button
+        type="button"
+        className="quiet"
+        disabled={busy}
+        aria-pressed={value}
+        onClick={async () => {
+          setBusy(true);
+          setError("");
+          try {
+            const d = await postMember({
+              action: "favorite",
+              id,
+              saved: !value,
+            });
+            if (d.error) setError(message(c, d.error));
+            else {
+              setValue(!value);
+              router.refresh();
+            }
+          } catch {
+            setError(c.requestFailed);
+          }
+          setBusy(false);
+        }}
+      >
+        {value ? c.unfavorite : c.favorite}
+      </button>
+      {error && <p role="alert">{error}</p>}
+    </div>
+  );
+}
+export function OpenConversation({
+  id,
+  locale,
+}: {
+  id: string;
+  locale: Locale;
+}) {
+  const c = memberCopy[locale],
+    router = useRouter();
+  const [busy, setBusy] = useState(false),
+    [error, setError] = useState("");
+  return (
+    <div>
+      <button
+        className="button"
+        disabled={busy}
+        onClick={async () => {
+          setBusy(true);
+          try {
+            const d = await postMember({ action: "conversation", id });
+            if (d.error || !d.conversationId) setError(message(c, d.error));
+            else router.push(`/${locale}/app/messages/${d.conversationId}`);
+          } catch {
+            setError(c.requestFailed);
+          }
+          setBusy(false);
+        }}
+      >
+        {busy ? c.working : c.message}
+      </button>
+      {error && <p role="alert">{error}</p>}
+    </div>
+  );
+}
+export function SavePreferences({ locale }: { locale: Locale }) {
+  const c = memberCopy[locale];
+  const [busy, setBusy] = useState(false),
+    [notice, setNotice] = useState("");
+  return (
+    <div>
+      <button
+        type="button"
+        className="quiet"
+        disabled={busy}
+        onClick={async (e) => {
+          const form = e.currentTarget.form;
+          if (!form || !form.reportValidity()) return;
+          const f = new FormData(form);
+          const selection = {
+            country: f.get("country"),
+            purpose: f.get("purpose"),
+            language: f.get("language"),
+            interest: f.get("interest"),
+            min_age: Number(f.get("min")),
+            max_age: Number(f.get("max")),
+          };
+          setBusy(true);
+          try {
+            const d = await postMember({ action: "preferences", selection });
+            setNotice(d.error ? message(c, d.error) : c.preferencesSaved);
+          } catch {
+            setNotice(c.requestFailed);
+          }
+          setBusy(false);
+        }}
+      >
+        {c.savePreferences}
+      </button>
+      {notice && <p role="status">{notice}</p>}
+    </div>
+  );
+}

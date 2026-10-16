@@ -23,6 +23,7 @@ export type Member = {
   interests: string[];
   photo_id: string | null;
   interested: boolean;
+  favorited?: boolean;
   matched_at?: string;
 };
 export async function memberContext(locale: string, requireComplete = true) {

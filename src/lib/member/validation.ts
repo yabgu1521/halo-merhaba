@@ -80,3 +80,22 @@ export function completion(
   ];
   return Math.round((checks.filter(Boolean).length / checks.length) * 100);
 }
+export const preferencesSchema = z
+  .object({
+    country: z.string().regex(/^([A-Z]{2})?$/),
+    min_age: z.number().int().min(18).max(125),
+    max_age: z.number().int().min(18).max(125),
+    purpose: z.string().max(31),
+    language: z.string().max(31),
+    interest: z.string().max(31),
+  })
+  .refine((v) => v.max_age >= v.min_age);
+export const messageSchema = z.object({
+  conversation: uuid,
+  body: text(1, 2000),
+  request_id: uuid,
+});
+export const messageCursor = z
+  .string()
+  .regex(/^[1-9]\d{0,18}$/)
+  .refine((v) => BigInt(v) <= 9223372036854775807n);
