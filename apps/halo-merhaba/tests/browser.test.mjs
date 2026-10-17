@@ -376,6 +376,8 @@ test("private product object identifiers never enter public build artifacts", ()
     "halo-digital-products",
     "Halo_Merhaba_Menikah_di_Turkiye_Complete_Checklist_ID.pdf",
     "Halo_Merhaba_Turkiyede_Evlilik_Tam_Hazirlik_Rehberi_TR.pdf",
+    "Halo_Merhaba_Dokumen_Apostille_Organizer_ID.pdf",
+    "Halo_Merhaba_Belge_Apostil_Duzenleyici_TR.pdf",
     "/storage/v1/object/public/",
     "/storage/v1/object/sign/",
   ];
@@ -419,8 +421,8 @@ test(
       for (const locale of ["id", "tr"]) {
         await page.goto(`${origin}/${locale}/digital-guides`);
         assert.equal(await page.locator(".hm-product-card").count(), 9);
-        assert.equal(await page.locator(".hm-product-card-ready").count(), 1);
-        assert.equal(await page.locator(".hm-product-card-planned").count(), 8);
+        assert.equal(await page.locator(".hm-product-card-ready").count(), 2);
+        assert.equal(await page.locator(".hm-product-card-planned").count(), 7);
         const text = await page.locator("main").innerText();
         assert.ok(!/\bTRY\b/.test(text));
         for (const product of source.products) {
@@ -529,6 +531,104 @@ test(
         }
       }
       assert.deepEqual(errors, []);
+    } finally {
+      await browser.close();
+    }
+  },
+);
+
+test(
+  "completed document guide package, modules and interest CTA in both languages",
+  { timeout: 60000 },
+  async () => {
+    const browser = await chromium.launch({
+      executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+      args: ["--no-sandbox"],
+    });
+    try {
+      const page = await browser.newPage();
+      for (const locale of ["id", "tr"])
+        for (const width of [360, 375, 390, 412, 430, 768, 1440]) {
+          await page.setViewportSize({ width, height: 900 });
+          const response = await page.goto(
+            `${origin}/${locale}/produk/document-apostille-organizer`,
+          );
+          assert.equal(response.status(), 200);
+          assert.equal(
+            await page.locator(".hm-document-product h1").count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator(".hm-document-product .hm-content-module")
+              .count(),
+            16,
+          );
+          assert.equal(
+            await page
+              .locator(".hm-document-product .hm-tools-list li")
+              .count(),
+            14,
+          );
+          for (const edition of locale === "id"
+            ? ["Edisi Bahasa Indonesia — PDF", "Edisi bahasa Turki — PDF"]
+            : ["Endonezce sürüm — PDF", "Türkçe sürüm — PDF"])
+            assert.ok(
+              await page.getByText(edition, { exact: true }).isVisible(),
+            );
+          for (const text of locale === "id"
+            ? [
+                "19 halaman per edisi",
+                "38 halaman dalam paket bilingual",
+                "Rp129.000",
+              ]
+            : [
+                "Her sürüm 19 sayfa",
+                "İki dilli pakette toplam 38 sayfa",
+                "Fiyat yakında açıklanacak",
+              ])
+            assert.ok(
+              await page.getByText(text, { exact: true }).first().isVisible(),
+            );
+          const notice =
+            locale === "id"
+              ? "Panduan sudah selesai disiapkan. File PDF disimpan secara privat dan belum dapat diunduh sampai penjualan resmi dibuka."
+              : "Rehber tamamlandı. PDF dosyaları özel olarak saklanmaktadır ve resmi satış açılana kadar indirilemez.";
+          assert.ok(
+            await page.getByText(notice, { exact: true }).first().isVisible(),
+          );
+          const module = page.locator(".hm-content-module").nth(1);
+          await module.locator("summary").click();
+          assert.equal(await module.evaluate((node) => node.open), true);
+          assert.ok(await module.locator("p").isVisible());
+          await page
+            .locator(
+              '.hm-document-product .hm-marriage-hero a[href="#request-form"]',
+            )
+            .click();
+          assert.ok(await page.locator("#request-form").isVisible());
+          assert.equal(
+            await page.locator('form input[name="email"]').count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator(
+                'a[download],a[href*=".pdf"],a[href*="storage/v1"],input[type="file"]',
+              )
+              .count(),
+            0,
+          );
+          assert.ok(
+            !/halo-digital-products|Halo_Merhaba_/.test(await response.text()),
+          );
+          assert.ok(
+            await page.evaluate(
+              () =>
+                document.documentElement.scrollWidth <= window.innerWidth + 1,
+            ),
+          );
+        }
     } finally {
       await browser.close();
     }

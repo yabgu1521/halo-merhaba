@@ -25,6 +25,20 @@ export const privateProductAssets = {
       format: "PDF",
     },
   ],
+  "document-apostille-organizer": [
+    {
+      locale: "id",
+      bucket: "halo-digital-products",
+      path: "Halo_Merhaba_Dokumen_Apostille_Organizer_ID.pdf",
+      format: "PDF",
+    },
+    {
+      locale: "tr",
+      bucket: "halo-digital-products",
+      path: "Halo_Merhaba_Belge_Apostil_Duzenleyici_TR.pdf",
+      format: "PDF",
+    },
+  ],
 } as const satisfies Record<string, readonly PrivateProductAsset[]>;
 
 // Fail closed for unknown products/locales. This is a metadata lookup, not a downloader.
@@ -32,11 +46,10 @@ export function getPrivateProductAsset(
   productId: string,
   locale: string,
 ): PrivateProductAsset | null {
-  if (productId !== "marriage-checklist-wni") return null;
-  return (
-    privateProductAssets[productId].find((asset) => asset.locale === locale) ||
-    null
-  );
+  if (!Object.hasOwn(privateProductAssets, productId)) return null;
+  const assets =
+    privateProductAssets[productId as keyof typeof privateProductAssets];
+  return assets.find((asset) => asset.locale === locale) || null;
 }
 
 /** Future delivery boundary (intentionally NOT implemented):

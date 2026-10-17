@@ -61,7 +61,7 @@ const id = {
   categoryCulture: "Indonesia ↔ Türkiye",
   storeTitle: "Panduan kecil, manfaat yang terarah.",
   storeText:
-    "Konten panduan pernikahan telah selesai; panduan lainnya sedang disiapkan. Penjualan, unduhan, dan pembayaran belum dibuka.",
+    "Konten panduan pernikahan dan organizer dokumen telah selesai; tujuh panduan lainnya sedang disiapkan. Penjualan, unduhan, dan pembayaran belum dibuka.",
   coming: "Segera Hadir",
   preparing: "Sedang disiapkan",
   testPrice: "Usulan harga uji",
@@ -395,7 +395,7 @@ const tr: Copy = {
   categoryCulture: "Endonezya ↔ Türkiye",
   storeTitle: "Küçük rehberler, belirli ihtiyaçlar.",
   storeText:
-    "Evlilik rehberinin içeriği tamamlandı; diğer rehberler hazırlanıyor. Satış, indirme ve ödeme henüz açılmadı.",
+    "Evlilik rehberi ve belge düzenleyicinin içeriği tamamlandı; diğer yedi rehber hazırlanıyor. Satış, indirme ve ödeme henüz açılmadı.",
   coming: "Yakında",
   preparing: "Hazırlanıyor",
   testPrice: "Önerilen test fiyatı",

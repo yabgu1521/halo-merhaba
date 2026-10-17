@@ -163,7 +163,7 @@ test("content readiness never grants delivery and public product data contains n
   }
   assert.ok(
     products
-      .filter((p) => p.id !== ready.id)
+      .filter((p) => ![ready.id, "document-apostille-organizer"].includes(p.id))
       .every((p) => !p.contentReady && !p.available),
   );
   assert.ok(
@@ -208,4 +208,29 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
       slug: p.id,
     });
   }
+});
+
+test("two completed bilingual guides retain closed delivery and seven products remain unfinished", () => {
+  const ready = products.filter((p) => p.contentReady);
+  assert.deepEqual(
+    ready.map((p) => p.id),
+    ["marriage-checklist-wni", "document-apostille-organizer"],
+  );
+  assert.equal(products.filter((p) => !p.contentReady).length, 7);
+  const document = ready.find((p) => p.id === "document-apostille-organizer")!;
+  assert.equal(document.available, true);
+  assert.equal(document.pages_per_edition, 19);
+  assert.equal(document.total_pages, 38);
+  assert.deepEqual(document.editions, [
+    { locale: "id", format: "PDF" },
+    { locale: "tr", format: "PDF" },
+  ]);
+  const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
+  for (const marker of [
+    "document-apostille-organizer",
+    "Halo_Merhaba_Dokumen_Apostille_Organizer_ID.pdf",
+    "Halo_Merhaba_Belge_Apostil_Duzenleyici_TR.pdf",
+  ])
+    assert.ok(source.includes(marker));
+  assert.ok(source.includes("Object.hasOwn(privateProductAssets, productId)"));
 });

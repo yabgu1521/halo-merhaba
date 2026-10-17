@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { MarriageProduct } from "./marriage-product";
+import { DocumentProduct } from "./document-product";
 import { DigitalCatalog, ProductPrice } from "./digital-catalog";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -857,6 +858,8 @@ export function PublicPage({
             </Link>
             {product.id === "marriage-checklist-wni" ? (
               <MarriageProduct locale={locale} />
+            ) : product.id === "document-apostille-organizer" ? (
+              <DocumentProduct locale={locale} />
             ) : (
               <>
                 <section className="hm-product-detail">

@@ -68,15 +68,15 @@
       "id": "document-apostille-organizer",
       "title": "Dokumen & Apostille Organizer",
       "audience": "Belgelerini ve ilgili kurumlara sorulacak soruları düzenlemek isteyenler",
-      "format": "PDF + belge envanteri + son tarih takip çizelgesi",
+      "format": "PDF — Indonesian and Turkish editions",
       "proposed_test_price": {
         "amount": 129000,
         "currency": "IDR"
       },
-      "content_status": "needs_authoring",
+      "content_status": "content_ready",
       "next_offer": "document-precheck",
-      "deliverable_available": false,
-      "content_ready": false,
+      "deliverable_available": true,
+      "content_ready": true,
       "sale_enabled": false,
       "download_enabled": false,
       "category": "documents",
@@ -86,9 +86,9 @@
         "en": "Dokumen & Apostille Organizer"
       },
       "descriptions": {
-        "id": "Rencana organizer untuk inventaris dokumen, pertanyaan apostille, terjemahan, dan tindak lanjut instansi.",
-        "tr": "Belge envanteri, apostil soruları, tercüme ve kurum takibi için planlanan düzenleyici.",
-        "en": "Rencana organizer untuk inventaris dokumen, pertanyaan apostille, terjemahan, dan tindak lanjut instansi."
+        "id": "Sistem persiapan dokumen untuk mengatur rute, terjemahan, apostille, masa berlaku, dan konfirmasi instansi antara Indonesia dan Türkiye.",
+        "tr": "Endonezya–Türkiye arasında belge rotalarını, tercüme, apostil, geçerlilik ve kurum teyitlerini düzenleyen hazırlık sistemi.",
+        "en": "A bilingual document-preparation system for Indonesia–Türkiye routes, translation, apostille, validity and institution confirmation."
       },
       "planned_contents": {
         "id": [
@@ -106,7 +106,19 @@
           "Catatan terjemahan dan pengesahan",
           "Pelacak tindak lanjut"
         ]
-      }
+      },
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ],
+      "pages_per_edition": 19,
+      "total_pages": 38
     },
     {
       "id": "turkish-a1-survival",
