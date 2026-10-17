@@ -174,6 +174,7 @@ test("content readiness never grants delivery and public product data contains n
             "translation-document-kit",
             "turkiye-life-starter",
             "turkish-for-couples",
+            "consultation-prep-workbook",
           ].includes(p.id),
       )
       .every((p) => !p.contentReady && !p.available),
@@ -201,7 +202,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
     ["translation-document-kit", "documents", 149000],
     ["turkiye-life-starter", "life", 149000],
     ["turkish-for-couples", "language", 149000],
-    ["consultation-prep-workbook", "guidance", 59000],
+    ["consultation-prep-workbook", "guidance", 99000],
   ];
   assert.deepEqual(
     products.map((p) => [p.id, p.category, p.proposed_test_price.amount]),
@@ -222,7 +223,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
   }
 });
 
-test("eight completed bilingual guides retain closed delivery and one product remains unfinished", () => {
+test("nine completed bilingual guides retain closed delivery and no product remains unfinished", () => {
   const ready = products.filter((p) => p.contentReady);
   assert.deepEqual(
     ready.map((p) => p.id),
@@ -235,9 +236,10 @@ test("eight completed bilingual guides retain closed delivery and one product re
       "translation-document-kit",
       "turkiye-life-starter",
       "turkish-for-couples",
+      "consultation-prep-workbook",
     ],
   );
-  assert.equal(products.filter((p) => !p.contentReady).length, 1);
+  assert.equal(products.filter((p) => !p.contentReady).length, 0);
   const document = ready.find((p) => p.id === "document-apostille-organizer")!;
   assert.equal(document.available, true);
   assert.equal(document.pages_per_edition, 19);
@@ -369,7 +371,7 @@ test("Life Starter has two private editions, 32/64 pages, revised titles and pri
   ]);
   assert.deepEqual(
     products.filter((p) => !p.contentReady).map((p) => p.id),
-    ["consultation-prep-workbook"],
+    [],
   );
   const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
   for (const marker of [
@@ -398,7 +400,7 @@ test("Turkish for Couples has two private editions, 34/68 pages, revised titles 
   ]);
   assert.deepEqual(
     products.filter((p) => !p.contentReady).map((p) => p.id),
-    ["consultation-prep-workbook"],
+    [],
   );
   const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
   for (const marker of [
@@ -407,4 +409,39 @@ test("Turkish for Couples has two private editions, 34/68 pages, revised titles 
     "Halo_Merhaba_Ciftler_Icin_Turkce_TR.pdf",
   ])
     assert.ok(source.includes(marker));
+});
+
+test("final consultation workbook has two private editions, 30/60 pages and all nine products are ready", () => {
+  const consultation = products.find(
+    (p) => p.id === "consultation-prep-workbook",
+  )!;
+  assert.equal(consultation.contentReady, true);
+  assert.equal(consultation.available, true);
+  assert.equal(consultation.pages_per_edition, 30);
+  assert.equal(consultation.total_pages, 60);
+  assert.equal(consultation.titles.id, "Consultation Prep Workbook");
+  assert.equal(consultation.titles.tr, "Danışmanlık Hazırlık Çalışma Kitabı");
+  assert.deepEqual(consultation.proposed_test_price, {
+    amount: 99000,
+    currency: "IDR",
+  });
+  assert.deepEqual(consultation.editions, [
+    { locale: "id", format: "PDF" },
+    { locale: "tr", format: "PDF" },
+  ]);
+  assert.equal(products.length, 9);
+  assert.ok(
+    products.every(
+      (p) =>
+        p.contentReady && p.available && !p.sale_enabled && !p.download_enabled,
+    ),
+  );
+  const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
+  for (const marker of [
+    "consultation-prep-workbook",
+    "Halo_Merhaba_Consultation_Prep_Workbook_ID.pdf",
+    "Halo_Merhaba_Danismanlik_Hazirlik_Calisma_Kitabi_TR.pdf",
+  ])
+    assert.ok(source.includes(marker));
+  assert.equal((source.match(/path: /g) || []).length, 19); // 18 entries plus the type field.
 });

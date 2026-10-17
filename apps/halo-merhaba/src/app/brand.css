@@ -3056,3 +3056,39 @@
   color: #913c42;
   margin: 24px 0 0;
 }
+
+/* Consultation-specific topic comparison, using live product titles and links. */
+.hm-app .hm-case-product-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.hm-app .hm-case-product-list li {
+  border-bottom: 1px solid #d8cebf;
+  padding: 16px 0;
+}
+.hm-app .hm-case-product-list a {
+  color: #85383d;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.hm-app .hm-case-product-list p {
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+.hm-app
+  .hm-consultation-comparison
+  .hm-workbook-comparison-grid
+  > div
+  > ul:not(.hm-case-product-list) {
+  padding-left: 20px;
+}
+.hm-app
+  .hm-consultation-comparison
+  .hm-workbook-comparison-grid
+  > div
+  > ul:not(.hm-case-product-list)
+  li {
+  padding: 8px 0;
+}

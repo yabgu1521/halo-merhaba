@@ -8,6 +8,7 @@ import { WorkbookProduct } from "./workbook-product";
 import { TranslationProduct } from "./translation-product";
 import { LifeProduct } from "./life-product";
 import { CouplesProduct } from "./couples-product";
+import { ConsultationProduct } from "./consultation-product";
 import { DigitalCatalog, ProductPrice } from "./digital-catalog";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -851,9 +852,7 @@ export function PublicPage({
             <DigitalCatalog locale={locale} />
             <div className="hm-boundary hm-store-boundary">
               <Icon name="lock" size={23} />
-              <p>
-                {c.productUnavailable} {c.priceNote}
-              </p>
+              <p>{c.productReadyAccess}</p>
             </div>
           </div>
         )}
@@ -878,6 +877,8 @@ export function PublicPage({
               <LifeProduct locale={locale} />
             ) : product.id === "turkish-for-couples" ? (
               <CouplesProduct locale={locale} />
+            ) : product.id === "consultation-prep-workbook" ? (
+              <ConsultationProduct locale={locale} />
             ) : (
               <>
                 <section className="hm-product-detail">

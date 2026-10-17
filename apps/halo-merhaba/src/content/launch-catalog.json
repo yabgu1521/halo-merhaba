@@ -441,19 +441,19 @@
     },
     {
       "id": "consultation-prep-workbook",
-      "format": "PDF",
+      "format": "PDF — Indonesian and Turkish editions",
       "next_offer": "consultation",
-      "title": "Konsultasi Türkiye – Preparation Workbook",
+      "title": "Consultation Prep Workbook",
       "category": "guidance",
       "titles": {
-        "id": "Konsultasi Türkiye – Preparation Workbook",
-        "tr": "Türkiye Danışmanlığı – Hazırlık Çalışma Kitabı",
-        "en": "Konsultasi Türkiye – Preparation Workbook"
+        "id": "Consultation Prep Workbook",
+        "tr": "Danışmanlık Hazırlık Çalışma Kitabı",
+        "en": "Consultation Prep Workbook"
       },
       "descriptions": {
-        "id": "Rencana buku kerja untuk merangkum situasi, menyusun pertanyaan, dan menyiapkan konsultasi.",
-        "tr": "Durumu özetlemek, soruları düzenlemek ve danışmanlığa hazırlanmak için planlanan çalışma kitabı.",
-        "en": "Rencana buku kerja untuk merangkum situasi, menyusun pertanyaan, dan menyiapkan konsultasi."
+        "id": "Toolkit persiapan kasus individual: rangkum fakta, susun kronologi dan dokumen, prioritaskan pertanyaan, lalu catat keputusan serta tindak lanjut konsultasi.",
+        "tr": "Bireysel vaka hazırlığı için gerçekleri, kronolojiyi, belgeleri ve öncelikli soruları düzenleyen; danışmanlık kararlarını ve takibini kaydetmeye yardımcı çalışma kitabı.",
+        "en": "An individual case-preparation workbook for facts, timeline, documents, priority questions, consultation decisions and follow-up."
       },
       "planned_contents": {
         "id": [
@@ -469,14 +469,26 @@
         ]
       },
       "proposed_test_price": {
-        "amount": 59000,
+        "amount": 99000,
         "currency": "IDR"
       },
-      "content_status": "needs_authoring",
-      "deliverable_available": false,
-      "content_ready": false,
+      "content_status": "content_ready",
+      "deliverable_available": true,
+      "content_ready": true,
       "sale_enabled": false,
-      "download_enabled": false
+      "download_enabled": false,
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ],
+      "pages_per_edition": 30,
+      "total_pages": 60
     }
   ],
   "services": [
