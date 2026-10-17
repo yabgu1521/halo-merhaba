@@ -386,19 +386,19 @@
     },
     {
       "id": "turkish-for-couples",
-      "format": "PDF",
+      "format": "PDF — Indonesian and Turkish editions",
       "next_offer": "consultation",
-      "title": "Türkçe untuk Pasangan & Keluarga",
+      "title": "Turkish for Couples",
       "category": "language",
       "titles": {
-        "id": "Türkçe untuk Pasangan & Keluarga",
-        "tr": "Çiftler & Aileler İçin Türkçe",
-        "en": "Türkçe untuk Pasangan & Keluarga"
+        "id": "Turkish for Couples",
+        "tr": "Çiftler İçin Türkçe",
+        "en": "Turkish for Couples"
       },
       "descriptions": {
-        "id": "Rencana materi bahasa untuk percakapan sederhana dengan pasangan dan keluarga Türkiye.",
-        "tr": "Eş adayı ve Türk aileyle basit sohbetler için planlanan dil materyalleri.",
-        "en": "Rencana materi bahasa untuk percakapan sederhana dengan pasangan dan keluarga Türkiye."
+        "id": "Toolkit bahasa hubungan untuk pasangan Indonesia–Türkiye: kasih sayang, permintaan, batasan, salah paham, percakapan sulit, dan latihan komunikasi bersama.",
+        "tr": "Endonezya–Türkiye çiftleri için sevgi, rica, sınırlar, yanlış anlaşılmalar, zor konuşmalar ve birlikte iletişim pratiğine odaklanan dil kiti.",
+        "en": "A relationship-language toolkit for Indonesia–Türkiye couples covering affection, requests, boundaries, misunderstandings, difficult conversations and shared practice."
       },
       "planned_contents": {
         "id": [
@@ -418,14 +418,26 @@
         ]
       },
       "proposed_test_price": {
-        "amount": 129000,
+        "amount": 149000,
         "currency": "IDR"
       },
-      "content_status": "needs_authoring",
-      "deliverable_available": false,
-      "content_ready": false,
+      "content_status": "content_ready",
+      "deliverable_available": true,
+      "content_ready": true,
       "sale_enabled": false,
-      "download_enabled": false
+      "download_enabled": false,
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ],
+      "pages_per_edition": 34,
+      "total_pages": 68
     },
     {
       "id": "consultation-prep-workbook",

@@ -7,6 +7,7 @@ import { FamilyProduct } from "./family-product";
 import { WorkbookProduct } from "./workbook-product";
 import { TranslationProduct } from "./translation-product";
 import { LifeProduct } from "./life-product";
+import { CouplesProduct } from "./couples-product";
 import { DigitalCatalog, ProductPrice } from "./digital-catalog";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -875,6 +876,8 @@ export function PublicPage({
               <TranslationProduct locale={locale} />
             ) : product.id === "turkiye-life-starter" ? (
               <LifeProduct locale={locale} />
+            ) : product.id === "turkish-for-couples" ? (
+              <CouplesProduct locale={locale} />
             ) : (
               <>
                 <section className="hm-product-detail">

@@ -92,3 +92,6 @@ Relative to `/workspace/halo-merhaba-site`. All files are new in this standalone
 
 - `src/components/life-product.tsx`
 - `src/content/life-product.ts`
+
+- `src/components/couples-product.tsx`
+- `src/content/couples-product.ts`
