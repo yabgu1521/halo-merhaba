@@ -331,19 +331,19 @@
     },
     {
       "id": "turkiye-life-starter",
-      "format": "PDF",
+      "format": "PDF — Indonesian and Turkish editions",
       "next_offer": "consultation",
-      "title": "Türkiye Life Starter Guide untuk WNI",
+      "title": "Türkiye Life Starter — Panduan 30 Hari Pertama",
       "category": "life",
       "titles": {
-        "id": "Türkiye Life Starter Guide untuk WNI",
-        "tr": "Endonezyalılar İçin Türkiye Yaşam Başlangıç Rehberi",
-        "en": "Türkiye Life Starter Guide untuk WNI"
+        "id": "Türkiye Life Starter — Panduan 30 Hari Pertama",
+        "tr": "Türkiye’de Yaşama Başlangıç Kiti — İlk 30 Gün",
+        "en": "Türkiye Life Starter — First 30 Days"
       },
       "descriptions": {
-        "id": "Rencana panduan untuk mengatur persiapan kehidupan sehari-hari di Türkiye dan pertanyaan yang perlu dikonfirmasi.",
-        "tr": "Türkiye’de günlük yaşama hazırlığı ve teyit edilecek soruları düzenlemek için planlanan başlangıç rehberi.",
-        "en": "Rencana panduan untuk mengatur persiapan kehidupan sehari-hari di Türkiye dan pertanyaan yang perlu dikonfirmasi."
+        "id": "Toolkit penataan hidup setelah tiba di Türkiye: rutinitas, transportasi, belanja, persiapan kesehatan, organisasi pribadi, dan adaptasi 30 hari pertama.",
+        "tr": "Türkiye’ye geldikten sonraki ilk 30 günde rutinleri, ulaşımı, alışverişi, sağlık hazırlığını, kişisel düzeni ve uyumu planlamak için günlük yaşam kiti.",
+        "en": "A first-30-days daily-life setup toolkit for routines, transport, shopping, health preparation, personal organization and settling into Türkiye."
       },
       "planned_contents": {
         "id": [
@@ -363,14 +363,26 @@
         ]
       },
       "proposed_test_price": {
-        "amount": 119000,
+        "amount": 149000,
         "currency": "IDR"
       },
-      "content_status": "needs_authoring",
-      "deliverable_available": false,
-      "content_ready": false,
+      "content_status": "content_ready",
+      "deliverable_available": true,
+      "content_ready": true,
       "sale_enabled": false,
-      "download_enabled": false
+      "download_enabled": false,
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ],
+      "pages_per_edition": 32,
+      "total_pages": 64
     },
     {
       "id": "turkish-for-couples",

@@ -386,6 +386,8 @@ test("private product object identifiers never enter public build artifacts", ()
     "Halo_Merhaba_Endonezya_Turkiye_Evlilik_Hazirlik_Workbook_TR_v2.pdf",
     "Halo_Merhaba_Translation_Document_Preparation_Kit_ID.pdf",
     "Halo_Merhaba_Ceviri_Belge_Hazirlik_Kiti_TR.pdf",
+    "Halo_Merhaba_Turkiye_Life_Starter_30_Hari_ID.pdf",
+    "Halo_Merhaba_Turkiyede_Yasam_Baslangic_Ilk_30_Gun_TR.pdf",
     "/storage/v1/object/public/",
     "/storage/v1/object/sign/",
   ];
@@ -429,8 +431,8 @@ test(
       for (const locale of ["id", "tr"]) {
         await page.goto(`${origin}/${locale}/digital-guides`);
         assert.equal(await page.locator(".hm-product-card").count(), 9);
-        assert.equal(await page.locator(".hm-product-card-ready").count(), 6);
-        assert.equal(await page.locator(".hm-product-card-planned").count(), 3);
+        assert.equal(await page.locator(".hm-product-card-ready").count(), 7);
+        assert.equal(await page.locator(".hm-product-card-planned").count(), 2);
         const text = await page.locator("main").innerText();
         assert.ok(!/\bTRY\b/.test(text));
         for (const product of source.products) {
@@ -1208,6 +1210,179 @@ test(
           await page
             .locator(
               '.hm-translation-product .hm-marriage-hero a[href="#request-form"]',
+            )
+            .click();
+          assert.ok(await page.locator("#request-form").isVisible());
+          assert.equal(
+            await page.locator('form input[name="email"]').count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator(
+                'a[download],a[href*=".pdf"],a[href*="storage/v1"],input[type="file"]',
+              )
+              .count(),
+            0,
+          );
+          assert.ok(
+            !/halo-digital-products|Halo_Merhaba_/.test(await response.text()),
+          );
+          assert.ok(
+            await page.evaluate(
+              () =>
+                document.documentElement.scrollWidth <= window.innerWidth + 1,
+            ),
+          );
+        }
+    } finally {
+      await browser.close();
+    }
+  },
+);
+
+test(
+  "completed Life Starter package, modules and interest CTA in both languages",
+  { timeout: 60000 },
+  async () => {
+    const browser = await chromium.launch({
+      executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+      args: ["--no-sandbox"],
+    });
+    try {
+      const page = await browser.newPage();
+      for (const locale of ["id", "tr"])
+        for (const width of [360, 375, 390, 412, 430, 768, 1440]) {
+          await page.setViewportSize({ width, height: 900 });
+          const response = await page.goto(
+            `${origin}/${locale}/produk/turkiye-life-starter`,
+          );
+          assert.equal(response.status(), 200);
+          assert.equal(await page.locator(".hm-life-product h1").count(), 1);
+          assert.equal(
+            await page.locator(".hm-life-product .hm-content-module").count(),
+            32,
+          );
+          assert.equal(
+            await page.locator(".hm-life-product .hm-tools-list li").count(),
+            26,
+          );
+          for (const edition of locale === "id"
+            ? ["Edisi Bahasa Indonesia — PDF", "Edisi bahasa Turki — PDF"]
+            : ["Endonezce sürüm — PDF", "Türkçe sürüm — PDF"])
+            assert.ok(
+              await page.getByText(edition, { exact: true }).isVisible(),
+            );
+          for (const text of locale === "id"
+            ? [
+                "32 halaman per edisi",
+                "64 halaman dalam paket bilingual",
+                "Rp149.000",
+              ]
+            : [
+                "Her sürüm 32 sayfa",
+                "İki dilli pakette toplam 64 sayfa",
+                "Fiyat yakında açıklanacak",
+              ])
+            assert.ok(
+              await page.getByText(text, { exact: true }).first().isVisible(),
+            );
+          const notice =
+            locale === "id"
+              ? "Panduan sudah selesai disiapkan. File PDF disimpan secara privat dan belum dapat diunduh sampai penjualan resmi dibuka."
+              : "Rehber tamamlandı. PDF dosyaları özel olarak saklanmaktadır ve resmi satış açılana kadar indirilemez.";
+          assert.ok(
+            await page.getByText(notice, { exact: true }).first().isVisible(),
+          );
+          assert.ok(
+            !(await page.locator(".hm-life-product").innerText()).includes(
+              "Rp119.000",
+            ),
+          );
+          const bilingual =
+            locale === "id"
+              ? "Anda dapat mengikuti panduan dalam Bahasa Indonesia, sementara pasangan atau keluarga di Türkiye dapat melihat struktur yang sama dalam bahasa Turki."
+              : "Türkiye’deki eş veya aile Türkçe sürümü takip ederken Endonezyalı taraf aynı çalışma yapısını Endonezce sürüm üzerinden kullanabilir.";
+          assert.ok(
+            await page.getByText(bilingual, { exact: true }).isVisible(),
+          );
+          for (const boundary of locale === "id"
+            ? [
+                "Bukan nasihat hukum imigrasi.",
+                "Bukan nasihat izin tinggal.",
+                "Bukan nasihat keuangan.",
+                "Bukan nasihat medis.",
+                "Bukan panduan resmi pemerintah.",
+                "Tidak menjamin kelayakan atau hasil administrasi.",
+              ]
+            : [
+                "Göç hukuku danışmanlığı değildir.",
+                "İkamet izni danışmanlığı değildir.",
+                "Finansal danışmanlık değildir.",
+                "Tıbbi tavsiye değildir.",
+                "Resmî devlet rehberi değildir.",
+                "Uygunluk veya idari sonuç garantisi vermez.",
+              ])
+            assert.ok(
+              await page.getByText(boundary, { exact: true }).isVisible(),
+            );
+          assert.ok(
+            await page
+              .locator(".hm-life-product .hm-coming")
+              .first()
+              .isVisible(),
+          );
+          assert.equal(
+            await page
+              .locator(
+                `.hm-workbook-comparison a[href="/${locale}/produk/turkish-a1-survival"]`,
+              )
+              .count(),
+            1,
+          );
+          assert.equal(
+            await page.locator(".hm-workbook-preview-grid figure").count(),
+            2,
+          );
+          assert.equal(
+            await page.locator(".hm-workbook-preview-grid table").count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator(
+                ".hm-workbook-preview-grid input,.hm-workbook-preview-grid textarea",
+              )
+              .count(),
+            0,
+          );
+          assert.equal(
+            await page.locator(".hm-workbook-autonomy li").count(),
+            5,
+          );
+          const contrast = await page
+            .locator(".hm-workbook-comparison")
+            .innerText();
+          assert.ok(
+            contrast.includes(locale === "id" ? "bahasa Turki" : "Türkçe"),
+          );
+          assert.ok(
+            contrast.includes(locale === "id" ? "transportasi" : "ulaşım"),
+          );
+          assert.ok(
+            (await page.locator(".hm-marriage-boundary").innerText()).includes(
+              locale === "id"
+                ? "konfirmasikan langsung"
+                : "doğrudan teyit alın",
+            ),
+          );
+          const module = page.locator(".hm-content-module").nth(1);
+          await module.locator("summary").click();
+          assert.equal(await module.evaluate((node) => node.open), true);
+          assert.ok(await module.locator("p").isVisible());
+          await page
+            .locator(
+              '.hm-life-product .hm-marriage-hero a[href="#request-form"]',
             )
             .click();
           assert.ok(await page.locator("#request-form").isVisible());

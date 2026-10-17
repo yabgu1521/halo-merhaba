@@ -3048,3 +3048,11 @@
     padding: 24px 18px;
   }
 }
+
+/* Life Starter: restrained neighborhood-route detail, never a travel map. */
+.hm-app .hm-life-product .hm-life-route {
+  width: 75%;
+  height: auto;
+  color: #913c42;
+  margin: 24px 0 0;
+}

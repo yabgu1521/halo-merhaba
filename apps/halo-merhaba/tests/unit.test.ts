@@ -172,6 +172,7 @@ test("content readiness never grants delivery and public product data contains n
             "family-meeting-toolkit",
             "marriage-preparation-workbook",
             "translation-document-kit",
+            "turkiye-life-starter",
           ].includes(p.id),
       )
       .every((p) => !p.contentReady && !p.available),
@@ -197,7 +198,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
     ["family-meeting-toolkit", "marriage", 119000],
     ["marriage-preparation-workbook", "marriage", 199000],
     ["translation-document-kit", "documents", 149000],
-    ["turkiye-life-starter", "life", 119000],
+    ["turkiye-life-starter", "life", 149000],
     ["turkish-for-couples", "language", 129000],
     ["consultation-prep-workbook", "guidance", 59000],
   ];
@@ -220,7 +221,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
   }
 });
 
-test("six completed bilingual guides retain closed delivery and three products remain unfinished", () => {
+test("seven completed bilingual guides retain closed delivery and two products remain unfinished", () => {
   const ready = products.filter((p) => p.contentReady);
   assert.deepEqual(
     ready.map((p) => p.id),
@@ -231,9 +232,10 @@ test("six completed bilingual guides retain closed delivery and three products r
       "family-meeting-toolkit",
       "marriage-preparation-workbook",
       "translation-document-kit",
+      "turkiye-life-starter",
     ],
   );
-  assert.equal(products.filter((p) => !p.contentReady).length, 3);
+  assert.equal(products.filter((p) => !p.contentReady).length, 2);
   const document = ready.find((p) => p.id === "document-apostille-organizer")!;
   assert.equal(document.available, true);
   assert.equal(document.pages_per_edition, 19);
@@ -340,6 +342,38 @@ test("translation kit has two private editions, 31 pages each and revised pricin
     "translation-document-kit",
     "Halo_Merhaba_Translation_Document_Preparation_Kit_ID.pdf",
     "Halo_Merhaba_Ceviri_Belge_Hazirlik_Kiti_TR.pdf",
+  ])
+    assert.ok(source.includes(marker));
+});
+
+test("Life Starter has two private editions, 32/64 pages, revised titles and pricing", () => {
+  const life = products.find((p) => p.id === "turkiye-life-starter")!;
+  assert.equal(life.contentReady, true);
+  assert.equal(life.available, true);
+  assert.equal(life.pages_per_edition, 32);
+  assert.equal(life.total_pages, 64);
+  assert.equal(
+    life.titles.id,
+    "Türkiye Life Starter — Panduan 30 Hari Pertama",
+  );
+  assert.equal(life.titles.tr, "Türkiye’de Yaşama Başlangıç Kiti — İlk 30 Gün");
+  assert.deepEqual(life.proposed_test_price, {
+    amount: 149000,
+    currency: "IDR",
+  });
+  assert.deepEqual(life.editions, [
+    { locale: "id", format: "PDF" },
+    { locale: "tr", format: "PDF" },
+  ]);
+  assert.deepEqual(
+    products.filter((p) => !p.contentReady).map((p) => p.id),
+    ["turkish-for-couples", "consultation-prep-workbook"],
+  );
+  const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
+  for (const marker of [
+    "turkiye-life-starter",
+    "Halo_Merhaba_Turkiye_Life_Starter_30_Hari_ID.pdf",
+    "Halo_Merhaba_Turkiyede_Yasam_Baslangic_Ilk_30_Gun_TR.pdf",
   ])
     assert.ok(source.includes(marker));
 });
