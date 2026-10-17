@@ -163,7 +163,14 @@ test("content readiness never grants delivery and public product data contains n
   }
   assert.ok(
     products
-      .filter((p) => ![ready.id, "document-apostille-organizer"].includes(p.id))
+      .filter(
+        (p) =>
+          ![
+            ready.id,
+            "document-apostille-organizer",
+            "turkish-a1-survival",
+          ].includes(p.id),
+      )
       .every((p) => !p.contentReady && !p.available),
   );
   assert.ok(
@@ -183,7 +190,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
   const expected = [
     ["marriage-checklist-wni", "marriage", 149000],
     ["document-apostille-organizer", "documents", 129000],
-    ["turkish-a1-survival", "language", 99000],
+    ["turkish-a1-survival", "language", 129000],
     ["family-meeting-toolkit", "marriage", 79000],
     ["marriage-preparation-workbook", "marriage", 179000],
     ["translation-document-kit", "documents", 99000],
@@ -210,13 +217,17 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
   }
 });
 
-test("two completed bilingual guides retain closed delivery and seven products remain unfinished", () => {
+test("three completed bilingual guides retain closed delivery and six products remain unfinished", () => {
   const ready = products.filter((p) => p.contentReady);
   assert.deepEqual(
     ready.map((p) => p.id),
-    ["marriage-checklist-wni", "document-apostille-organizer"],
+    [
+      "marriage-checklist-wni",
+      "document-apostille-organizer",
+      "turkish-a1-survival",
+    ],
   );
-  assert.equal(products.filter((p) => !p.contentReady).length, 7);
+  assert.equal(products.filter((p) => !p.contentReady).length, 6);
   const document = ready.find((p) => p.id === "document-apostille-organizer")!;
   assert.equal(document.available, true);
   assert.equal(document.pages_per_edition, 19);
@@ -233,4 +244,24 @@ test("two completed bilingual guides retain closed delivery and seven products r
   ])
     assert.ok(source.includes(marker));
   assert.ok(source.includes("Object.hasOwn(privateProductAssets, productId)"));
+});
+
+test("A1 guide has two private editions, 25 pages each and revised planned pricing", () => {
+  const a1 = products.find((p) => p.id === "turkish-a1-survival")!;
+  assert.equal(a1.contentReady, true);
+  assert.equal(a1.available, true);
+  assert.equal(a1.pages_per_edition, 25);
+  assert.equal(a1.total_pages, 50);
+  assert.deepEqual(a1.proposed_test_price, { amount: 129000, currency: "IDR" });
+  assert.deepEqual(a1.editions, [
+    { locale: "id", format: "PDF" },
+    { locale: "tr", format: "PDF" },
+  ]);
+  const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
+  for (const marker of [
+    "turkish-a1-survival",
+    "Halo_Merhaba_Turkce_A1_Survival_Pack_ID.pdf",
+    "Halo_Merhaba_Turkce_A1_Gunluk_Yasam_Paketi_TR.pdf",
+  ])
+    assert.ok(source.includes(marker));
 });

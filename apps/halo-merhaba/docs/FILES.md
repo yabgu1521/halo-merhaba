@@ -77,3 +77,6 @@ Relative to `/workspace/halo-merhaba-site`. All files are new in this standalone
 
 - `src/components/document-product.tsx`
 - `src/content/document-product.ts`
+
+- `src/components/a1-product.tsx`
+- `src/content/a1-product.ts`

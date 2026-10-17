@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { MarriageProduct } from "./marriage-product";
 import { DocumentProduct } from "./document-product";
+import { A1Product } from "./a1-product";
 import { DigitalCatalog, ProductPrice } from "./digital-catalog";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -860,6 +861,8 @@ export function PublicPage({
               <MarriageProduct locale={locale} />
             ) : product.id === "document-apostille-organizer" ? (
               <DocumentProduct locale={locale} />
+            ) : product.id === "turkish-a1-survival" ? (
+              <A1Product locale={locale} />
             ) : (
               <>
                 <section className="hm-product-detail">

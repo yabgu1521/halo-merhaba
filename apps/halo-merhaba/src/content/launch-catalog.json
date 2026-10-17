@@ -124,15 +124,15 @@
       "id": "turkish-a1-survival",
       "title": "Türkçe A1 – Survival Pack untuk Orang Indonesia",
       "audience": "Günlük Türkçeye başlangıç yapmak isteyen Endonezyalılar",
-      "format": "PDF + konuşma kartları + alıştırmalar",
+      "format": "PDF — Indonesian and Turkish editions",
       "proposed_test_price": {
-        "amount": 99000,
+        "amount": 129000,
         "currency": "IDR"
       },
-      "content_status": "needs_authoring",
+      "content_status": "content_ready",
       "next_offer": "turkish-course",
-      "deliverable_available": false,
-      "content_ready": false,
+      "deliverable_available": true,
+      "content_ready": true,
       "sale_enabled": false,
       "download_enabled": false,
       "category": "language",
@@ -142,15 +142,27 @@
         "en": "Türkçe A1 – Survival Pack untuk Orang Indonesia"
       },
       "descriptions": {
-        "id": "Rencana ungkapan dan latihan singkat untuk kehidupan sehari-hari. Bukan kursus A1 lengkap atau sertifikat.",
-        "tr": "Günlük yaşam için planlanan kısa ifadeler ve alıştırmalar. Tam A1 kursu veya sertifika değildir.",
-        "en": "Rencana ungkapan dan latihan singkat untuk kehidupan sehari-hari. Bukan kursus A1 lengkap atau sertifikat."
+        "id": "Paket Türkçe praktis untuk komunikasi sehari-hari di Türkiye, dengan edisi pelajar dan pendamping. Bukan kursus CEFR A1 lengkap atau sertifikat.",
+        "tr": "Türkiye’de günlük iletişim için öğrenci ve birlikte pratik yapan kişi odaklı iki dilli başlangıç paketi. Tam CEFR A1 kursu veya sertifika değildir.",
+        "en": "A bilingual practical Turkish starter pack for daily communication and partner practice. Not a complete CEFR A1 course or certificate."
       },
       "planned_contents": {
         "id": ["Ungkapan sehari-hari", "Dialog singkat", "Lembar latihan"],
         "tr": ["Günlük ifadeler", "Kısa diyaloglar", "Alıştırma sayfaları"],
         "en": ["Ungkapan sehari-hari", "Dialog singkat", "Lembar latihan"]
-      }
+      },
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ],
+      "pages_per_edition": 25,
+      "total_pages": 50
     },
     {
       "id": "family-meeting-toolkit",

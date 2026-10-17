@@ -378,6 +378,8 @@ test("private product object identifiers never enter public build artifacts", ()
     "Halo_Merhaba_Turkiyede_Evlilik_Tam_Hazirlik_Rehberi_TR.pdf",
     "Halo_Merhaba_Dokumen_Apostille_Organizer_ID.pdf",
     "Halo_Merhaba_Belge_Apostil_Duzenleyici_TR.pdf",
+    "Halo_Merhaba_Turkce_A1_Survival_Pack_ID.pdf",
+    "Halo_Merhaba_Turkce_A1_Gunluk_Yasam_Paketi_TR.pdf",
     "/storage/v1/object/public/",
     "/storage/v1/object/sign/",
   ];
@@ -421,8 +423,8 @@ test(
       for (const locale of ["id", "tr"]) {
         await page.goto(`${origin}/${locale}/digital-guides`);
         assert.equal(await page.locator(".hm-product-card").count(), 9);
-        assert.equal(await page.locator(".hm-product-card-ready").count(), 2);
-        assert.equal(await page.locator(".hm-product-card-planned").count(), 7);
+        assert.equal(await page.locator(".hm-product-card-ready").count(), 3);
+        assert.equal(await page.locator(".hm-product-card-planned").count(), 6);
         const text = await page.locator("main").innerText();
         assert.ok(!/\bTRY\b/.test(text));
         for (const product of source.products) {
@@ -479,6 +481,13 @@ test(
           [5, "guidance", 1],
         ]) {
           await filters.nth(index).click();
+          await page.waitForFunction(
+            (index) =>
+              document
+                .querySelectorAll(".hm-store-filters button")
+                [index]?.getAttribute("aria-pressed") === "true",
+            index,
+          );
           assert.equal(
             await filters.nth(index).getAttribute("aria-pressed"),
             "true",
@@ -495,6 +504,9 @@ test(
           );
         }
         await filters.first().click();
+        await page.waitForFunction(
+          () => document.querySelectorAll(".hm-product-card").length === 9,
+        );
         assert.equal(await page.locator(".hm-product-card").count(), 9);
         await page.locator(".hm-store-feature a").click();
         await page.waitForURL(`**/${locale}/produk/marriage-checklist-wni`);
@@ -605,6 +617,124 @@ test(
             .locator(
               '.hm-document-product .hm-marriage-hero a[href="#request-form"]',
             )
+            .click();
+          assert.ok(await page.locator("#request-form").isVisible());
+          assert.equal(
+            await page.locator('form input[name="email"]').count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator(
+                'a[download],a[href*=".pdf"],a[href*="storage/v1"],input[type="file"]',
+              )
+              .count(),
+            0,
+          );
+          assert.ok(
+            !/halo-digital-products|Halo_Merhaba_/.test(await response.text()),
+          );
+          assert.ok(
+            await page.evaluate(
+              () =>
+                document.documentElement.scrollWidth <= window.innerWidth + 1,
+            ),
+          );
+        }
+    } finally {
+      await browser.close();
+    }
+  },
+);
+
+test(
+  "completed A1 guide package, modules and interest CTA in both languages",
+  { timeout: 60000 },
+  async () => {
+    const browser = await chromium.launch({
+      executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+      args: ["--no-sandbox"],
+    });
+    try {
+      const page = await browser.newPage();
+      for (const locale of ["id", "tr"])
+        for (const width of [360, 375, 390, 412, 430, 768, 1440]) {
+          await page.setViewportSize({ width, height: 900 });
+          const response = await page.goto(
+            `${origin}/${locale}/produk/turkish-a1-survival`,
+          );
+          assert.equal(response.status(), 200);
+          assert.equal(await page.locator(".hm-a1-product h1").count(), 1);
+          assert.equal(
+            await page.locator(".hm-a1-product .hm-content-module").count(),
+            26,
+          );
+          assert.equal(
+            await page.locator(".hm-a1-product .hm-tools-list li").count(),
+            26,
+          );
+          for (const edition of locale === "id"
+            ? ["Edisi Bahasa Indonesia — PDF", "Edisi bahasa Turki — PDF"]
+            : ["Endonezce sürüm — PDF", "Türkçe sürüm — PDF"])
+            assert.ok(
+              await page.getByText(edition, { exact: true }).isVisible(),
+            );
+          for (const text of locale === "id"
+            ? [
+                "25 halaman per edisi",
+                "50 halaman dalam paket bilingual",
+                "Rp129.000",
+              ]
+            : [
+                "Her sürüm 25 sayfa",
+                "İki dilli pakette toplam 50 sayfa",
+                "Fiyat yakında açıklanacak",
+              ])
+            assert.ok(
+              await page.getByText(text, { exact: true }).first().isVisible(),
+            );
+          const notice =
+            locale === "id"
+              ? "Panduan sudah selesai disiapkan. File PDF disimpan secara privat dan belum dapat diunduh sampai penjualan resmi dibuka."
+              : "Rehber tamamlandı. PDF dosyaları özel olarak saklanmaktadır ve resmi satış açılana kadar indirilemez.";
+          assert.ok(
+            await page.getByText(notice, { exact: true }).first().isVisible(),
+          );
+          assert.ok(
+            !(await page.locator(".hm-a1-product").innerText()).includes(
+              "Rp99.000",
+            ),
+          );
+          const bilingual =
+            locale === "id"
+              ? "Anda belajar dalam Bahasa Indonesia, pasangan atau keluarga Türkiye dapat mengikuti struktur yang sama dalam versi Türkçe."
+              : "Endonezyalı eşiniz Endonezce sürümden çalışırken siz aynı yapıyı Türkçe sürümden takip edebilir ve birlikte pratik yapabilirsiniz.";
+          assert.ok(
+            await page.getByText(bilingual, { exact: true }).isVisible(),
+          );
+          for (const boundary of locale === "id"
+            ? [
+                "Bukan kursus CEFR A1 lengkap.",
+                "Bukan sertifikat bahasa resmi.",
+                "Tidak menggantikan pengajaran bahasa profesional.",
+              ]
+            : [
+                "Tam bir CEFR A1 kursu değildir.",
+                "Resmî dil sertifikası değildir.",
+                "Profesyonel dil öğretiminin yerini almaz.",
+              ])
+            assert.ok(
+              await page.getByText(boundary, { exact: true }).isVisible(),
+            );
+          assert.ok(
+            await page.locator(".hm-a1-product .hm-coming").first().isVisible(),
+          );
+          const module = page.locator(".hm-content-module").nth(1);
+          await module.locator("summary").click();
+          assert.equal(await module.evaluate((node) => node.open), true);
+          assert.ok(await module.locator("p").isVisible());
+          await page
+            .locator('.hm-a1-product .hm-marriage-hero a[href="#request-form"]')
             .click();
           assert.ok(await page.locator("#request-form").isVisible());
           assert.equal(
