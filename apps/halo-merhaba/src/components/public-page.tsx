@@ -4,6 +4,7 @@ import { MarriageProduct } from "./marriage-product";
 import { DocumentProduct } from "./document-product";
 import { A1Product } from "./a1-product";
 import { FamilyProduct } from "./family-product";
+import { WorkbookProduct } from "./workbook-product";
 import { DigitalCatalog, ProductPrice } from "./digital-catalog";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -866,6 +867,8 @@ export function PublicPage({
               <A1Product locale={locale} />
             ) : product.id === "family-meeting-toolkit" ? (
               <FamilyProduct locale={locale} />
+            ) : product.id === "marriage-preparation-workbook" ? (
+              <WorkbookProduct locale={locale} />
             ) : (
               <>
                 <section className="hm-product-detail">

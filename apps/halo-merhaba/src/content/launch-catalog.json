@@ -221,7 +221,7 @@
     },
     {
       "id": "marriage-preparation-workbook",
-      "format": "PDF",
+      "format": "PDF — Indonesian and Turkish editions",
       "next_offer": "consultation",
       "title": "Persiapan Nikah Indonesia–Türkiye Workbook",
       "category": "marriage",
@@ -231,9 +231,9 @@
         "en": "Persiapan Nikah Indonesia–Türkiye Workbook"
       },
       "descriptions": {
-        "id": "Rencana buku kerja untuk mendiskusikan prioritas, membagi tugas, dan mencatat persiapan nikah bersama.",
-        "tr": "Öncelikleri konuşmak, görevleri paylaşmak ve evlilik hazırlığını kaydetmek için planlanan çalışma kitabı.",
-        "en": "Rencana buku kerja untuk mendiskusikan prioritas, membagi tugas, dan mencatat persiapan nikah bersama."
+        "id": "Workbook percakapan dan perencanaan hidup bersama untuk membahas uang, rumah, keluarga, bahasa, anak, konflik, dan 90 hari pertama pernikahan.",
+        "tr": "Para, ev, aile, dil, çocuk, anlaşmazlıklar ve evliliğin ilk 90 gününü konuşmak için ortak yaşam planlama çalışma kitabı.",
+        "en": "A shared-life conversation and planning workbook covering money, home, family, language, children, conflict and the first 90 days of marriage."
       },
       "planned_contents": {
         "id": [
@@ -253,14 +253,26 @@
         ]
       },
       "proposed_test_price": {
-        "amount": 179000,
+        "amount": 199000,
         "currency": "IDR"
       },
-      "content_status": "needs_authoring",
-      "deliverable_available": false,
-      "content_ready": false,
+      "content_status": "content_ready",
+      "deliverable_available": true,
+      "content_ready": true,
       "sale_enabled": false,
-      "download_enabled": false
+      "download_enabled": false,
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ],
+      "pages_per_edition": 32,
+      "total_pages": 64
     },
     {
       "id": "translation-document-kit",

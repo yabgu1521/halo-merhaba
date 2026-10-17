@@ -83,3 +83,6 @@ Relative to `/workspace/halo-merhaba-site`. All files are new in this standalone
 
 - `src/components/family-product.tsx`
 - `src/content/family-product.ts`
+
+- `src/components/workbook-product.tsx`
+- `src/content/workbook-product.ts`

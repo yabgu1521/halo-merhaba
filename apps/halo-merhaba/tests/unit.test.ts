@@ -170,6 +170,7 @@ test("content readiness never grants delivery and public product data contains n
             "document-apostille-organizer",
             "turkish-a1-survival",
             "family-meeting-toolkit",
+            "marriage-preparation-workbook",
           ].includes(p.id),
       )
       .every((p) => !p.contentReady && !p.available),
@@ -193,7 +194,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
     ["document-apostille-organizer", "documents", 129000],
     ["turkish-a1-survival", "language", 129000],
     ["family-meeting-toolkit", "marriage", 119000],
-    ["marriage-preparation-workbook", "marriage", 179000],
+    ["marriage-preparation-workbook", "marriage", 199000],
     ["translation-document-kit", "documents", 99000],
     ["turkiye-life-starter", "life", 119000],
     ["turkish-for-couples", "language", 129000],
@@ -218,7 +219,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
   }
 });
 
-test("four completed bilingual guides retain closed delivery and five products remain unfinished", () => {
+test("five completed bilingual guides retain closed delivery and four products remain unfinished", () => {
   const ready = products.filter((p) => p.contentReady);
   assert.deepEqual(
     ready.map((p) => p.id),
@@ -227,9 +228,10 @@ test("four completed bilingual guides retain closed delivery and five products r
       "document-apostille-organizer",
       "turkish-a1-survival",
       "family-meeting-toolkit",
+      "marriage-preparation-workbook",
     ],
   );
-  assert.equal(products.filter((p) => !p.contentReady).length, 5);
+  assert.equal(products.filter((p) => !p.contentReady).length, 4);
   const document = ready.find((p) => p.id === "document-apostille-organizer")!;
   assert.equal(document.available, true);
   assert.equal(document.pages_per_edition, 19);
@@ -287,6 +289,31 @@ test("family toolkit has two private editions, 27 pages each and revised planned
     "family-meeting-toolkit",
     "Halo_Merhaba_Pertemuan_Keluarga_Indonesia_Turkiye_Toolkit_ID.pdf",
     "Halo_Merhaba_Endonezya_Turkiye_Aile_Tanisma_Rehberi_TR.pdf",
+  ])
+    assert.ok(source.includes(marker));
+});
+
+test("marriage workbook has two private v2 editions, 32 pages each and revised pricing", () => {
+  const workbook = products.find(
+    (p) => p.id === "marriage-preparation-workbook",
+  )!;
+  assert.equal(workbook.contentReady, true);
+  assert.equal(workbook.available, true);
+  assert.equal(workbook.pages_per_edition, 32);
+  assert.equal(workbook.total_pages, 64);
+  assert.deepEqual(workbook.proposed_test_price, {
+    amount: 199000,
+    currency: "IDR",
+  });
+  assert.deepEqual(workbook.editions, [
+    { locale: "id", format: "PDF" },
+    { locale: "tr", format: "PDF" },
+  ]);
+  const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
+  for (const marker of [
+    "marriage-preparation-workbook",
+    "Halo_Merhaba_Persiapan_Nikah_Indonesia_Turkiye_Workbook_ID_v2.pdf",
+    "Halo_Merhaba_Endonezya_Turkiye_Evlilik_Hazirlik_Workbook_TR_v2.pdf",
   ])
     assert.ok(source.includes(marker));
 });

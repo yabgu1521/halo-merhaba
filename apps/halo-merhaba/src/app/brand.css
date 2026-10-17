@@ -2956,3 +2956,95 @@
     font-size: 13px;
   }
 }
+
+/* Workbook-only editorial decision surfaces. No fields, saved answers or PDF embeds. */
+.hm-app .hm-workbook-product .hm-marriage-cover {
+  background: #e9e6dc;
+  border-top: 4px solid #263c4a;
+}
+.hm-app .hm-workbook-comparison-grid,
+.hm-app .hm-workbook-preview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 28px;
+}
+.hm-app .hm-workbook-comparison-grid > div {
+  padding: 28px;
+  border: 1px solid #d8cebf;
+  border-radius: 4px;
+}
+.hm-app .hm-workbook-comparison-grid > div:last-child {
+  background: #ece8dd;
+  border-top: 3px solid #2c4350;
+}
+.hm-app .hm-workbook-comparison-grid h3 {
+  font-size: 25px;
+  line-height: 1.25;
+  margin: 12px 0 20px;
+}
+.hm-app .hm-workbook-preview-grid figure {
+  min-width: 0;
+  margin: 0;
+  padding: 28px;
+  background: #fffdf6;
+  border: 1px solid #d8cebf;
+  border-top: 3px solid #963c42;
+}
+.hm-app .hm-workbook-preview-grid figcaption {
+  font-family: Georgia, serif;
+  font-size: 24px;
+  line-height: 1.25;
+  margin-bottom: 24px;
+}
+.hm-app .hm-workbook-preview-grid table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.hm-app .hm-workbook-preview-grid th {
+  text-align: left;
+  font-weight: 500;
+  color: #263c4a;
+}
+.hm-app .hm-workbook-preview-grid th,
+.hm-app .hm-workbook-preview-grid td {
+  padding: 18px 6px;
+  border-bottom: 1px solid #ddd3c4;
+  overflow-wrap: anywhere;
+}
+.hm-app .hm-workbook-preview-grid td > span {
+  display: block;
+  width: 90%;
+  height: 1px;
+  background: #d8cfc0;
+}
+.hm-app .hm-decision-lines > div {
+  padding: 18px 0;
+  border-bottom: 1px solid #ddd3c4;
+  font-size: 13px;
+}
+.hm-app .hm-decision-lines i {
+  display: block;
+  height: 1px;
+  background: #d8cfc0;
+  margin-top: 22px;
+}
+.hm-app .hm-workbook-autonomy ul {
+  padding-left: 20px;
+  max-width: 800px;
+}
+.hm-app .hm-workbook-autonomy li {
+  padding: 7px 0 7px 8px;
+}
+@media (max-width: 760px) {
+  .hm-app .hm-workbook-comparison-grid,
+  .hm-app .hm-workbook-preview-grid {
+    grid-template-columns: 1fr;
+  }
+  .hm-app .hm-workbook-comparison-grid > div,
+  .hm-app .hm-workbook-preview-grid figure {
+    padding: 24px 18px;
+  }
+}
