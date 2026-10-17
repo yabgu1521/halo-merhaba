@@ -166,7 +166,7 @@
     },
     {
       "id": "family-meeting-toolkit",
-      "format": "PDF",
+      "format": "PDF — Indonesian and Turkish editions",
       "next_offer": "consultation",
       "title": "Pertemuan Keluarga Indonesia–Türkiye Toolkit",
       "category": "marriage",
@@ -176,9 +176,9 @@
         "en": "Pertemuan Keluarga Indonesia–Türkiye Toolkit"
       },
       "descriptions": {
-        "id": "Rencana panduan untuk menyiapkan pertemuan keluarga, percakapan awal, dan harapan bersama.",
-        "tr": "Aile tanışması, ilk sohbetler ve ortak beklentiler için planlanan hazırlık rehberi.",
-        "en": "Rencana panduan untuk menyiapkan pertemuan keluarga, percakapan awal, dan harapan bersama."
+        "id": "Toolkit praktis untuk menyiapkan pertemuan keluarga Indonesia–Türkiye, membagi peran, dan menata percakapan serta tindak lanjut.",
+        "tr": "Endonezya–Türkiye aile tanışmasına hazırlanmak, rolleri paylaşmak, sohbeti ve görüşme sonrasını düzenlemek için pratik araçlar.",
+        "en": "A practical toolkit for Indonesia–Türkiye family meetings, shared roles, conversation structure and follow-up."
       },
       "planned_contents": {
         "id": [
@@ -198,14 +198,26 @@
         ]
       },
       "proposed_test_price": {
-        "amount": 79000,
+        "amount": 119000,
         "currency": "IDR"
       },
-      "content_status": "needs_authoring",
-      "deliverable_available": false,
-      "content_ready": false,
+      "content_status": "content_ready",
+      "deliverable_available": true,
+      "content_ready": true,
       "sale_enabled": false,
-      "download_enabled": false
+      "download_enabled": false,
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ],
+      "pages_per_edition": 27,
+      "total_pages": 54
     },
     {
       "id": "marriage-preparation-workbook",

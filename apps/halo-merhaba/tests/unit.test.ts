@@ -169,6 +169,7 @@ test("content readiness never grants delivery and public product data contains n
             ready.id,
             "document-apostille-organizer",
             "turkish-a1-survival",
+            "family-meeting-toolkit",
           ].includes(p.id),
       )
       .every((p) => !p.contentReady && !p.available),
@@ -191,7 +192,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
     ["marriage-checklist-wni", "marriage", 149000],
     ["document-apostille-organizer", "documents", 129000],
     ["turkish-a1-survival", "language", 129000],
-    ["family-meeting-toolkit", "marriage", 79000],
+    ["family-meeting-toolkit", "marriage", 119000],
     ["marriage-preparation-workbook", "marriage", 179000],
     ["translation-document-kit", "documents", 99000],
     ["turkiye-life-starter", "life", 119000],
@@ -217,7 +218,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
   }
 });
 
-test("three completed bilingual guides retain closed delivery and six products remain unfinished", () => {
+test("four completed bilingual guides retain closed delivery and five products remain unfinished", () => {
   const ready = products.filter((p) => p.contentReady);
   assert.deepEqual(
     ready.map((p) => p.id),
@@ -225,9 +226,10 @@ test("three completed bilingual guides retain closed delivery and six products r
       "marriage-checklist-wni",
       "document-apostille-organizer",
       "turkish-a1-survival",
+      "family-meeting-toolkit",
     ],
   );
-  assert.equal(products.filter((p) => !p.contentReady).length, 6);
+  assert.equal(products.filter((p) => !p.contentReady).length, 5);
   const document = ready.find((p) => p.id === "document-apostille-organizer")!;
   assert.equal(document.available, true);
   assert.equal(document.pages_per_edition, 19);
@@ -262,6 +264,29 @@ test("A1 guide has two private editions, 25 pages each and revised planned prici
     "turkish-a1-survival",
     "Halo_Merhaba_Turkce_A1_Survival_Pack_ID.pdf",
     "Halo_Merhaba_Turkce_A1_Gunluk_Yasam_Paketi_TR.pdf",
+  ])
+    assert.ok(source.includes(marker));
+});
+
+test("family toolkit has two private editions, 27 pages each and revised planned pricing", () => {
+  const family = products.find((p) => p.id === "family-meeting-toolkit")!;
+  assert.equal(family.contentReady, true);
+  assert.equal(family.available, true);
+  assert.equal(family.pages_per_edition, 27);
+  assert.equal(family.total_pages, 54);
+  assert.deepEqual(family.proposed_test_price, {
+    amount: 119000,
+    currency: "IDR",
+  });
+  assert.deepEqual(family.editions, [
+    { locale: "id", format: "PDF" },
+    { locale: "tr", format: "PDF" },
+  ]);
+  const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
+  for (const marker of [
+    "family-meeting-toolkit",
+    "Halo_Merhaba_Pertemuan_Keluarga_Indonesia_Turkiye_Toolkit_ID.pdf",
+    "Halo_Merhaba_Endonezya_Turkiye_Aile_Tanisma_Rehberi_TR.pdf",
   ])
     assert.ok(source.includes(marker));
 });
