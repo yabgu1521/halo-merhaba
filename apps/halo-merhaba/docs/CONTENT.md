@@ -7,7 +7,7 @@ src/lib/i18n.ts: enabled locales and future English architecture.
 src/content/site-copy.ts: localized labels, FAQs, service-process/limits, legal drafts.
 src/content/services.ts: service descriptions and categories.
 src/content/guides.ts: five editorial guides, internal official-source-review flags and funnel links.
-src/content/launch-catalog.json: copied business source-of-truth. The marriage checklist now has content_ready=true and deliverable_available=true based on the owner’s confirmation of two private PDF editions. Other products remain unavailable. All sale/download flags remain false; content/file existence is not an entitlement. Private object identifiers live only in src/lib/server/product-assets.ts, never the public catalog. src/content/catalog.ts maps localized display. Proposed 79/99/99 TRY product and 250 TRY pre-check amounts remain provisional, not payable offers.
+src/content/launch-catalog.json: copied business source-of-truth. The marriage checklist now has content_ready=true and deliverable_available=true based on the owner’s confirmation of two private PDF editions. Other products remain unavailable. All sale/download flags remain false; content/file existence is not an entitlement. Private object identifiers live only in src/lib/server/product-assets.ts, never the public catalog. src/content/catalog.ts maps localized display. Marriage guide planned launch price: Rp149.000 in Indonesian; Turkish pricing is to be announced, without conversion. Other products retain provisional 99 TRY prices; the 250 TRY pre-check remains provisional. None is a payable offer.
 
 ## Required from Halo Merhaba
 
@@ -24,3 +24,7 @@ Categories cover marriage, documents/apostille, Türkiye life, language and cros
 Product pages already have stable IDs, descriptions, proposed content and interest forms; future checkout belongs in a separate authorized purchase flow once deliverables exist. Service forms use typed kinds and whitelisted answers; secure upload, booking, customer accounts and payments can be added without replacing the public navigation/content system. None is implemented now.
 
 Analytics emits only local halo:event CustomEvents with non-sensitive category metadata. Connect a consent-aware analytics listener later; no hidden trackers or paid APIs are installed.
+
+## Completed marriage guide presentation
+
+src/content/marriage-product.ts contains owner-supplied bilingual scope (16 pages per edition), four expandable modules covering 16 sections, audience, boundaries and trust copy. src/components/marriage-product.tsx renders the product-specific presentation and shared locale-aware price. Previews are illustrative HTML/CSS shapes, not extracted PDF pages. No PDF was fetched or inspected. Existing interest and consultation flows remain unchanged.

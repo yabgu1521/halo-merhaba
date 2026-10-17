@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { MarriageProduct, MarriagePrice } from "./marriage-product";
 import { useEffect, useRef, useState } from "react";
 import {
   brandCopy,
@@ -254,10 +255,16 @@ export function PublicPage({
                 <p className="hm-product-ready">{c.productReadyNotice}</p>
               )}
               <div className="hm-product-price">
-                <strong>
-                  {p.proposed_test_price.amount} <small>TRY</small>
-                </strong>
-                <span>{c.testPrice}</span>
+                {p.id === "marriage-checklist-wni" ? (
+                  <MarriagePrice locale={locale} />
+                ) : (
+                  <>
+                    <strong>
+                      {p.proposed_test_price.amount} <small>TRY</small>
+                    </strong>
+                    <span>{c.testPrice}</span>
+                  </>
+                )}
               </div>
               <Link className="hm-text-link" href={href(`produk/${p.id}`)}>
                 {c.productDetail}
@@ -910,133 +917,141 @@ export function PublicPage({
             <Link className="hm-back" href={href("digital-guides")}>
               ← {c.store}
             </Link>
-            <section className="hm-product-detail">
-              <div className={`hm-book-scene tone-${product.index}`}>
-                <div className="hm-book">
-                  <span>
-                    HALO MERHABA<span>INDONESIA ↔ TÜRKİYE</span>
-                  </span>
-                  <BrandMotif
-                    variant={
-                      product.category === "marriage"
-                        ? "marriage"
-                        : product.category === "documents"
-                          ? "documents"
-                          : "language"
-                    }
-                  />
-                  <FlagPair />
-                  <small>{c.coming}</small>
-                </div>
-              </div>
-              <div>
-                <span className="hm-coming">
-                  <i />
-                  {product.contentReady ? c.productReadyLabel : c.preparing}
-                </span>
-                <h1>{productTitles[product.id][locale]}</h1>
-                <p>{productDescriptions[product.id][locale]}</p>
-                <div className="hm-product-price">
-                  <strong>{product.proposed_test_price.amount} TRY</strong>
-                  <span>{c.testPrice}</span>
-                </div>
-                <p className="hm-muted">{c.priceNote}</p>
-                <div className="hm-boundary">
-                  <Icon name="lock" size={22} />
-                  <div>
-                    <p>
-                      {product.contentReady
-                        ? c.productReadyNotice
-                        : c.productUnavailable}
-                    </p>
-                    {product.contentReady && <p>{c.productReadyAccess}</p>}
+            {product.id === "marriage-checklist-wni" ? (
+              <MarriageProduct locale={locale} />
+            ) : (
+              <>
+                <section className="hm-product-detail">
+                  <div className={`hm-book-scene tone-${product.index}`}>
+                    <div className="hm-book">
+                      <span>
+                        HALO MERHABA<span>INDONESIA ↔ TÜRKİYE</span>
+                      </span>
+                      <BrandMotif
+                        variant={
+                          product.category === "marriage"
+                            ? "marriage"
+                            : product.category === "documents"
+                              ? "documents"
+                              : "language"
+                        }
+                      />
+                      <FlagPair />
+                      <small>{c.coming}</small>
+                    </div>
                   </div>
-                </div>
-                <a className="hm-button" href="#request-form">
-                  {c.notify}
-                  <Icon name="arrow" size={17} />
-                </a>
-              </div>
-            </section>
-            <section className="hm-product-plan">
-              <h2>
-                {product.contentReady ? c.productPackage : c.productInside}
-              </h2>
-              <ul>
-                {product.contentReady
-                  ? product.editions.map((edition) => (
-                      <li key={edition.locale}>
-                        <Icon name="file" size={17} />
-                        {edition.locale === "id" ? c.editionId : c.editionTr}
-                      </li>
-                    ))
-                  : product.id === "marriage-checklist-wni"
-                    ? localizedList(
-                        {
-                          id: [
-                            "Daftar pertanyaan untuk instansi",
-                            "Pelacak persiapan dan dokumen",
-                            "Catatan langkah tindak lanjut",
-                          ],
-                          tr: [
-                            "Kuruma sorulacak sorular",
-                            "Hazırlık ve belge takibi",
-                            "Sonraki adım notları",
-                          ],
-                          en: [],
-                        },
-                        locale,
-                      ).map((item) => (
-                        <li key={item}>
-                          <Icon name="check" size={17} />
-                          {item}
-                        </li>
-                      ))
-                    : product.id === "document-apostille-organizer"
-                      ? localizedList(
-                          {
-                            id: [
-                              "Inventaris dokumen",
-                              "Catatan terjemahan dan pengesahan",
-                              "Pelacak tanggal tindak lanjut",
-                            ],
-                            tr: [
-                              "Belge envanteri",
-                              "Tercüme ve tasdik notları",
-                              "Takip tarihi çizelgesi",
-                            ],
-                            en: [],
-                          },
-                          locale,
-                        ).map((item) => (
-                          <li key={item}>
-                            <Icon name="check" size={17} />
-                            {item}
+                  <div>
+                    <span className="hm-coming">
+                      <i />
+                      {product.contentReady ? c.productReadyLabel : c.preparing}
+                    </span>
+                    <h1>{productTitles[product.id][locale]}</h1>
+                    <p>{productDescriptions[product.id][locale]}</p>
+                    <div className="hm-product-price">
+                      <strong>{product.proposed_test_price.amount} TRY</strong>
+                      <span>{c.testPrice}</span>
+                    </div>
+                    <p className="hm-muted">{c.priceNote}</p>
+                    <div className="hm-boundary">
+                      <Icon name="lock" size={22} />
+                      <div>
+                        <p>
+                          {product.contentReady
+                            ? c.productReadyNotice
+                            : c.productUnavailable}
+                        </p>
+                        {product.contentReady && <p>{c.productReadyAccess}</p>}
+                      </div>
+                    </div>
+                    <a className="hm-button" href="#request-form">
+                      {c.notify}
+                      <Icon name="arrow" size={17} />
+                    </a>
+                  </div>
+                </section>
+                <section className="hm-product-plan">
+                  <h2>
+                    {product.contentReady ? c.productPackage : c.productInside}
+                  </h2>
+                  <ul>
+                    {product.contentReady
+                      ? product.editions.map((edition) => (
+                          <li key={edition.locale}>
+                            <Icon name="file" size={17} />
+                            {edition.locale === "id"
+                              ? c.editionId
+                              : c.editionTr}
                           </li>
                         ))
-                      : localizedList(
-                          {
-                            id: [
-                              "Ungkapan sehari-hari",
-                              "Dialog singkat",
-                              "Lembar latihan",
-                            ],
-                            tr: [
-                              "Günlük ifadeler",
-                              "Kısa diyaloglar",
-                              "Alıştırma sayfaları",
-                            ],
-                            en: [],
-                          },
-                          locale,
-                        ).map((item) => (
-                          <li key={item}>
-                            <Icon name="check" size={17} />
-                            {item}
-                          </li>
-                        ))}
-              </ul>
-            </section>
+                      : product.id === "marriage-checklist-wni"
+                        ? localizedList(
+                            {
+                              id: [
+                                "Daftar pertanyaan untuk instansi",
+                                "Pelacak persiapan dan dokumen",
+                                "Catatan langkah tindak lanjut",
+                              ],
+                              tr: [
+                                "Kuruma sorulacak sorular",
+                                "Hazırlık ve belge takibi",
+                                "Sonraki adım notları",
+                              ],
+                              en: [],
+                            },
+                            locale,
+                          ).map((item) => (
+                            <li key={item}>
+                              <Icon name="check" size={17} />
+                              {item}
+                            </li>
+                          ))
+                        : product.id === "document-apostille-organizer"
+                          ? localizedList(
+                              {
+                                id: [
+                                  "Inventaris dokumen",
+                                  "Catatan terjemahan dan pengesahan",
+                                  "Pelacak tanggal tindak lanjut",
+                                ],
+                                tr: [
+                                  "Belge envanteri",
+                                  "Tercüme ve tasdik notları",
+                                  "Takip tarihi çizelgesi",
+                                ],
+                                en: [],
+                              },
+                              locale,
+                            ).map((item) => (
+                              <li key={item}>
+                                <Icon name="check" size={17} />
+                                {item}
+                              </li>
+                            ))
+                          : localizedList(
+                              {
+                                id: [
+                                  "Ungkapan sehari-hari",
+                                  "Dialog singkat",
+                                  "Lembar latihan",
+                                ],
+                                tr: [
+                                  "Günlük ifadeler",
+                                  "Kısa diyaloglar",
+                                  "Alıştırma sayfaları",
+                                ],
+                                en: [],
+                              },
+                              locale,
+                            ).map((item) => (
+                              <li key={item}>
+                                <Icon name="check" size={17} />
+                                {item}
+                              </li>
+                            ))}
+                  </ul>
+                </section>
+              </>
+            )}
             <IntakeForm
               kind="product_interest"
               productId={product.id}

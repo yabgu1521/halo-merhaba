@@ -23,7 +23,7 @@ test(
       );
       assert.equal(urls.length, 46);
       urls.push("/id/privasi", "/id/ketentuan", "/tr/privasi", "/tr/ketentuan");
-      for (const width of [360, 375, 390, 430, 768, 1440]) {
+      for (const width of [360, 375, 390, 412, 430, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 });
         for (const url of urls) {
           const r = await page.goto(origin + url);
@@ -267,19 +267,21 @@ test(
       for (const [language, status, editions] of [
         [
           "id",
-          "Konten panduan telah selesai. Penjualan akan segera dibuka.",
+          "Konten selesai — penjualan segera dibuka",
           ["Edisi Bahasa Indonesia — PDF", "Edisi bahasa Turki — PDF"],
         ],
         [
           "tr",
-          "Rehber içeriği tamamlandı. Satış yakında açılacak.",
+          "İçerik tamamlandı — satış yakında açılacak",
           ["Endonezce sürüm — PDF", "Türkçe sürüm — PDF"],
         ],
       ]) {
         const response = await retina.goto(
           origin + `/${language}/produk/marriage-checklist-wni`,
         );
-        assert.ok(await retina.getByText(status, { exact: true }).isVisible());
+        assert.ok(
+          await retina.getByText(status, { exact: true }).first().isVisible(),
+        );
         for (const edition of editions)
           assert.ok(
             await retina.getByText(edition, { exact: true }).isVisible(),
@@ -289,6 +291,36 @@ test(
             .locator('a[href*=".pdf"],a[href*="storage/v1"],a[download]')
             .count(),
           0,
+        );
+        assert.equal(await retina.locator(".hm-content-module").count(), 4);
+        for (const module of await retina.locator(".hm-content-module").all()) {
+          await module.locator("summary").click();
+          await module.evaluate((node) => (node.open = true));
+        }
+        assert.equal(await retina.locator(".hm-content-module li").count(), 16);
+        assert.equal(
+          await retina.locator(".hm-preview-grid figure").count(),
+          4,
+        );
+        const price =
+          language === "id" ? "Rp149.000" : "Fiyat yakında açıklanacak";
+        assert.ok(
+          await retina.getByText(price, { exact: true }).first().isVisible(),
+        );
+        assert.ok(
+          !(await retina.locator("main").innerText()).includes("79 TRY"),
+        );
+        await retina
+          .locator('.hm-marriage-hero a[href="#request-form"]')
+          .click();
+        assert.ok(await retina.locator("#request-form").isVisible());
+        assert.equal(
+          await retina
+            .locator(
+              '.hm-marriage-hero a[href$="/layanan/konsultasi#request-form"]',
+            )
+            .count(),
+          1,
         );
         assert.equal(
           await retina.locator('form input[name="email"]').count(),
@@ -308,7 +340,7 @@ test(
       );
       assert.deepEqual(errors, []);
       console.log(
-        "Verified 50 localized URLs at 6 widths (300 renders), mobile navigation, Escape/focus return, reduced motion, JSON-LD/metadata, no uploads/downloads, fallback and admin-disabled state.",
+        "Verified 50 localized URLs at 7 widths (350 renders), mobile navigation, Escape/focus return, reduced motion, JSON-LD/metadata, no uploads/downloads, fallback and admin-disabled state.",
       );
     } finally {
       await browser.close();

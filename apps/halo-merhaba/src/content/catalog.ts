@@ -17,8 +17,8 @@ export type Product = (typeof products)[number];
 export const productById = (id: string) => products.find((p) => p.id === id);
 export const productTitles: Record<string, LocalText> = {
   "marriage-checklist-wni": {
-    id: "Menikah di Türkiye – Complete Checklist",
-    tr: "Türkiye’de Evlilik – WNI Hazırlık Kontrol Listesi",
+    id: "Menikah di Türkiye – Complete Checklist untuk WNI",
+    tr: "Türkiye’de Evlilik – Endonezya–Türkiye Çiftleri İçin Tam Hazırlık Rehberi",
     en: "Getting Married in Türkiye – Checklist",
   },
   "document-apostille-organizer": {
