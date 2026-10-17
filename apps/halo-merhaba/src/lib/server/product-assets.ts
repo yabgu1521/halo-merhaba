@@ -81,6 +81,20 @@ export const privateProductAssets = {
       format: "PDF",
     },
   ],
+  "translation-document-kit": [
+    {
+      locale: "id",
+      bucket: "halo-digital-products",
+      path: "Halo_Merhaba_Translation_Document_Preparation_Kit_ID.pdf",
+      format: "PDF",
+    },
+    {
+      locale: "tr",
+      bucket: "halo-digital-products",
+      path: "Halo_Merhaba_Ceviri_Belge_Hazirlik_Kiti_TR.pdf",
+      format: "PDF",
+    },
+  ],
 } as const satisfies Record<string, readonly PrivateProductAsset[]>;
 
 // Fail closed for unknown products/locales. This is a metadata lookup, not a downloader.

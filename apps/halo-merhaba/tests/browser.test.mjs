@@ -384,6 +384,8 @@ test("private product object identifiers never enter public build artifacts", ()
     "Halo_Merhaba_Endonezya_Turkiye_Aile_Tanisma_Rehberi_TR.pdf",
     "Halo_Merhaba_Persiapan_Nikah_Indonesia_Turkiye_Workbook_ID_v2.pdf",
     "Halo_Merhaba_Endonezya_Turkiye_Evlilik_Hazirlik_Workbook_TR_v2.pdf",
+    "Halo_Merhaba_Translation_Document_Preparation_Kit_ID.pdf",
+    "Halo_Merhaba_Ceviri_Belge_Hazirlik_Kiti_TR.pdf",
     "/storage/v1/object/public/",
     "/storage/v1/object/sign/",
   ];
@@ -427,8 +429,8 @@ test(
       for (const locale of ["id", "tr"]) {
         await page.goto(`${origin}/${locale}/digital-guides`);
         assert.equal(await page.locator(".hm-product-card").count(), 9);
-        assert.equal(await page.locator(".hm-product-card-ready").count(), 5);
-        assert.equal(await page.locator(".hm-product-card-planned").count(), 4);
+        assert.equal(await page.locator(".hm-product-card-ready").count(), 6);
+        assert.equal(await page.locator(".hm-product-card-planned").count(), 3);
         const text = await page.locator("main").innerText();
         assert.ok(!/\bTRY\b/.test(text));
         for (const product of source.products) {
@@ -1032,6 +1034,180 @@ test(
           await page
             .locator(
               '.hm-workbook-product .hm-marriage-hero a[href="#request-form"]',
+            )
+            .click();
+          assert.ok(await page.locator("#request-form").isVisible());
+          assert.equal(
+            await page.locator('form input[name="email"]').count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator(
+                'a[download],a[href*=".pdf"],a[href*="storage/v1"],input[type="file"]',
+              )
+              .count(),
+            0,
+          );
+          assert.ok(
+            !/halo-digital-products|Halo_Merhaba_/.test(await response.text()),
+          );
+          assert.ok(
+            await page.evaluate(
+              () =>
+                document.documentElement.scrollWidth <= window.innerWidth + 1,
+            ),
+          );
+        }
+    } finally {
+      await browser.close();
+    }
+  },
+);
+
+test(
+  "completed translation kit package, modules and interest CTA in both languages",
+  { timeout: 60000 },
+  async () => {
+    const browser = await chromium.launch({
+      executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+      args: ["--no-sandbox"],
+    });
+    try {
+      const page = await browser.newPage();
+      for (const locale of ["id", "tr"])
+        for (const width of [360, 375, 390, 412, 430, 768, 1440]) {
+          await page.setViewportSize({ width, height: 900 });
+          const response = await page.goto(
+            `${origin}/${locale}/produk/translation-document-kit`,
+          );
+          assert.equal(response.status(), 200);
+          assert.equal(
+            await page.locator(".hm-translation-product h1").count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator(".hm-translation-product .hm-content-module")
+              .count(),
+            31,
+          );
+          assert.equal(
+            await page
+              .locator(".hm-translation-product .hm-tools-list li")
+              .count(),
+            22,
+          );
+          for (const edition of locale === "id"
+            ? ["Edisi Bahasa Indonesia — PDF", "Edisi bahasa Turki — PDF"]
+            : ["Endonezce sürüm — PDF", "Türkçe sürüm — PDF"])
+            assert.ok(
+              await page.getByText(edition, { exact: true }).isVisible(),
+            );
+          for (const text of locale === "id"
+            ? [
+                "31 halaman per edisi",
+                "62 halaman dalam paket bilingual",
+                "Rp149.000",
+              ]
+            : [
+                "Her sürüm 31 sayfa",
+                "İki dilli pakette toplam 62 sayfa",
+                "Fiyat yakında açıklanacak",
+              ])
+            assert.ok(
+              await page.getByText(text, { exact: true }).first().isVisible(),
+            );
+          const notice =
+            locale === "id"
+              ? "Panduan sudah selesai disiapkan. File PDF disimpan secara privat dan belum dapat diunduh sampai penjualan resmi dibuka."
+              : "Rehber tamamlandı. PDF dosyaları özel olarak saklanmaktadır ve resmi satış açılana kadar indirilemez.";
+          assert.ok(
+            await page.getByText(notice, { exact: true }).first().isVisible(),
+          );
+          assert.ok(
+            !(
+              await page.locator(".hm-translation-product").innerText()
+            ).includes("Rp99.000"),
+          );
+          const bilingual =
+            locale === "id"
+              ? "Anda dapat menyiapkan proyek dokumen dalam Bahasa Indonesia, sementara pasangan, penerjemah, atau pihak di Türkiye dapat mengikuti struktur yang sama dalam bahasa Turki."
+              : "Belge hazırlığını Türkçe yürütürken Endonezya’daki taraf aynı çalışma yapısını Endonezce sürüm üzerinden takip edebilir.";
+          assert.ok(
+            await page.getByText(bilingual, { exact: true }).isVisible(),
+          );
+          for (const boundary of locale === "id"
+            ? [
+                "Bukan sertifikasi terjemahan.",
+                "Bukan nasihat hukum.",
+                "Bukan nasihat kenotariatan.",
+                "Tidak menjamin apostille.",
+                "Bukan bukti bahwa dokumen akan diterima oleh instansi penerima.",
+              ]
+            : [
+                "Çeviri sertifikası değildir.",
+                "Hukuki danışmanlık değildir.",
+                "Noterlik danışmanlığı değildir.",
+                "Apostil garantisi vermez.",
+                "Belgenin ilgili kurumca kabul edileceğinin kanıtı değildir.",
+              ])
+            assert.ok(
+              await page.getByText(boundary, { exact: true }).isVisible(),
+            );
+          assert.ok(
+            await page
+              .locator(".hm-translation-product .hm-coming")
+              .first()
+              .isVisible(),
+          );
+          assert.equal(
+            await page
+              .locator(
+                `.hm-workbook-comparison a[href="/${locale}/produk/document-apostille-organizer"]`,
+              )
+              .count(),
+            1,
+          );
+          assert.equal(
+            await page.locator(".hm-workbook-preview-grid figure").count(),
+            2,
+          );
+          assert.equal(
+            await page.locator(".hm-workbook-preview-grid table").count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator(
+                ".hm-workbook-preview-grid input,.hm-workbook-preview-grid textarea",
+              )
+              .count(),
+            0,
+          );
+          const contrast = await page
+            .locator(".hm-workbook-comparison")
+            .innerText();
+          assert.ok(
+            contrast.includes(locale === "id" ? "apostille" : "apostil"),
+          );
+          assert.ok(
+            contrast.includes(locale === "id" ? "QA" : "kalite kontrolü"),
+          );
+          assert.ok(
+            (await page.locator(".hm-marriage-boundary").innerText()).includes(
+              locale === "id"
+                ? "konfirmasikan langsung"
+                : "doğrudan teyit alın",
+            ),
+          );
+          const module = page.locator(".hm-content-module").nth(1);
+          await module.locator("summary").click();
+          assert.equal(await module.evaluate((node) => node.open), true);
+          assert.ok(await module.locator("p").isVisible());
+          await page
+            .locator(
+              '.hm-translation-product .hm-marriage-hero a[href="#request-form"]',
             )
             .click();
           assert.ok(await page.locator("#request-form").isVisible());

@@ -171,6 +171,7 @@ test("content readiness never grants delivery and public product data contains n
             "turkish-a1-survival",
             "family-meeting-toolkit",
             "marriage-preparation-workbook",
+            "translation-document-kit",
           ].includes(p.id),
       )
       .every((p) => !p.contentReady && !p.available),
@@ -195,7 +196,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
     ["turkish-a1-survival", "language", 129000],
     ["family-meeting-toolkit", "marriage", 119000],
     ["marriage-preparation-workbook", "marriage", 199000],
-    ["translation-document-kit", "documents", 99000],
+    ["translation-document-kit", "documents", 149000],
     ["turkiye-life-starter", "life", 119000],
     ["turkish-for-couples", "language", 129000],
     ["consultation-prep-workbook", "guidance", 59000],
@@ -219,7 +220,7 @@ test("nine explicit catalog records have IDR plans, localized content and matchi
   }
 });
 
-test("five completed bilingual guides retain closed delivery and four products remain unfinished", () => {
+test("six completed bilingual guides retain closed delivery and three products remain unfinished", () => {
   const ready = products.filter((p) => p.contentReady);
   assert.deepEqual(
     ready.map((p) => p.id),
@@ -229,9 +230,10 @@ test("five completed bilingual guides retain closed delivery and four products r
       "turkish-a1-survival",
       "family-meeting-toolkit",
       "marriage-preparation-workbook",
+      "translation-document-kit",
     ],
   );
-  assert.equal(products.filter((p) => !p.contentReady).length, 4);
+  assert.equal(products.filter((p) => !p.contentReady).length, 3);
   const document = ready.find((p) => p.id === "document-apostille-organizer")!;
   assert.equal(document.available, true);
   assert.equal(document.pages_per_edition, 19);
@@ -314,6 +316,30 @@ test("marriage workbook has two private v2 editions, 32 pages each and revised p
     "marriage-preparation-workbook",
     "Halo_Merhaba_Persiapan_Nikah_Indonesia_Turkiye_Workbook_ID_v2.pdf",
     "Halo_Merhaba_Endonezya_Turkiye_Evlilik_Hazirlik_Workbook_TR_v2.pdf",
+  ])
+    assert.ok(source.includes(marker));
+});
+
+test("translation kit has two private editions, 31 pages each and revised pricing", () => {
+  const kit = products.find((p) => p.id === "translation-document-kit")!;
+  assert.equal(kit.contentReady, true);
+  assert.equal(kit.available, true);
+  assert.equal(kit.pages_per_edition, 31);
+  assert.equal(kit.total_pages, 62);
+  assert.equal(kit.titles.tr, "Çeviri & Belge Hazırlık Kiti");
+  assert.deepEqual(kit.proposed_test_price, {
+    amount: 149000,
+    currency: "IDR",
+  });
+  assert.deepEqual(kit.editions, [
+    { locale: "id", format: "PDF" },
+    { locale: "tr", format: "PDF" },
+  ]);
+  const source = readFileSync("src/lib/server/product-assets.ts", "utf8");
+  for (const marker of [
+    "translation-document-kit",
+    "Halo_Merhaba_Translation_Document_Preparation_Kit_ID.pdf",
+    "Halo_Merhaba_Ceviri_Belge_Hazirlik_Kiti_TR.pdf",
   ])
     assert.ok(source.includes(marker));
 });

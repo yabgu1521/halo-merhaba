@@ -276,19 +276,19 @@
     },
     {
       "id": "translation-document-kit",
-      "format": "PDF",
+      "format": "PDF — Indonesian and Turkish editions",
       "next_offer": "consultation",
       "title": "Translation & Document Preparation Kit",
       "category": "documents",
       "titles": {
         "id": "Translation & Document Preparation Kit",
-        "tr": "Tercüme & Belge Hazırlık Kiti",
+        "tr": "Çeviri & Belge Hazırlık Kiti",
         "en": "Translation & Document Preparation Kit"
       },
       "descriptions": {
-        "id": "Rencana alat persiapan untuk mencatat kebutuhan terjemahan, pertanyaan ke penyedia, dan status dokumen.",
-        "tr": "Tercüme ihtiyacını, hizmet sağlayıcıya soruları ve belge durumunu kaydetmek için planlanan hazırlık kiti.",
-        "en": "Rencana alat persiapan untuk mencatat kebutuhan terjemahan, pertanyaan ke penyedia, dan status dokumen."
+        "id": "Kit operasional untuk menyiapkan file terjemahan, menjaga konsistensi nama dan istilah, serta mengatur QA, revisi, penyerahan, dan kontrol pengiriman.",
+        "tr": "Çeviri dosyalarını hazırlamak, ad ve terim tutarlılığını korumak, kalite kontrolü, revizyon, çevirmene devir ve teslimi düzenlemek için çalışma kiti.",
+        "en": "An operational toolkit for translation-file preparation, name and terminology consistency, QA, revisions, translator handoff and delivery control."
       },
       "planned_contents": {
         "id": [
@@ -308,14 +308,26 @@
         ]
       },
       "proposed_test_price": {
-        "amount": 99000,
+        "amount": 149000,
         "currency": "IDR"
       },
-      "content_status": "needs_authoring",
-      "deliverable_available": false,
-      "content_ready": false,
+      "content_status": "content_ready",
+      "deliverable_available": true,
+      "content_ready": true,
       "sale_enabled": false,
-      "download_enabled": false
+      "download_enabled": false,
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ],
+      "pages_per_edition": 31,
+      "total_pages": 62
     },
     {
       "id": "turkiye-life-starter",
