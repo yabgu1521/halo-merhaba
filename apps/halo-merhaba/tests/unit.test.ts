@@ -79,9 +79,7 @@ test("product interest requires a product and email and remains separate from or
   assert.ok(!intakeSchema.safeParse({ ...interest, answers: {} }).success);
   assert.equal(catalog.payments_enabled, false);
   assert.equal(catalog.document_uploads_enabled, false);
-  assert.ok(
-    products.every((p) => !p.available && !p.saleEnabled && !p.downloadEnabled),
-  );
+  assert.ok(products.every((p) => !p.saleEnabled && !p.downloadEnabled));
 });
 test("WhatsApp is not invented and event tracking is disabled by default", () => {
   assert.equal(whatsappLink("test"), null);
@@ -147,4 +145,36 @@ test("server uses only dedicated Halo bindings and never inherits the unrelated 
   );
   assert.ok(source.includes("httpOnly: true"));
   assert.ok(source.includes('sameSite: "lax"'));
+});
+
+test("content readiness never grants delivery and public product data contains no private identifiers", () => {
+  const ready = products.find((p) => p.id === "marriage-checklist-wni")!;
+  assert.equal(ready.contentReady, true);
+  assert.equal(ready.available, true);
+  assert.deepEqual(ready.editions, [
+    { locale: "id", format: "PDF" },
+    { locale: "tr", format: "PDF" },
+  ]);
+  for (const p of products) {
+    assert.equal(p.sale_enabled, false);
+    assert.equal(p.download_enabled, false);
+    assert.equal(p.saleEnabled, false);
+    assert.equal(p.downloadEnabled, false);
+  }
+  assert.ok(
+    products
+      .filter((p) => p.id !== ready.id)
+      .every((p) => !p.contentReady && !p.available),
+  );
+  assert.ok(
+    !/halo-digital-products|Halo_Merhaba_|storage\/v1|https?:\/\//.test(
+      JSON.stringify(products),
+    ),
+  );
+  const privateSource = readFileSync(
+    "src/lib/server/product-assets.ts",
+    "utf8",
+  );
+  assert.ok(privateSource.startsWith('import "server-only";'));
+  assert.ok(!/createSignedUrl\s*\(|getPublicUrl\s*\(/.test(privateSource));
 });

@@ -242,7 +242,7 @@ export function PublicPage({
             <div className="hm-product-info">
               <span className="hm-coming">
                 <i />
-                {c.coming}
+                {p.contentReady ? c.productReadyLabel : c.coming}
               </span>
               <h3>
                 <Link href={href(`produk/${p.id}`)}>
@@ -250,6 +250,9 @@ export function PublicPage({
                 </Link>
               </h3>
               <p>{productDescriptions[p.id][locale]}</p>
+              {p.contentReady && (
+                <p className="hm-product-ready">{c.productReadyNotice}</p>
+              )}
               <div className="hm-product-price">
                 <strong>
                   {p.proposed_test_price.amount} <small>TRY</small>
@@ -929,7 +932,7 @@ export function PublicPage({
               <div>
                 <span className="hm-coming">
                   <i />
-                  {c.preparing}
+                  {product.contentReady ? c.productReadyLabel : c.preparing}
                 </span>
                 <h1>{productTitles[product.id][locale]}</h1>
                 <p>{productDescriptions[product.id][locale]}</p>
@@ -940,7 +943,14 @@ export function PublicPage({
                 <p className="hm-muted">{c.priceNote}</p>
                 <div className="hm-boundary">
                   <Icon name="lock" size={22} />
-                  <p>{c.productUnavailable}</p>
+                  <div>
+                    <p>
+                      {product.contentReady
+                        ? c.productReadyNotice
+                        : c.productUnavailable}
+                    </p>
+                    {product.contentReady && <p>{c.productReadyAccess}</p>}
+                  </div>
                 </div>
                 <a className="hm-button" href="#request-form">
                   {c.notify}
@@ -949,42 +959,29 @@ export function PublicPage({
               </div>
             </section>
             <section className="hm-product-plan">
-              <h2>{c.productInside}</h2>
+              <h2>
+                {product.contentReady ? c.productPackage : c.productInside}
+              </h2>
               <ul>
-                {product.id === "marriage-checklist-wni"
-                  ? localizedList(
-                      {
-                        id: [
-                          "Daftar pertanyaan untuk instansi",
-                          "Pelacak persiapan dan dokumen",
-                          "Catatan langkah tindak lanjut",
-                        ],
-                        tr: [
-                          "Kuruma sorulacak sorular",
-                          "Hazırlık ve belge takibi",
-                          "Sonraki adım notları",
-                        ],
-                        en: [],
-                      },
-                      locale,
-                    ).map((item) => (
-                      <li key={item}>
-                        <Icon name="check" size={17} />
-                        {item}
+                {product.contentReady
+                  ? product.editions.map((edition) => (
+                      <li key={edition.locale}>
+                        <Icon name="file" size={17} />
+                        {edition.locale === "id" ? c.editionId : c.editionTr}
                       </li>
                     ))
-                  : product.id === "document-apostille-organizer"
+                  : product.id === "marriage-checklist-wni"
                     ? localizedList(
                         {
                           id: [
-                            "Inventaris dokumen",
-                            "Catatan terjemahan dan pengesahan",
-                            "Pelacak tanggal tindak lanjut",
+                            "Daftar pertanyaan untuk instansi",
+                            "Pelacak persiapan dan dokumen",
+                            "Catatan langkah tindak lanjut",
                           ],
                           tr: [
-                            "Belge envanteri",
-                            "Tercüme ve tasdik notları",
-                            "Takip tarihi çizelgesi",
+                            "Kuruma sorulacak sorular",
+                            "Hazırlık ve belge takibi",
+                            "Sonraki adım notları",
                           ],
                           en: [],
                         },
@@ -995,27 +992,49 @@ export function PublicPage({
                           {item}
                         </li>
                       ))
-                    : localizedList(
-                        {
-                          id: [
-                            "Ungkapan sehari-hari",
-                            "Dialog singkat",
-                            "Lembar latihan",
-                          ],
-                          tr: [
-                            "Günlük ifadeler",
-                            "Kısa diyaloglar",
-                            "Alıştırma sayfaları",
-                          ],
-                          en: [],
-                        },
-                        locale,
-                      ).map((item) => (
-                        <li key={item}>
-                          <Icon name="check" size={17} />
-                          {item}
-                        </li>
-                      ))}
+                    : product.id === "document-apostille-organizer"
+                      ? localizedList(
+                          {
+                            id: [
+                              "Inventaris dokumen",
+                              "Catatan terjemahan dan pengesahan",
+                              "Pelacak tanggal tindak lanjut",
+                            ],
+                            tr: [
+                              "Belge envanteri",
+                              "Tercüme ve tasdik notları",
+                              "Takip tarihi çizelgesi",
+                            ],
+                            en: [],
+                          },
+                          locale,
+                        ).map((item) => (
+                          <li key={item}>
+                            <Icon name="check" size={17} />
+                            {item}
+                          </li>
+                        ))
+                      : localizedList(
+                          {
+                            id: [
+                              "Ungkapan sehari-hari",
+                              "Dialog singkat",
+                              "Lembar latihan",
+                            ],
+                            tr: [
+                              "Günlük ifadeler",
+                              "Kısa diyaloglar",
+                              "Alıştırma sayfaları",
+                            ],
+                            en: [],
+                          },
+                          locale,
+                        ).map((item) => (
+                          <li key={item}>
+                            <Icon name="check" size={17} />
+                            {item}
+                          </li>
+                        ))}
               </ul>
             </section>
             <IntakeForm

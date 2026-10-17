@@ -7,7 +7,7 @@ src/lib/i18n.ts: enabled locales and future English architecture.
 src/content/site-copy.ts: localized labels, FAQs, service-process/limits, legal drafts.
 src/content/services.ts: service descriptions and categories.
 src/content/guides.ts: five editorial guides, internal official-source-review flags and funnel links.
-src/content/launch-catalog.json: copied business source-of-truth. Preserve deliverable_available=false until real reviewed products exist. src/content/catalog.ts maps localized display. Proposed 79/99/99 TRY product and 250 TRY pre-check amounts remain provisional, not payable offers.
+src/content/launch-catalog.json: copied business source-of-truth. The marriage checklist now has content_ready=true and deliverable_available=true based on the owner’s confirmation of two private PDF editions. Other products remain unavailable. All sale/download flags remain false; content/file existence is not an entitlement. Private object identifiers live only in src/lib/server/product-assets.ts, never the public catalog. src/content/catalog.ts maps localized display. Proposed 79/99/99 TRY product and 250 TRY pre-check amounts remain provisional, not payable offers.
 
 ## Required from Halo Merhaba
 

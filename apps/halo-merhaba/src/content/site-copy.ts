@@ -61,7 +61,7 @@ const id = {
   categoryCulture: "Indonesia ↔ Türkiye",
   storeTitle: "Panduan kecil, manfaat yang terarah.",
   storeText:
-    "Tiga produk pertama sedang disiapkan. Tidak ada penjualan, unduhan, atau pembayaran untuk produk yang belum tersedia.",
+    "Konten panduan pernikahan telah selesai; dua panduan lainnya sedang disiapkan. Penjualan, unduhan, dan pembayaran belum dibuka.",
   coming: "Segera Hadir",
   preparing: "Sedang Disiapkan",
   testPrice: "Usulan harga uji",
@@ -69,6 +69,14 @@ const id = {
   notify: "Beritahu saya saat tersedia",
   productUnavailable:
     "Produk ini belum siap dijual atau diunduh. Minat bukan pesanan atau janji tanggal rilis.",
+  productReadyLabel: "Konten selesai",
+  productReadyNotice:
+    "Konten panduan telah selesai. Penjualan akan segera dibuka.",
+  productReadyAccess:
+    "Belum dapat dibeli atau diunduh. Daftar minat bukan pesanan atau janji tanggal pembukaan penjualan.",
+  productPackage: "Edisi dalam paket",
+  editionId: "Edisi Bahasa Indonesia — PDF",
+  editionTr: "Edisi bahasa Turki — PDF",
   productInside: "Rencana isi paket",
   productStatus: "Status produk",
   priceNote: "Harga uji sementara, bukan penawaran final.",
@@ -228,7 +236,7 @@ const id = {
     "Ya. Persyaratan dapat berbeda menurut kewarganegaraan, kota, kondisi pribadi, dan instansi. Selalu konfirmasikan informasi terbaru kepada instansi resmi terkait.",
     "Sampaikan minat untuk A1, A2, percakapan, atau les privat. Jadwal dan format kelas akan diinformasikan sesuai program yang tersedia; formulir minat bukan konfirmasi tempat.",
     "Cakupan, penyedia, biaya, dan waktu dibahas berdasarkan kebutuhan Anda sebelum pekerjaan dimulai. Harga yang diberi label usulan uji masih bersifat sementara.",
-    "Belum. Produk awal sedang disiapkan. Tidak ada pembelian atau unduhan sampai berkas benar-benar tersedia. Formulir minat bukan pesanan.",
+    "Belum. Konten panduan pernikahan sudah selesai, tetapi penjualan dan unduhan belum dibuka. Panduan lainnya masih disiapkan. Formulir minat bukan pesanan.",
     "Tidak. Permintaan yang berhasil tersimpan menjadi bahan tindak lanjut, bukan kontrak, pembayaran, atau konfirmasi pemesanan.",
     "Kontak dan jawaban awal digunakan untuk menindaklanjuti layanan yang Anda pilih, sesuai persetujuan. Jika penyimpanan belum aktif, pesan hanya disusun di perangkat sampai Anda memilih mengirimnya melalui WhatsApp.",
   ],
@@ -387,7 +395,7 @@ const tr: Copy = {
   categoryCulture: "Endonezya ↔ Türkiye",
   storeTitle: "Küçük rehberler, belirli ihtiyaçlar.",
   storeText:
-    "İlk üç ürün hazırlanıyor. Hazır olmayan ürünler için satış, indirme veya ödeme yoktur.",
+    "Evlilik rehberinin içeriği tamamlandı; diğer iki rehber hazırlanıyor. Satış, indirme ve ödeme henüz açılmadı.",
   coming: "Yakında",
   preparing: "Hazırlanıyor",
   testPrice: "Önerilen test fiyatı",
@@ -395,6 +403,13 @@ const tr: Copy = {
   notify: "Hazır olduğunda haber ver",
   productUnavailable:
     "Bu ürün henüz satışa veya indirmeye hazır değil. İlgi bildirimi, sipariş ya da çıkış tarihi taahhüdü değildir.",
+  productReadyLabel: "İçerik hazır",
+  productReadyNotice: "Rehber içeriği tamamlandı. Satış yakında açılacak.",
+  productReadyAccess:
+    "Henüz satın alınamaz veya indirilemez. İlgi bildirimi sipariş ya da satış başlangıç tarihi taahhüdü değildir.",
+  productPackage: "Paketteki sürümler",
+  editionId: "Endonezce sürüm — PDF",
+  editionTr: "Türkçe sürüm — PDF",
   productInside: "Planlanan paket içeriği",
   productStatus: "Ürün durumu",
   priceNote: "Geçici test fiyatıdır; kesin teklif değildir.",
@@ -548,7 +563,7 @@ const tr: Copy = {
     "Evet. Şartlar vatandaşlık, şehir, kişisel durum ve kuruma göre değişebilir. Güncel bilgiyi her zaman ilgili resmi kurumdan teyit edin.",
     "A1, A2, konuşma veya özel ders ilginizi belirtin. Takvim ve biçim mevcut programa göre bildirilecektir; ilgi formu kontenjan onayı değildir.",
     "Kapsam, sağlayıcı, ücret ve zaman ihtiyacınıza göre işe başlamadan önce görüşülür. Test önerisi olarak belirtilen fiyatlar geçicidir.",
-    "Henüz değil. İlk ürünler hazırlanıyor. Dosyalar gerçekten hazır olmadan satın alma veya indirme açılmaz. İlgi formu sipariş değildir.",
+    "Henüz değil. Evlilik rehberinin içeriği tamamlandı; satış ve indirme henüz açılmadı. Diğer rehberler hazırlanıyor. İlgi formu sipariş değildir.",
     "Hayır. Başarıyla kaydedilen talep takip içindir; sözleşme, ödeme veya rezervasyon onayı değildir.",
     "İletişim bilgileri ve ilk yanıtlar, izniniz kapsamında seçtiğiniz hizmetin takibi için kullanılır. Kayıt sistemi açık değilse mesaj siz WhatsApp ile göndermeyi seçene kadar cihazınızda hazırlanır.",
   ],

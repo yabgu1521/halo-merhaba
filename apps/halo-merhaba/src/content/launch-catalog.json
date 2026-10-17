@@ -14,38 +14,69 @@
       "id": "marriage-checklist-wni",
       "title": "Menikah di Türkiye – Complete Checklist",
       "audience": "Türkiye'de evlenmeyi planlayan Endonezya vatandaşları",
-      "format": "PDF + doldurulabilir süreç takip çizelgesi",
-      "proposed_test_price": { "amount": 79, "currency": "TRY" },
-      "content_status": "needs_authoring_and_current_official_source_review",
+      "format": "PDF — Indonesian and Turkish editions",
+      "proposed_test_price": {
+        "amount": 79,
+        "currency": "TRY"
+      },
+      "content_status": "content_ready",
       "next_offer": "document-precheck",
-      "deliverable_available": false
+      "deliverable_available": true,
+      "content_ready": true,
+      "sale_enabled": false,
+      "download_enabled": false,
+      "editions": [
+        {
+          "locale": "id",
+          "format": "PDF"
+        },
+        {
+          "locale": "tr",
+          "format": "PDF"
+        }
+      ]
     },
     {
       "id": "document-apostille-organizer",
       "title": "Dokumen & Apostille Organizer",
       "audience": "Belgelerini ve ilgili kurumlara sorulacak soruları düzenlemek isteyenler",
       "format": "PDF + belge envanteri + son tarih takip çizelgesi",
-      "proposed_test_price": { "amount": 99, "currency": "TRY" },
+      "proposed_test_price": {
+        "amount": 99,
+        "currency": "TRY"
+      },
       "content_status": "needs_authoring",
       "next_offer": "document-precheck",
-      "deliverable_available": false
+      "deliverable_available": false,
+      "content_ready": false,
+      "sale_enabled": false,
+      "download_enabled": false
     },
     {
       "id": "turkish-a1-survival",
       "title": "Türkçe A1 – Survival Pack for Indonesians",
       "audience": "Günlük Türkçeye başlangıç yapmak isteyen Endonezyalılar",
       "format": "PDF + konuşma kartları + alıştırmalar",
-      "proposed_test_price": { "amount": 99, "currency": "TRY" },
+      "proposed_test_price": {
+        "amount": 99,
+        "currency": "TRY"
+      },
       "content_status": "needs_authoring_and_language_review",
       "next_offer": "turkish-course",
-      "deliverable_available": false
+      "deliverable_available": false,
+      "content_ready": false,
+      "sale_enabled": false,
+      "download_enabled": false
     }
   ],
   "services": [
     {
       "id": "document-precheck",
       "title": "Belge Ön Kontrol",
-      "proposed_test_price": { "amount": 250, "currency": "TRY" },
+      "proposed_test_price": {
+        "amount": 250,
+        "currency": "TRY"
+      },
       "output": [
         "eksik görünenler",
         "kuruma sorulacak sorular",

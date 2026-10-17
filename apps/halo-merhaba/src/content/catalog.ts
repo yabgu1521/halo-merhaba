@@ -5,7 +5,10 @@ export const catalog = source;
 export const products = source.products.map((p, index) => ({
   ...p,
   index,
+  // File existence/content readiness never grants sale or download access.
   available: p.deliverable_available === true,
+  contentReady: p.content_ready === true,
+  editions: "editions" in p ? p.editions || [] : [],
   saleEnabled: false,
   downloadEnabled: false,
   category: (["marriage", "documents", "language"] as const)[index],
@@ -31,9 +34,9 @@ export const productTitles: Record<string, LocalText> = {
 };
 export const productDescriptions: Record<string, LocalText> = {
   "marriage-checklist-wni": {
-    id: "Kerangka persiapan, pertanyaan untuk instansi, dan pelacak langkah berikutnya. Sedang disiapkan; bukan daftar persyaratan resmi.",
-    tr: "Hazırlık çerçevesi, kuruma sorulacak sorular ve adım takip çizelgesi. Hazırlanıyor; resmi belge listesi değildir.",
-    en: "Preparation questions and a next-step tracker. In preparation; not an official requirements list.",
+    id: "Panduan persiapan pernikahan di Türkiye dalam edisi Bahasa Indonesia dan Türkçe, masing-masing berformat PDF. Bukan daftar persyaratan resmi.",
+    tr: "Türkiye’de evlilik hazırlığı için Endonezce ve Türkçe PDF rehberleri. Resmi belge listesi değildir.",
+    en: "Marriage preparation guides in Indonesian and Turkish PDF editions. Not an official requirements list.",
   },
   "document-apostille-organizer": {
     id: "Inventaris dokumen dan catatan terjemahan serta pengesahan untuk membantu persiapanmu lebih teratur.",

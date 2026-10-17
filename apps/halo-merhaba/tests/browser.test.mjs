@@ -1,6 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { readdirSync, readFileSync } from "node:fs";
+import path from "node:path";
 const origin = process.env.HALO_TEST_ORIGIN || "http://127.0.0.1:3300";
 test(
   "all localized routes, responsive layouts, metadata, language switch and honest form fallback",
@@ -262,6 +264,41 @@ test(
         );
         assert.equal(await retina.locator(".hm-product-detail h1").count(), 1);
       }
+      for (const [language, status, editions] of [
+        [
+          "id",
+          "Konten panduan telah selesai. Penjualan akan segera dibuka.",
+          ["Edisi Bahasa Indonesia — PDF", "Edisi bahasa Turki — PDF"],
+        ],
+        [
+          "tr",
+          "Rehber içeriği tamamlandı. Satış yakında açılacak.",
+          ["Endonezce sürüm — PDF", "Türkçe sürüm — PDF"],
+        ],
+      ]) {
+        const response = await retina.goto(
+          origin + `/${language}/produk/marriage-checklist-wni`,
+        );
+        assert.ok(await retina.getByText(status, { exact: true }).isVisible());
+        for (const edition of editions)
+          assert.ok(
+            await retina.getByText(edition, { exact: true }).isVisible(),
+          );
+        assert.equal(
+          await retina
+            .locator('a[href*=".pdf"],a[href*="storage/v1"],a[download]')
+            .count(),
+          0,
+        );
+        assert.equal(
+          await retina.locator('form input[name="email"]').count(),
+          1,
+          "existing product-interest form is retained",
+        );
+        assert.ok(
+          !/halo-digital-products|Halo_Merhaba_/.test(await response.text()),
+        );
+      }
       await retina.close();
       await page.goto(origin + "/admin");
       assert.ok(
@@ -300,4 +337,32 @@ test("unconfigured server rejects writes and unauthorized access", async () => {
     body: "{}",
   });
   assert.equal(unconfigured.status, 503);
+});
+
+test("private product object identifiers never enter public build artifacts", () => {
+  const forbidden = [
+    "halo-digital-products",
+    "Halo_Merhaba_Menikah_di_Turkiye_Complete_Checklist_ID.pdf",
+    "Halo_Merhaba_Turkiyede_Evlilik_Tam_Hazirlik_Rehberi_TR.pdf",
+    "/storage/v1/object/public/",
+    "/storage/v1/object/sign/",
+  ];
+  for (const directory of [".next/static", ".next/server/app", "public"]) {
+    for (const name of readdirSync(directory, { recursive: true })) {
+      if (!/\.(js|html|rsc|json|svg|map|txt)$/.test(String(name))) continue;
+      // Only browser-served assets/HTML/RSC: server route code is not a public artifact.
+      if (
+        directory === ".next/server/app" &&
+        !/\.(html|rsc)$/.test(String(name))
+      )
+        continue;
+      const file = path.join(directory, String(name)),
+        data = readFileSync(file, "utf8");
+      for (const marker of forbidden)
+        assert.ok(
+          !data.includes(marker),
+          `private delivery identifier leaked into ${file}`,
+        );
+    }
+  }
 });

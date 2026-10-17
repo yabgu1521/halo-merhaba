@@ -1,0 +1,13 @@
+# Private digital product assets
+
+`src/lib/server/product-assets.ts` holds the private bucket/object registry behind Next.js `server-only`. The two registered objects belong to the Indonesian and Turkish editions of `marriage-checklist-wni`. Their existence is recorded from the owner's manual-upload confirmation; no remote object or bucket inspection was possible with the dedicated Halo bindings absent from this execution environment. No PDFs were copied into this repository or public hosting output.
+
+`src/content/launch-catalog.json` is the public-safe product catalog. Content readiness and edition/format labels may be rendered publicly. It contains no bucket name, object path, Storage URL, signing key or download capability. `content_ready=true` and `deliverable_available=true` describe content/file existence, not authorization. `sale_enabled=false` and `download_enabled=false` remain explicit; the client catalog's sale/download gates also remain false. Other products are unchanged in readiness.
+
+## Current boundary
+
+No Storage calls, bucket updates, policies, schema changes, download API, signed URLs, public URLs, payment flow or download button are introduced. The private registry must never be imported by a Client Component, spread into public props, emitted into JSON-LD, or returned to the browser. Existing product-interest forms remain the next step. The bucket must remain private; this task makes no configuration change to it. Confirm its live `public=false` setting in Supabase Storage before any future delivery rollout. Dedicated Halo credentials can be provided through the existing secure deployment configuration, never chat or source control.
+
+## Future authorized delivery (design only)
+
+A future server route must authenticate the caller and check a real paid purchase or explicit server-side entitlement. Fail closed while downloads are disabled. Only then resolve the exact product and locale through the private allowlist; never accept a bucket/object path from the client and never silently substitute an edition. Check that the bucket is private and the object exists. Generate a signed URL for that single object with a short TTL, for example 60 seconds, and a private/no-store response. Treat it as a temporary bearer credential: do not persist it in catalog data, page HTML, logs, analytics, emails or public caches. No permanent signed URL is supported. That flow requires separate implementation and authorization; nothing in the current metadata lookup grants access.
