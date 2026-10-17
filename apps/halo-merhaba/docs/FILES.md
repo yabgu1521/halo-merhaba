@@ -72,3 +72,5 @@ Relative to `/workspace/halo-merhaba-site`. All files are new in this standalone
 
 - `src/components/marriage-product.tsx`
 - `src/content/marriage-product.ts`
+
+- `src/components/digital-catalog.tsx`

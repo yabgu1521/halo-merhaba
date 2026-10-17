@@ -21,7 +21,7 @@ test(
       const urls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map(
         (m) => new URL(m[1]).pathname,
       );
-      assert.equal(urls.length, 46);
+      assert.equal(urls.length, 58);
       urls.push("/id/privasi", "/id/ketentuan", "/tr/privasi", "/tr/ketentuan");
       for (const width of [360, 375, 390, 412, 430, 768, 1440]) {
         await page.setViewportSize({ width, height: 900 });
@@ -246,10 +246,10 @@ test(
       await retina.goto(origin + "/id/digital-guides");
       assert.equal(
         await retina.locator(".hm-product-card .hm-geographic-motif").count(),
-        3,
+        9,
       );
       assert.equal(await retina.locator(".hm-book h2,.hm-book h3").count(), 0);
-      assert.equal(await retina.locator(".hm-product-info h3 a").count(), 3);
+      assert.equal(await retina.locator(".hm-product-info h3 a").count(), 9);
       for (const link of await retina
         .locator(".hm-product-info h3 a")
         .evaluateAll((nodes) =>
@@ -340,7 +340,7 @@ test(
       );
       assert.deepEqual(errors, []);
       console.log(
-        "Verified 50 localized URLs at 7 widths (350 renders), mobile navigation, Escape/focus return, reduced motion, JSON-LD/metadata, no uploads/downloads, fallback and admin-disabled state.",
+        "Verified 62 localized URLs at 7 widths (434 renders), mobile navigation, Escape/focus return, reduced motion, JSON-LD/metadata, no uploads/downloads, fallback and admin-disabled state.",
       );
     } finally {
       await browser.close();
@@ -398,3 +398,139 @@ test("private product object identifiers never enter public build artifacts", ()
     }
   }
 });
+
+test(
+  "nine-product storefront, prices, filters, featured links and private access notices",
+  { timeout: 60000 },
+  async () => {
+    const source = JSON.parse(
+      readFileSync("src/content/launch-catalog.json", "utf8"),
+    );
+    const browser = await chromium.launch({
+      executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+      args: ["--no-sandbox"],
+    });
+    try {
+      const page = await browser.newPage({
+        viewport: { width: 390, height: 900 },
+      });
+      const errors = [];
+      page.on("pageerror", (e) => errors.push(e.message));
+      for (const locale of ["id", "tr"]) {
+        await page.goto(`${origin}/${locale}/digital-guides`);
+        assert.equal(await page.locator(".hm-product-card").count(), 9);
+        assert.equal(await page.locator(".hm-product-card-ready").count(), 1);
+        assert.equal(await page.locator(".hm-product-card-planned").count(), 8);
+        const text = await page.locator("main").innerText();
+        assert.ok(!/\bTRY\b/.test(text));
+        for (const product of source.products) {
+          const card = page.locator(`[data-product-id="${product.id}"]`);
+          assert.ok(
+            await card
+              .getByRole("heading", { name: product.titles[locale] })
+              .isVisible(),
+          );
+          const expected =
+            locale === "id"
+              ? `Rp${new Intl.NumberFormat("id-ID").format(product.proposed_test_price.amount)}`
+              : "Fiyat yakında açıklanacak";
+          assert.ok(
+            await card.getByText(expected, { exact: true }).isVisible(),
+          );
+          assert.ok(
+            await card
+              .getByText(
+                product.content_ready
+                  ? locale === "id"
+                    ? "Konten selesai — penjualan segera dibuka"
+                    : "İçerik tamamlandı — satış yakında açılacak"
+                  : locale === "id"
+                    ? "Sedang disiapkan"
+                    : "Hazırlanıyor",
+                { exact: true },
+              )
+              .last()
+              .isVisible(),
+          );
+        }
+        assert.equal(
+          await page
+            .locator(
+              `.hm-store-feature a[href="/${locale}/produk/marriage-checklist-wni"]`,
+            )
+            .count(),
+          1,
+        );
+        assert.ok(
+          await page
+            .locator(".hm-store-feature")
+            .getByText("2 PDF", { exact: false })
+            .isVisible(),
+        );
+        const filters = page.locator(".hm-store-filters button");
+        assert.equal(await filters.count(), 6);
+        for (const [index, category, count] of [
+          [1, "marriage", 3],
+          [2, "documents", 2],
+          [3, "language", 2],
+          [4, "life", 1],
+          [5, "guidance", 1],
+        ]) {
+          await filters.nth(index).click();
+          assert.equal(
+            await filters.nth(index).getAttribute("aria-pressed"),
+            "true",
+          );
+          assert.equal(await page.locator(".hm-product-card").count(), count);
+          const expected = source.products
+            .filter((p) => p.category === category)
+            .map((p) => p.id);
+          assert.deepEqual(
+            await page
+              .locator(".hm-product-card")
+              .evaluateAll((nodes) => nodes.map((n) => n.dataset.productId)),
+            expected,
+          );
+        }
+        await filters.first().click();
+        assert.equal(await page.locator(".hm-product-card").count(), 9);
+        await page.locator(".hm-store-feature a").click();
+        await page.waitForURL(`**/${locale}/produk/marriage-checklist-wni`);
+        assert.equal(
+          new URL(page.url()).pathname,
+          `/${locale}/produk/marriage-checklist-wni`,
+        );
+        const notice =
+          locale === "id"
+            ? "Panduan sudah selesai disiapkan. File PDF disimpan secara privat dan belum dapat diunduh sampai penjualan resmi dibuka."
+            : "Rehber tamamlandı. PDF dosyaları özel olarak saklanmaktadır ve resmi satış açılana kadar indirilemez.";
+        assert.ok(
+          await page.getByText(notice, { exact: false }).first().isVisible(),
+        );
+        for (const product of source.products) {
+          const response = await page.goto(
+            `${origin}/${locale}/produk/${product.id}`,
+          );
+          assert.equal(response.status(), 200);
+          assert.equal(
+            await page.locator('form input[name="email"]').count(),
+            1,
+          );
+          assert.equal(
+            await page
+              .locator('a[download],a[href*=".pdf"],a[href*="storage/v1"]')
+              .count(),
+            0,
+          );
+          assert.ok(
+            !/halo-digital-products|Halo_Merhaba_/.test(await response.text()),
+          );
+          assert.ok(!/\bTRY\b/.test(await page.locator("main").innerText()));
+        }
+      }
+      assert.deepEqual(errors, []);
+    } finally {
+      await browser.close();
+    }
+  },
+);

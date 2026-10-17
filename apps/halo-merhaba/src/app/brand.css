@@ -2835,3 +2835,124 @@
     order: 2;
   }
 }
+
+/* Data-driven digital catalog and completed launch guide. */
+.hm-app .hm-store-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 48px;
+  padding: 36px;
+  margin: 32px 0 48px;
+  background: #eee8db;
+  border: 1px solid #d7ccbb;
+  border-radius: 6px;
+  align-items: center;
+}
+.hm-app .hm-store-feature-art {
+  border: 1px solid #d2c3ad;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: #f6f2e8;
+}
+.hm-app .hm-store-feature-art > span {
+  letter-spacing: 0.14em;
+  font-size: 14px;
+}
+.hm-app .hm-store-feature-art > small {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  margin-top: 24px;
+}
+.hm-app .hm-store-feature-art .hm-geographic-motif {
+  width: 100%;
+  height: auto;
+}
+.hm-app .hm-store-feature h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.16;
+  margin: 20px 0;
+}
+.hm-app .hm-feature-package {
+  font-size: 14px;
+  border-top: 1px solid #d9cebb;
+  padding-top: 20px;
+}
+.hm-app .hm-store-feature .hm-product-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+}
+.hm-app .hm-store-feature .hm-button {
+  white-space: normal;
+  text-align: center;
+}
+.hm-app .hm-store-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.hm-app .hm-store-filters button {
+  border: 1px solid #d7cdbc;
+  border-radius: 24px;
+  background: transparent;
+  padding: 12px 18px;
+  color: #263b48;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  min-height: 44px;
+}
+.hm-app .hm-store-filters button[aria-pressed="true"] {
+  background: #243b48;
+  color: #fffdf8;
+  border-color: #243b48;
+}
+.hm-app .hm-store-filters button:hover {
+  border-color: #9b3b40;
+}
+.hm-app .hm-store-count {
+  font-size: 12px;
+  color: #706351;
+  margin: 20px 0;
+}
+.hm-app .hm-product-card-ready {
+  border-color: #a36855;
+  box-shadow: 0 0 0 1px #a3685530;
+}
+.hm-app .hm-product-card-planned .hm-book {
+  box-shadow: 8px 12px 24px #332b1914;
+}
+.hm-app .hm-product-info .hm-coming {
+  font-size: 10px;
+  white-space: normal;
+  line-height: 1.5;
+}
+.hm-app .hm-book-scene.tone-guidance {
+  background: #e5e9e4;
+}
+.hm-app .tone-guidance .hm-book {
+  background: #eeeede;
+}
+@media (max-width: 760px) {
+  .hm-app .hm-store-feature {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+    gap: 24px;
+  }
+  .hm-app .hm-store-feature-art {
+    order: 2;
+    max-width: 320px;
+    width: 100%;
+    margin: auto;
+  }
+  .hm-app .hm-store-feature .hm-button {
+    width: 100%;
+  }
+  .hm-app .hm-store-filters button {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}

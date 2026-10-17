@@ -7,7 +7,7 @@ src/lib/i18n.ts: enabled locales and future English architecture.
 src/content/site-copy.ts: localized labels, FAQs, service-process/limits, legal drafts.
 src/content/services.ts: service descriptions and categories.
 src/content/guides.ts: five editorial guides, internal official-source-review flags and funnel links.
-src/content/launch-catalog.json: copied business source-of-truth. The marriage checklist now has content_ready=true and deliverable_available=true based on the owner’s confirmation of two private PDF editions. Other products remain unavailable. All sale/download flags remain false; content/file existence is not an entitlement. Private object identifiers live only in src/lib/server/product-assets.ts, never the public catalog. src/content/catalog.ts maps localized display. Marriage guide planned launch price: Rp149.000 in Indonesian; Turkish pricing is to be announced, without conversion. Other products retain provisional 99 TRY prices; the 250 TRY pre-check remains provisional. None is a payable offer.
+src/content/launch-catalog.json: copied business source-of-truth. The marriage checklist now has content_ready=true and deliverable_available=true based on the owner’s confirmation of two private PDF editions. Other products remain unavailable. All sale/download flags remain false; content/file existence is not an entitlement. Private object identifiers live only in src/lib/server/product-assets.ts, never the public catalog. src/content/catalog.ts maps localized display. Marriage guide planned launch price: Rp149.000 in Indonesian; Turkish pricing is to be announced, without conversion. All nine digital products use explicit IDR planned prices: 149000, 129000, 99000, 79000, 179000, 99000, 119000, 129000, 59000 in catalog order. Turkish digital-product prices are to be announced without conversion; the 250 TRY service pre-check remains provisional. None is a payable offer.
 
 ## Required from Halo Merhaba
 
@@ -28,3 +28,7 @@ Analytics emits only local halo:event CustomEvents with non-sensitive category m
 ## Completed marriage guide presentation
 
 src/content/marriage-product.ts contains owner-supplied bilingual scope (16 pages per edition), four expandable modules covering 16 sections, audience, boundaries and trust copy. src/components/marriage-product.tsx renders the product-specific presentation and shared locale-aware price. Previews are illustrative HTML/CSS shapes, not extracted PDF pages. No PDF was fetched or inspected. Existing interest and consultation flows remain unchanged.
+
+## Nine-product catalog
+
+The launch catalog JSON is the single source for explicit categories, localized titles/descriptions, planned inclusion lists and prices. Eight future products have content_ready=false and deliverable_available=false. Only the marriage checklist is completed; every product has sale_enabled=false and download_enabled=false. DigitalCatalog renders the featured first guide, all nine cards, and five category filters plus All. Product detail routes and sitemap entries derive from the collection. Product art uses category-based motifs/tones rather than array positions. Private server asset metadata is unchanged.

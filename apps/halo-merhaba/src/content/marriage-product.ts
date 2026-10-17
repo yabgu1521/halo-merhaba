@@ -8,7 +8,7 @@ export const marriageCopy = {
     notify: "Beritahu saya saat penjualan dibuka",
     help: "Perlu bantuan sekarang? Konsultasikan kebutuhan Anda.",
     access:
-      "Belum dapat dibeli atau diunduh. Daftar minat bukan pesanan atau janji tanggal pembukaan penjualan.",
+      "Panduan sudah selesai disiapkan. File PDF disimpan secara privat dan belum dapat diunduh sampai penjualan resmi dibuka. Daftar minat bukan pesanan atau janji tanggal pembukaan penjualan.",
     receive: "Dua bahasa. Satu persiapan bersama.",
     receiveIntro:
       "Saat penjualan dibuka, satu paket akan mencakup kedua edisi. Masing-masing 16 halaman, untuk digunakan bersama pasangan.",
@@ -110,7 +110,7 @@ export const marriageCopy = {
     notify: "Satış açıldığında haber ver",
     help: "Şimdi desteğe mi ihtiyacınız var? İhtiyacınız için danışmanlık alın.",
     access:
-      "Henüz satın alınamaz veya indirilemez. İlgi bildirimi sipariş ya da satış başlangıç tarihi taahhüdü değildir.",
+      "Rehber tamamlandı. PDF dosyaları özel olarak saklanmaktadır ve resmi satış açılana kadar indirilemez. İlgi bildirimi sipariş ya da satış başlangıç tarihi taahhüdü değildir.",
     receive: "İki dil. Birlikte yürütülen bir hazırlık.",
     receiveIntro:
       "Satış açıldığında tek paket her iki sürümü de içerecek. Her sürüm, eş adayınızla birlikte kullanmanız için 16 sayfadan oluşur.",

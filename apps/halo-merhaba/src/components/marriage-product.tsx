@@ -1,20 +1,12 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n";
 import { marriageCopy } from "@/content/marriage-product";
-import { productTitles } from "@/content/catalog";
+import { productTitles, productById } from "@/content/catalog";
+import { ProductPrice } from "./digital-catalog";
 import { BrandMotif } from "./brand-motif";
 import { CountryFlag, FlagPair } from "./country-art";
 import { Icon } from "./icons";
 
-export function MarriagePrice({ locale }: { locale: Locale }) {
-  const c = marriageCopy[locale === "tr" ? "tr" : "id"];
-  return (
-    <>
-      {locale !== "tr" && <strong>Rp149.000</strong>}
-      <span>{c.price}</span>
-    </>
-  );
-}
 export function MarriageProduct({ locale }: { locale: Locale }) {
   const c = marriageCopy[locale === "tr" ? "tr" : "id"];
   const title = productTitles["marriage-checklist-wni"][locale];
@@ -47,7 +39,10 @@ export function MarriageProduct({ locale }: { locale: Locale }) {
             2 PDF · {c.pages} · Bahasa Indonesia + Türkçe
           </p>
           <div className="hm-product-price">
-            <MarriagePrice locale={locale} />
+            <ProductPrice
+              product={productById("marriage-checklist-wni")!}
+              locale={locale}
+            />
           </div>
           {notify}
           <p className="hm-muted hm-marriage-access">{c.access}</p>
@@ -195,7 +190,10 @@ export function MarriageProduct({ locale }: { locale: Locale }) {
         </span>
         <h2>{c.notify}</h2>
         <div className="hm-product-price">
-          <MarriagePrice locale={locale} />
+          <ProductPrice
+            product={productById("marriage-checklist-wni")!}
+            locale={locale}
+          />
         </div>
         {notify}
         <p>{c.access}</p>

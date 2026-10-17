@@ -12,7 +12,7 @@
   "products": [
     {
       "id": "marriage-checklist-wni",
-      "title": "Menikah di Türkiye – Complete Checklist",
+      "title": "Menikah di Türkiye – Complete Checklist untuk WNI",
       "audience": "Türkiye'de evlenmeyi planlayan Endonezya vatandaşları",
       "format": "PDF — Indonesian and Turkish editions",
       "proposed_test_price": {
@@ -34,7 +34,35 @@
           "locale": "tr",
           "format": "PDF"
         }
-      ]
+      ],
+      "category": "marriage",
+      "titles": {
+        "id": "Menikah di Türkiye – Complete Checklist untuk WNI",
+        "tr": "Türkiye’de Evlilik – Endonezya–Türkiye Çiftleri İçin Tam Hazırlık Rehberi",
+        "en": "Menikah di Türkiye – Complete Checklist untuk WNI"
+      },
+      "descriptions": {
+        "id": "Panduan persiapan pernikahan dengan dua edisi PDF untuk membantu pasangan mengatur dokumen, konfirmasi resmi, dan tugas bersama.",
+        "tr": "Çiftlerin belgeleri, resmî teyitleri ve ortak görevleri düzenlemesi için iki dilde PDF hazırlık rehberi.",
+        "en": "Panduan persiapan pernikahan dengan dua edisi PDF untuk membantu pasangan mengatur dokumen, konfirmasi resmi, dan tugas bersama."
+      },
+      "planned_contents": {
+        "id": [
+          "Checklist dan pelacak dokumen",
+          "Pembagian tugas pasangan",
+          "Timeline dan konfirmasi resmi"
+        ],
+        "tr": [
+          "Kontrol listeleri ve belge takibi",
+          "Çiftler için görev paylaşımı",
+          "Hazırlık takvimi ve resmî teyit"
+        ],
+        "en": [
+          "Checklist dan pelacak dokumen",
+          "Pembagian tugas pasangan",
+          "Timeline dan konfirmasi resmi"
+        ]
+      }
     },
     {
       "id": "document-apostille-organizer",
@@ -42,27 +70,325 @@
       "audience": "Belgelerini ve ilgili kurumlara sorulacak soruları düzenlemek isteyenler",
       "format": "PDF + belge envanteri + son tarih takip çizelgesi",
       "proposed_test_price": {
-        "amount": 99,
-        "currency": "TRY"
+        "amount": 129000,
+        "currency": "IDR"
       },
       "content_status": "needs_authoring",
       "next_offer": "document-precheck",
       "deliverable_available": false,
       "content_ready": false,
       "sale_enabled": false,
-      "download_enabled": false
+      "download_enabled": false,
+      "category": "documents",
+      "titles": {
+        "id": "Dokumen & Apostille Organizer",
+        "tr": "Belge & Apostil Düzenleyici",
+        "en": "Dokumen & Apostille Organizer"
+      },
+      "descriptions": {
+        "id": "Rencana organizer untuk inventaris dokumen, pertanyaan apostille, terjemahan, dan tindak lanjut instansi.",
+        "tr": "Belge envanteri, apostil soruları, tercüme ve kurum takibi için planlanan düzenleyici.",
+        "en": "Rencana organizer untuk inventaris dokumen, pertanyaan apostille, terjemahan, dan tindak lanjut instansi."
+      },
+      "planned_contents": {
+        "id": [
+          "Inventaris dokumen",
+          "Catatan terjemahan dan pengesahan",
+          "Pelacak tindak lanjut"
+        ],
+        "tr": [
+          "Belge envanteri",
+          "Tercüme ve tasdik notları",
+          "Takip çizelgesi"
+        ],
+        "en": [
+          "Inventaris dokumen",
+          "Catatan terjemahan dan pengesahan",
+          "Pelacak tindak lanjut"
+        ]
+      }
     },
     {
       "id": "turkish-a1-survival",
-      "title": "Türkçe A1 – Survival Pack for Indonesians",
+      "title": "Türkçe A1 – Survival Pack untuk Orang Indonesia",
       "audience": "Günlük Türkçeye başlangıç yapmak isteyen Endonezyalılar",
       "format": "PDF + konuşma kartları + alıştırmalar",
       "proposed_test_price": {
-        "amount": 99,
-        "currency": "TRY"
+        "amount": 99000,
+        "currency": "IDR"
       },
-      "content_status": "needs_authoring_and_language_review",
+      "content_status": "needs_authoring",
       "next_offer": "turkish-course",
+      "deliverable_available": false,
+      "content_ready": false,
+      "sale_enabled": false,
+      "download_enabled": false,
+      "category": "language",
+      "titles": {
+        "id": "Türkçe A1 – Survival Pack untuk Orang Indonesia",
+        "tr": "Türkçe A1 – Endonezyalılar İçin Günlük Yaşam Paketi",
+        "en": "Türkçe A1 – Survival Pack untuk Orang Indonesia"
+      },
+      "descriptions": {
+        "id": "Rencana ungkapan dan latihan singkat untuk kehidupan sehari-hari. Bukan kursus A1 lengkap atau sertifikat.",
+        "tr": "Günlük yaşam için planlanan kısa ifadeler ve alıştırmalar. Tam A1 kursu veya sertifika değildir.",
+        "en": "Rencana ungkapan dan latihan singkat untuk kehidupan sehari-hari. Bukan kursus A1 lengkap atau sertifikat."
+      },
+      "planned_contents": {
+        "id": ["Ungkapan sehari-hari", "Dialog singkat", "Lembar latihan"],
+        "tr": ["Günlük ifadeler", "Kısa diyaloglar", "Alıştırma sayfaları"],
+        "en": ["Ungkapan sehari-hari", "Dialog singkat", "Lembar latihan"]
+      }
+    },
+    {
+      "id": "family-meeting-toolkit",
+      "format": "PDF",
+      "next_offer": "consultation",
+      "title": "Pertemuan Keluarga Indonesia–Türkiye Toolkit",
+      "category": "marriage",
+      "titles": {
+        "id": "Pertemuan Keluarga Indonesia–Türkiye Toolkit",
+        "tr": "Endonezya–Türkiye Aile Tanışma Rehberi",
+        "en": "Pertemuan Keluarga Indonesia–Türkiye Toolkit"
+      },
+      "descriptions": {
+        "id": "Rencana panduan untuk menyiapkan pertemuan keluarga, percakapan awal, dan harapan bersama.",
+        "tr": "Aile tanışması, ilk sohbetler ve ortak beklentiler için planlanan hazırlık rehberi.",
+        "en": "Rencana panduan untuk menyiapkan pertemuan keluarga, percakapan awal, dan harapan bersama."
+      },
+      "planned_contents": {
+        "id": [
+          "Persiapan pertemuan keluarga",
+          "Topik percakapan",
+          "Catatan harapan bersama"
+        ],
+        "tr": [
+          "Aile tanışmasına hazırlık",
+          "Sohbet konuları",
+          "Ortak beklenti notları"
+        ],
+        "en": [
+          "Persiapan pertemuan keluarga",
+          "Topik percakapan",
+          "Catatan harapan bersama"
+        ]
+      },
+      "proposed_test_price": {
+        "amount": 79000,
+        "currency": "IDR"
+      },
+      "content_status": "needs_authoring",
+      "deliverable_available": false,
+      "content_ready": false,
+      "sale_enabled": false,
+      "download_enabled": false
+    },
+    {
+      "id": "marriage-preparation-workbook",
+      "format": "PDF",
+      "next_offer": "consultation",
+      "title": "Persiapan Nikah Indonesia–Türkiye Workbook",
+      "category": "marriage",
+      "titles": {
+        "id": "Persiapan Nikah Indonesia–Türkiye Workbook",
+        "tr": "Endonezya–Türkiye Evlilik Hazırlık Çalışma Kitabı",
+        "en": "Persiapan Nikah Indonesia–Türkiye Workbook"
+      },
+      "descriptions": {
+        "id": "Rencana buku kerja untuk mendiskusikan prioritas, membagi tugas, dan mencatat persiapan nikah bersama.",
+        "tr": "Öncelikleri konuşmak, görevleri paylaşmak ve evlilik hazırlığını kaydetmek için planlanan çalışma kitabı.",
+        "en": "Rencana buku kerja untuk mendiskusikan prioritas, membagi tugas, dan mencatat persiapan nikah bersama."
+      },
+      "planned_contents": {
+        "id": [
+          "Prioritas pasangan",
+          "Pembagian tugas",
+          "Catatan persiapan bersama"
+        ],
+        "tr": [
+          "Çiftin öncelikleri",
+          "Görev paylaşımı",
+          "Ortak hazırlık notları"
+        ],
+        "en": [
+          "Prioritas pasangan",
+          "Pembagian tugas",
+          "Catatan persiapan bersama"
+        ]
+      },
+      "proposed_test_price": {
+        "amount": 179000,
+        "currency": "IDR"
+      },
+      "content_status": "needs_authoring",
+      "deliverable_available": false,
+      "content_ready": false,
+      "sale_enabled": false,
+      "download_enabled": false
+    },
+    {
+      "id": "translation-document-kit",
+      "format": "PDF",
+      "next_offer": "consultation",
+      "title": "Translation & Document Preparation Kit",
+      "category": "documents",
+      "titles": {
+        "id": "Translation & Document Preparation Kit",
+        "tr": "Tercüme & Belge Hazırlık Kiti",
+        "en": "Translation & Document Preparation Kit"
+      },
+      "descriptions": {
+        "id": "Rencana alat persiapan untuk mencatat kebutuhan terjemahan, pertanyaan ke penyedia, dan status dokumen.",
+        "tr": "Tercüme ihtiyacını, hizmet sağlayıcıya soruları ve belge durumunu kaydetmek için planlanan hazırlık kiti.",
+        "en": "Rencana alat persiapan untuk mencatat kebutuhan terjemahan, pertanyaan ke penyedia, dan status dokumen."
+      },
+      "planned_contents": {
+        "id": [
+          "Daftar kebutuhan terjemahan",
+          "Pertanyaan untuk penyedia",
+          "Pelacak status dokumen"
+        ],
+        "tr": [
+          "Tercüme ihtiyaç listesi",
+          "Hizmet sağlayıcıya sorular",
+          "Belge durum takibi"
+        ],
+        "en": [
+          "Daftar kebutuhan terjemahan",
+          "Pertanyaan untuk penyedia",
+          "Pelacak status dokumen"
+        ]
+      },
+      "proposed_test_price": {
+        "amount": 99000,
+        "currency": "IDR"
+      },
+      "content_status": "needs_authoring",
+      "deliverable_available": false,
+      "content_ready": false,
+      "sale_enabled": false,
+      "download_enabled": false
+    },
+    {
+      "id": "turkiye-life-starter",
+      "format": "PDF",
+      "next_offer": "consultation",
+      "title": "Türkiye Life Starter Guide untuk WNI",
+      "category": "life",
+      "titles": {
+        "id": "Türkiye Life Starter Guide untuk WNI",
+        "tr": "Endonezyalılar İçin Türkiye Yaşam Başlangıç Rehberi",
+        "en": "Türkiye Life Starter Guide untuk WNI"
+      },
+      "descriptions": {
+        "id": "Rencana panduan untuk mengatur persiapan kehidupan sehari-hari di Türkiye dan pertanyaan yang perlu dikonfirmasi.",
+        "tr": "Türkiye’de günlük yaşama hazırlığı ve teyit edilecek soruları düzenlemek için planlanan başlangıç rehberi.",
+        "en": "Rencana panduan untuk mengatur persiapan kehidupan sehari-hari di Türkiye dan pertanyaan yang perlu dikonfirmasi."
+      },
+      "planned_contents": {
+        "id": [
+          "Persiapan sebelum pindah",
+          "Catatan kebutuhan sehari-hari",
+          "Pertanyaan untuk dikonfirmasi"
+        ],
+        "tr": [
+          "Taşınma öncesi hazırlık",
+          "Günlük ihtiyaç notları",
+          "Teyit edilecek sorular"
+        ],
+        "en": [
+          "Persiapan sebelum pindah",
+          "Catatan kebutuhan sehari-hari",
+          "Pertanyaan untuk dikonfirmasi"
+        ]
+      },
+      "proposed_test_price": {
+        "amount": 119000,
+        "currency": "IDR"
+      },
+      "content_status": "needs_authoring",
+      "deliverable_available": false,
+      "content_ready": false,
+      "sale_enabled": false,
+      "download_enabled": false
+    },
+    {
+      "id": "turkish-for-couples",
+      "format": "PDF",
+      "next_offer": "consultation",
+      "title": "Türkçe untuk Pasangan & Keluarga",
+      "category": "language",
+      "titles": {
+        "id": "Türkçe untuk Pasangan & Keluarga",
+        "tr": "Çiftler & Aileler İçin Türkçe",
+        "en": "Türkçe untuk Pasangan & Keluarga"
+      },
+      "descriptions": {
+        "id": "Rencana materi bahasa untuk percakapan sederhana dengan pasangan dan keluarga Türkiye.",
+        "tr": "Eş adayı ve Türk aileyle basit sohbetler için planlanan dil materyalleri.",
+        "en": "Rencana materi bahasa untuk percakapan sederhana dengan pasangan dan keluarga Türkiye."
+      },
+      "planned_contents": {
+        "id": [
+          "Ungkapan untuk pasangan",
+          "Percakapan keluarga",
+          "Latihan bersama"
+        ],
+        "tr": [
+          "Çiftler için ifadeler",
+          "Aile sohbetleri",
+          "Birlikte alıştırmalar"
+        ],
+        "en": [
+          "Ungkapan untuk pasangan",
+          "Percakapan keluarga",
+          "Latihan bersama"
+        ]
+      },
+      "proposed_test_price": {
+        "amount": 129000,
+        "currency": "IDR"
+      },
+      "content_status": "needs_authoring",
+      "deliverable_available": false,
+      "content_ready": false,
+      "sale_enabled": false,
+      "download_enabled": false
+    },
+    {
+      "id": "consultation-prep-workbook",
+      "format": "PDF",
+      "next_offer": "consultation",
+      "title": "Konsultasi Türkiye – Preparation Workbook",
+      "category": "guidance",
+      "titles": {
+        "id": "Konsultasi Türkiye – Preparation Workbook",
+        "tr": "Türkiye Danışmanlığı – Hazırlık Çalışma Kitabı",
+        "en": "Konsultasi Türkiye – Preparation Workbook"
+      },
+      "descriptions": {
+        "id": "Rencana buku kerja untuk merangkum situasi, menyusun pertanyaan, dan menyiapkan konsultasi.",
+        "tr": "Durumu özetlemek, soruları düzenlemek ve danışmanlığa hazırlanmak için planlanan çalışma kitabı.",
+        "en": "Rencana buku kerja untuk merangkum situasi, menyusun pertanyaan, dan menyiapkan konsultasi."
+      },
+      "planned_contents": {
+        "id": [
+          "Ringkasan situasi",
+          "Daftar pertanyaan konsultasi",
+          "Catatan langkah berikutnya"
+        ],
+        "tr": ["Durum özeti", "Danışmanlık soruları", "Sonraki adım notları"],
+        "en": [
+          "Ringkasan situasi",
+          "Daftar pertanyaan konsultasi",
+          "Catatan langkah berikutnya"
+        ]
+      },
+      "proposed_test_price": {
+        "amount": 59000,
+        "currency": "IDR"
+      },
+      "content_status": "needs_authoring",
       "deliverable_available": false,
       "content_ready": false,
       "sale_enabled": false,

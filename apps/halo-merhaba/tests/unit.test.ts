@@ -178,3 +178,34 @@ test("content readiness never grants delivery and public product data contains n
   assert.ok(privateSource.startsWith('import "server-only";'));
   assert.ok(!/createSignedUrl\s*\(|getPublicUrl\s*\(/.test(privateSource));
 });
+
+test("nine explicit catalog records have IDR plans, localized content and matching routes", () => {
+  const expected = [
+    ["marriage-checklist-wni", "marriage", 149000],
+    ["document-apostille-organizer", "documents", 129000],
+    ["turkish-a1-survival", "language", 99000],
+    ["family-meeting-toolkit", "marriage", 79000],
+    ["marriage-preparation-workbook", "marriage", 179000],
+    ["translation-document-kit", "documents", 99000],
+    ["turkiye-life-starter", "life", 119000],
+    ["turkish-for-couples", "language", 129000],
+    ["consultation-prep-workbook", "guidance", 59000],
+  ];
+  assert.deepEqual(
+    products.map((p) => [p.id, p.category, p.proposed_test_price.amount]),
+    expected,
+  );
+  assert.equal(new Set(products.map((p) => p.id)).size, 9);
+  for (const p of products) {
+    assert.equal(p.proposed_test_price.currency, "IDR");
+    for (const locale of ["id", "tr"] as const) {
+      assert.ok(p.titles[locale]);
+      assert.ok(p.descriptions[locale]);
+      assert.ok(p.planned_contents[locale].length);
+    }
+    assert.deepEqual(resolvePath(["produk", p.id]), {
+      kind: "product",
+      slug: p.id,
+    });
+  }
+});
